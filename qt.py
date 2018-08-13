@@ -9,8 +9,7 @@ from PyQt5.QtGui import QIcon, QPixmap
 import sys, time, threading
 from random import randint
 import serial
-
-
+ser = serial.Serial('/dev/ttyUSB0', 9600)
 class qt(QMainWindow):	
 
 	def __init__(self):
@@ -20,10 +19,7 @@ class qt(QMainWindow):
 		self.setWindowTitle('Seri Haberlesme TEST')
 		self.pushButton.clicked.connect(self.on_pushButton_clicked)
 		self.x=0
-		while self.x<5:
-			self.listWidget.addItem('deneme')
-			self.x=self.x+1
-
+		
 	#def on_Cbox_activated(self):
 		
 
@@ -36,18 +32,17 @@ class qt(QMainWindow):
 		self.label_5.setText(self.combo.currentText())
 		#self.label_5.setText('OK!')
 		self.label_5.setStyleSheet('color: green')
-
+		print(ser.readline())
 		
 	
-
+	def on_pushButton_3_clicked(self):
+		mytext = self.textEdit_2.toPlainText()
+		ser.write(mytext.encode())
 	def on_pushButton_2_clicked(self):
+		self.x=0
 		self.textEdit.setText('Durduruldu! Yeniden Baglanmak icin BAGLAN-a basin...')
 
 				
-		
-		
-		
-
 
 def main():
 	app=QApplication(sys.argv)
