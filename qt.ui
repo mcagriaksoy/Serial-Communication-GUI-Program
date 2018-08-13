@@ -6,61 +6,205 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
-    <height>240</height>
+    <width>373</width>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PyQT ile Seri haberleşme</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>60</y>
+      <x>240</x>
+      <y>10</y>
+      <width>61</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>BAŞLAT</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="combo">
+    <property name="geometry">
+     <rect>
+      <x>113</x>
+      <y>10</y>
       <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>COM1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>COM2</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>COM3</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>COM4</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>COM5</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>COM6</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>COM7</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>COM8</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>10</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PORT:</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox">
+    <property name="geometry">
+     <rect>
+      <x>113</x>
+      <y>40</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>101</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Gönder</string>
+     <string>Bekleme Süresi:</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>30</y>
-      <width>121</width>
+      <x>200</x>
+      <y>470</y>
+      <width>101</width>
       <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Port Durumu:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>470</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Bağlı Değil</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>470</y>
+      <width>191</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>24</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>10</y>
+      <width>61</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DURDUR</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>130</y>
+      <width>371</width>
+      <height>341</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>70</y>
+      <width>261</width>
+      <height>51</height>
      </rect>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>110</y>
-      <width>121</width>
-      <height>21</height>
+      <x>0</x>
+      <y>70</y>
+      <width>101</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
      <string/>
     </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>30</y>
-      <width>58</width>
-      <height>16</height>
-     </rect>
+    <property name="pixmap">
+     <pixmap>index.jpeg</pixmap>
     </property>
-    <property name="text">
-     <string>PORT:</string>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
@@ -69,12 +213,35 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>320</width>
+     <width>373</width>
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuAna_Ekran">
+    <property name="title">
+     <string>Ana Ekran</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_leti_im">
+    <property name="title">
+     <string>İletişim</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuYard_m">
+    <property name="title">
+     <string>Yardım</string>
+    </property>
+   </widget>
+   <addaction name="menuAna_Ekran"/>
+   <addaction name="menu_leti_im"/>
+   <addaction name="menuYard_m"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionAna_Ekran">
+   <property name="text">
+    <string>Ana Ekran</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
