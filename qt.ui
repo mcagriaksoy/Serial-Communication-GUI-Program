@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>944</width>
-    <height>554</height>
+    <width>913</width>
+    <height>529</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>740</x>
       <y>420</y>
-      <width>171</width>
-      <height>91</height>
+      <width>161</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
@@ -199,14 +199,14 @@
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="1" column="0">
-      <widget class="QListWidget" name="listWidget"/>
-     </item>
-     <item row="0" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string> Alınan / Gönderilen Veri (Rx/Tx)</string>
        </property>
       </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QTextEdit" name="textEdit_3"/>
      </item>
     </layout>
    </widget>
@@ -245,7 +245,7 @@
       <x>0</x>
       <y>420</y>
       <width>731</width>
-      <height>94</height>
+      <height>61</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_3">
@@ -328,7 +328,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>944</width>
+     <width>913</width>
      <height>21</height>
     </rect>
    </property>
