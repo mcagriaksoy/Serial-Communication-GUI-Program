@@ -16,6 +16,7 @@ ser = serial.Serial(port='/dev/ttyUSB0', baudrate=9600)
 #        connect(pushButton_2, SIGNAL("clicked()"), on_pushButton_2_clicked)
 
 # MULTI-THREADING
+
 class Worker(QObject):
     finished = pyqtSignal()
     intReady = pyqtSignal(str)
@@ -83,6 +84,7 @@ class qt(QMainWindow):
     def load_value0(self, index0):
         # portadi
         self.a2 = self.comboBox_0.itemText(index0)
+
         print(self.comboBox_0.itemText(index0))
         self.x = 2
 
@@ -92,10 +94,10 @@ class qt(QMainWindow):
         print(self.comboBox_1.itemText(index1))
         self.x = 1
 
+#ayarlari kaydetme
     def on_pushButton_4_clicked(self):
         if self.x != 0:
-            ser = serial.Serial(port='/dev/ttyUSB0', baudrate=9600)
-            # print('basarili')
+            print('basarili')
         else:
             # print('hata')
             self.textEdit.setText('Lütfen Port ve Hızı girin!')
@@ -118,13 +120,13 @@ class qt(QMainWindow):
         self.textEdit.setText('Veri Aliniyor...')
 
         # self.label_5.setText('OK!')
-        self.label_5.setText(index1)
+        self.label_5.setText(self.comboBox_0.currentText())
         self.label_5.setStyleSheet('color: green')
         x = 1
         self.textEdit_3.setText(":")
 
     def on_pushButton_3_clicked(self):
-
+        # serial porttan veri gonder:
         mytext = self.textEdit_2.toPlainText()
         print(mytext.encode())
         ser.write(mytext.encode())
