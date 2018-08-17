@@ -1,13 +1,27 @@
 __author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
 
-import sys, serial, threading, time
+import sys, serial, serial.tools.list_ports, warnings
 from PyQt5.QtCore import QSize, QRect, QObject, pyqtSignal, QThread, pyqtSignal, pyqtSlot
 import time
 from PyQt5.QtWidgets import QApplication, QComboBox, QDialog, QMainWindow, QWidget, QLabel, QTextEdit, QListWidget, \
     QListView
 from PyQt5.uic import loadUi
 
-ser = serial.Serial(port='/dev/ttyUSB0', baudrate=9600)
+#port tespit etme - baslangic
+ports = [
+    p.device
+    for p in serial.tools.list_ports.comports()
+    if 'USB' in p.description
+]
+
+if not ports:
+    raise IOError("Seri Baglantili cihaz yok!")
+
+if len(ports) > 1:
+    warnings.warn('Baglanildi....')
+
+ser = serial.Serial(ports[0],9600)
+#port tespit etme - son
 
 
 # class Foo(QThread):
@@ -37,18 +51,19 @@ class Worker(QObject):
 
         self.finished.emit()
 
-
 class qt(QMainWindow):
 
     def __init__(self):
 
         QMainWindow.__init__(self)
         loadUi('qt.ui', self)
-        self.comboBox_0.activated.connect(self.load_value0)
-        self.comboBox_1.activated.connect(self.load_value1)
+        # self.comboBox_0.activated.connect(self.load_value0)
+        # self.comboBox_1.activated.connect(self.load_value1)
         self.thread = None
         self.worker = None
         self.pushButton.clicked.connect(self.start_loop)
+        # print(self.comboBox_1.itemText(index1))
+        self.label_11.setText(ports[0])
 
     def loop_finished(self):
         print('Looped Finished')
@@ -81,23 +96,23 @@ class qt(QMainWindow):
         self.textEdit_3.append("{}".format(i))
         print(i)
 
-    def load_value0(self, index0):
-        # portadi
-        self.a2 = self.comboBox_0.itemText(index0)
+    # def load_value0(self, index0):
+    #     portadi
+    #   self.a2 = self.comboBox_0.itemText(index0)
 
-        print(self.comboBox_0.itemText(index0))
-        self.x = 2
+    #  print(self.comboBox_0.itemText(index0))
+    # self.x = 2
 
-    def load_value1(self, index1):
-        # baudrate
-        b2 = self.comboBox_1.itemText(index1)
-        print(self.comboBox_1.itemText(index1))
-        self.x = 1
+    # def load_value1(self, index1):
+    # baudrate
+    # b2 = self.comboBox_1.itemText(index1)
+    # print(self.comboBox_1.itemText(index1))
+    # self.x = 1
 
-#ayarlari kaydetme
+    # ayarlari kaydetme
     def on_pushButton_4_clicked(self):
         if self.x != 0:
-            print('basarili')
+            self.textEdit.setText('Ayarlar Kaydedildi!')
         else:
             # print('hata')
             self.textEdit.setText('Lütfen Port ve Hızı girin!')
@@ -120,7 +135,8 @@ class qt(QMainWindow):
         self.textEdit.setText('Veri Aliniyor...')
 
         # self.label_5.setText('OK!')
-        self.label_5.setText(self.comboBox_0.currentText())
+
+        self.label_5.setText("BAĞLANDI!")
         self.label_5.setStyleSheet('color: green')
         x = 1
         self.textEdit_3.setText(":")
@@ -130,7 +146,6 @@ class qt(QMainWindow):
         mytext = self.textEdit_2.toPlainText()
         print(mytext.encode())
         ser.write(mytext.encode())
-
 
 def run():
     app = QApplication(sys.argv)
