@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this research, please cite it as below."
+authors:
+- family-names: "Aksoy"
+  given-names: "Mehmet Çağrı"
+  orcid: " https://orcid.org/0000-0002-7886-7945 "
+title: "Serial-Communication-GUI-Program"
+version: 1.0.0
+doi: 10.5281/zenodo.1234
+date-released: 2018
+url: "https://github.com/mcagriaksoy/Serial-Communication-GUI-Program"
