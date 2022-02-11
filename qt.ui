@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>929</width>
+    <width>939</width>
     <height>522</height>
    </rect>
   </property>
@@ -14,62 +14,39 @@
    <cursorShape>ArrowCursor</cursorShape>
   </property>
   <property name="windowTitle">
-   <string>PyQT ile Seri haberleşme</string>
-  </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>index.jpeg</normaloff>index.jpeg</iconset>
+   <string>Serial Communication GUI v1.1</string>
   </property>
   <property name="windowOpacity">
    <double>0.990000000000000</double>
   </property>
   <property name="statusTip">
-   <string>Mehmet Cagri Aksoy 2018</string>
+   <string>Mehmet Cagri Aksoy 2018-2022</string>
   </property>
   <property name="whatsThis">
-   <string>Serial Communication Program</string>
+   <string>Serial Communication Program Mehmet Cagri Aksoy 2018-2022</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>770</x>
-      <y>410</y>
-      <width>141</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>index.jpeg</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QWidget" name="formLayoutWidget">
     <property name="geometry">
      <rect>
       <x>740</x>
       <y>10</y>
-      <width>188</width>
-      <height>162</height>
+      <width>191</width>
+      <height>171</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>PORT Adı:</string>
+        <string>PORT Name:</string>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Baud Oranı:</string>
+        <string>Baud Rate:</string>
        </property>
       </widget>
      </item>
@@ -77,7 +54,7 @@
       <widget class="QComboBox" name="comboBox_1">
        <item>
         <property name="text">
-         <string>Seçiniz...</string>
+         <string>Select...</string>
         </property>
        </item>
        <item>
@@ -125,7 +102,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
-        <string>Boyut (B):</string>
+        <string>Length (B):</string>
        </property>
       </widget>
      </item>
@@ -133,7 +110,7 @@
       <widget class="QComboBox" name="comboBox_2">
        <item>
         <property name="text">
-         <string>Seçiniz...</string>
+         <string>Select...</string>
         </property>
        </item>
        <item>
@@ -178,7 +155,7 @@
      <item row="4" column="1">
       <widget class="QPushButton" name="pushButton_4">
        <property name="text">
-        <string>Kaydet</string>
+        <string>Save</string>
        </property>
       </widget>
      </item>
@@ -186,7 +163,7 @@
       <widget class="QComboBox" name="comboBox">
        <item>
         <property name="text">
-         <string>Seçiniz...</string>
+         <string>Select...</string>
         </property>
        </item>
        <item>
@@ -234,7 +211,7 @@
      <item row="3" column="0">
       <widget class="QLabel" name="label_12">
        <property name="text">
-        <string>Zaman Aşımı:</string>
+        <string>Timelimit</string>
        </property>
       </widget>
      </item>
@@ -253,11 +230,11 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string> Alınan / Gönderilen Veri (Rx/Tx)</string>
+        <string>Gathering / Sending Data (Rx/Tx)</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="0" column="0">
       <widget class="QTextEdit" name="textEdit_3"/>
      </item>
     </layout>
@@ -275,7 +252,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Port Durumu:</string>
+        <string>Port Status</string>
        </property>
       </widget>
      </item>
@@ -285,7 +262,7 @@
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>Bağlı Değil</string>
+        <string>Not Connected</string>
        </property>
       </widget>
      </item>
@@ -296,15 +273,15 @@
      <rect>
       <x>740</x>
       <y>180</y>
-      <width>181</width>
-      <height>201</height>
+      <width>197</width>
+      <height>203</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QLabel" name="label_10">
        <property name="text">
-        <string>Bağlantı Seçenekleri:</string>
+        <string>Connection Options:</string>
        </property>
       </widget>
      </item>
@@ -313,14 +290,14 @@
        <item>
         <widget class="QPushButton" name="pushButton_2">
          <property name="text">
-          <string>DURDUR</string>
+          <string>STOP</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="pushButton">
          <property name="text">
-          <string>BAŞLAT</string>
+          <string>START</string>
          </property>
         </widget>
        </item>
@@ -329,7 +306,7 @@
      <item>
       <widget class="QLabel" name="label_8">
        <property name="text">
-        <string>Bağlantı Yüzde Çubuğu:</string>
+        <string>Connection Percentage Status:</string>
        </property>
       </widget>
      </item>
@@ -355,7 +332,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>.txt Olarak Kaydet</string>
+     <string>Save as .txt</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_9">
@@ -368,7 +345,7 @@
      </rect>
     </property>
     <property name="text">
-     <string> Veri Gönder:</string>
+     <string>Send DATA:</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="textEdit_2">
@@ -391,7 +368,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Gönder</string>
+     <string>SEND</string>
     </property>
    </widget>
   </widget>
@@ -400,24 +377,25 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>929</width>
-     <height>21</height>
+     <width>939</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAna_Ekran">
     <property name="title">
-     <string>Ana Ekran</string>
+     <string>Main Screen</string>
     </property>
    </widget>
    <widget class="QMenu" name="menu_leti_im">
     <property name="title">
-     <string>Hakkında</string>
+     <string>About</string>
     </property>
    </widget>
    <widget class="QMenu" name="menuYard_m">
     <property name="title">
-     <string>Yardım</string>
+     <string>Help</string>
     </property>
+    <addaction name="actionHelp"/>
    </widget>
    <addaction name="menuAna_Ekran"/>
    <addaction name="menu_leti_im"/>
@@ -427,6 +405,11 @@
   <action name="actionAna_Ekran">
    <property name="text">
     <string>Ana Ekran</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Help</string>
    </property>
   </action>
  </widget>

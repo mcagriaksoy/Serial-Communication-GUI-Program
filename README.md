@@ -1,3 +1,21 @@
+# 2022 FEBRUARY UPDATE
+V1.1 INTRODUCED
+
+CHANGELOG:
+- Source code updated
+- Bug fixes and performance updates
+- GUI updated, now better! faster!
+- English language is added.
+
+For serial communication tests, the "serial.ino" file can be investigated!
+
+New UI:
+![Project](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/1.png)
+
+
+--------------------------------------------------
+
+# NOTES FROM 2018
 NOTE: Program Language is Turkish, but It can be easily adopted and translated to other languages freely.
 
 # Serial-Communication-GUI-Program
@@ -6,7 +24,6 @@ During my test releases, I have tried NodeMCU and Arduino cards. Also, the progr
 
 # Feature 1
 On the right side of the GUI, you can access the port options. After you selected baud rate, port name, etc. you can save your settings via "kaydet" button which means save exactly.
-
 
 # Feature 2
 Python PyQt threading, multitasking feature added. Due to multitasking function, the program does not crash (one of the thread keen on serial port listen, other does rest of tasks) and uses less memory. 
@@ -31,17 +48,11 @@ class Worker(QObject):
         self.finished.emit()
  ```       
 
-
-
 # Multitasking
 Thread1 listen COM port and convert data to UTF-8
 
 Thread2 send data to serially connected hardware (Arduino, esp32, raspberry pi, etc.) also, control the buttons
 
-![Project](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/1.png)
-
 # PyQt5
 The program is using Pyqt5 instead of the 4th version of PyQt.
 
-
-# License Status: MIT
