@@ -1,4 +1,18 @@
-# 2022 FEBRUARY UPDATE
+# 2022 December UPDATE
+V1.2 INTRODUCED
+CHANGELOG:
+- Forked version of JulianRene is merged into master: https://github.com/JulianRene/Serial-GUI-Com
+Thank you JulianRene!
+
+- Source code updated
+- Bug fixes and performance updates
+- GUI updated, now better! faster!
+
+New UI:
+![Project](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/1.png)
+
+
+# 2022 February UPDATE
 V1.1 INTRODUCED
 
 CHANGELOG:
@@ -9,9 +23,9 @@ CHANGELOG:
 
 For serial communication tests, the "serial.ino" file can be investigated!
 
-New UI:
-![Project](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/1.png)
-
+# 2023 UPDATE Agenda
+- Pyuic5 integration
+- Putty like UI
 
 --------------------------------------------------
 

@@ -7,20 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>939</width>
-    <height>522</height>
+    <height>498</height>
    </rect>
   </property>
   <property name="cursor">
    <cursorShape>ArrowCursor</cursorShape>
   </property>
   <property name="windowTitle">
-   <string>Serial Communication GUI v1.1</string>
+   <string>Serial Communication GUI v1.2</string>
   </property>
   <property name="windowOpacity">
    <double>0.990000000000000</double>
   </property>
   <property name="statusTip">
-   <string>Mehmet Cagri Aksoy 2018-2022</string>
+   <string>Mehmet Cagri Aksoy 2018-2023</string>
   </property>
   <property name="whatsThis">
    <string>Serial Communication Program Mehmet Cagri Aksoy 2018-2022</string>
@@ -234,7 +234,7 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
+     <item row="2" column="0">
       <widget class="QTextEdit" name="textEdit_3"/>
      </item>
     </layout>
@@ -325,7 +325,7 @@
    <widget class="QPushButton" name="pushButton_5">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>610</x>
       <y>430</y>
       <width>121</width>
       <height>41</height>
@@ -363,7 +363,7 @@
      <rect>
       <x>510</x>
       <y>430</y>
-      <width>121</width>
+      <width>101</width>
       <height>41</height>
      </rect>
     </property>
@@ -371,35 +371,19 @@
      <string>SEND</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>939</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuAna_Ekran">
-    <property name="title">
-     <string>Main Screen</string>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>430</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>github.com/mcagriaksoy</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menu_leti_im">
-    <property name="title">
-     <string>About</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuYard_m">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionHelp"/>
-   </widget>
-   <addaction name="menuAna_Ekran"/>
-   <addaction name="menu_leti_im"/>
-   <addaction name="menuYard_m"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAna_Ekran">
