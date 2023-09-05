@@ -34,7 +34,7 @@ class Worker(QObject):
 
         self.finished.emit()
 
-class qt(QMainWindow):
+class main_window(QMainWindow):
 
     def __init__(self):
 
@@ -332,11 +332,8 @@ class qt(QMainWindow):
 
         self.pushBtnClicked = True
 
-def run():
+def start_ui_design():
     app = QApplication(sys.argv)
-    widget = qt()
+    widget = main_window()
     widget.show()
     sys.exit(app.exec_())
-
-if __name__ == "__main__":
-    run()
