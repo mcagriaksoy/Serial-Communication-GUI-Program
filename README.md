@@ -14,7 +14,7 @@ It provides a user-friendly interface that shows the transmitted and received da
 It allows users to save and load the data to and from files.
 
 ## Usage
-The COM port tool is compatible with Windows/Unix/Linux operating systems. 
+The COM port tool is compatible with Windows/Unix/Linux. 
 To use the tool, follow these steps:
 
 python main.py
