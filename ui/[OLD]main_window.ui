@@ -14,16 +14,16 @@
    <cursorShape>ArrowCursor</cursorShape>
   </property>
   <property name="windowTitle">
-   <string>Serial Communication GUI v1.2</string>
+   <string>AFCOM Client (A free COM port data transfer client)</string>
   </property>
   <property name="windowOpacity">
-   <double>0.990000000000000</double>
+   <double>1.000000000000000</double>
   </property>
   <property name="statusTip">
-   <string>Mehmet Cagri Aksoy 2018-2023</string>
+   <string>Mehmet Cagri Aksoy</string>
   </property>
   <property name="whatsThis">
-   <string>Serial Communication Program Mehmet Cagri Aksoy 2018-2022</string>
+   <string>Serial Communication Program Mehmet Cagri Aksoy</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="formLayoutWidget">
@@ -235,7 +235,11 @@
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QTextEdit" name="textEdit_3"/>
+      <widget class="QTextEdit" name="textEdit_3">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

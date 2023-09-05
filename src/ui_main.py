@@ -1,12 +1,10 @@
 __author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
 
-import sys, os, serial, serial.tools.list_ports, warnings
-from PyQt5.QtCore import *
-import time
-from PyQt5.QtWidgets import *
-from PyQt5.uic import loadUi
-
-#GUI interactions
+import sys, os, serial, warnings, time
+import serial.tools.list_ports
+from PyQt6.QtCore import *
+from PyQt6.QtWidgets import *
+from PyQt6.uic import loadUi
 import winsound
 
 # MULTI-THREADING
@@ -15,31 +13,31 @@ class Worker(QObject):
     finished = pyqtSignal()
     intReady = pyqtSignal(str)
 
-    @pyqtSlot()
-    def __init__(self):
-        super(Worker, self).__init__()
-        self.working = True
+    @pyqtSlot() # use a decorator to indicate that this method is a slot
+    def __init__(self): # define the constructor method of the class
+        super(Worker, self).__init__() # call the constructor of the parent class
+        self.working = True # set an attribute named working to True
 
-    def work(self):
-        while self.working:
-            if ser.isOpen():
-                line = ser.readline().decode('utf-8')
+    def work(self): # define a method named work that will perform the main task of the worker
+        while self.working: # while the working attribute is True
+            if ser.isOpen(): # if the serial port is open
+                line = ser.readline().decode('utf-8') # read a line from the port and decode it as utf-8
             else:
-                line = ''
+                line = '' # otherwise, set the line to an empty string
 
-            if line != '':
-                print(line)
-                time.sleep(0.1)
-                self.intReady.emit(line)
+            if line != '': # if the line is not empty
+                print(line) # print it to the console
+                time.sleep(0.1) # wait for 0.1 seconds
+                self.intReady.emit(line) # emit the line as a signal
 
-        self.finished.emit()
+        self.finished.emit() # when the loop ends, emit the finished signal
 
 class main_window(QMainWindow):
 
     def __init__(self):
 
         QMainWindow.__init__(self)
-        loadUi('qt.ui', self)
+        loadUi('../ui/main_window.ui', self)
 
         self.thread = None
         self.worker = None
@@ -55,12 +53,12 @@ class main_window(QMainWindow):
         try:
             mytext = "\n"  # Send first enter
             global ser
-            ser = serial.Serial(self.cb_Port.currentText(), 115200, timeout=1)  # (ports[0], 115200)    #('COM1', 115200, timeout=1)
+            ser = serial.Serial(portname, 115200, timeout=1)  # (ports[0], 115200)    #('COM1', 115200, timeout=1)
             ser.write(mytext.encode())
         except:
             msgBox = QMessageBox()
             msgBox.setWindowTitle("COM Port Error!")
-            msgBox.setIcon(QMessageBox.Warning)
+            #msgBox.setIcon(QMessageBox.Warning)
             msgBox.setText("Selected COM port does not exist. Please verify the COM port Number.")
             msgBox.exec()
             self.label_5.setText("Not Connected")
@@ -91,7 +89,7 @@ class main_window(QMainWindow):
 
     def onIntReady(self, i):
         if i != '':
-            self.textEdit_3.append("{}".format(i))
+            self.textEdit_3.insertPlainText("{}".format(i))
             print(i)
             if i.find('CINE Frames') != -1:
                 #IQ file stored make beep
@@ -173,18 +171,18 @@ class main_window(QMainWindow):
 
         self.label_11.setText(ports[0])
         # Port Detection END
-
+        global portname
+        portname = ports[0]
         if ports[0] != 'NONE':
             #Start the progress bar
             self.completed = 0
             while self.completed < 100:
-                self.completed += 0.001
+                self.completed += 1
                 self.progressBar.setValue(self.completed)
             self.textEdit.setText('Data Gathering...')
             self.label_5.setText("CONNECTED!")
             self.label_5.setStyleSheet('color: green')
             x = 1
-            self.textEdit_3.setText(":")
 
         self.pushBtnClicked = True
 
@@ -336,4 +334,4 @@ def start_ui_design():
     app = QApplication(sys.argv)
     widget = main_window()
     widget.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
