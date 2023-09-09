@@ -1,14 +1,12 @@
 __author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
 
-import sys, os, serial, warnings, time
+import sys, os, serial, time
 import serial.tools.list_ports
-from PyQt6.QtCore import *
-from PyQt6.QtWidgets import *
+from PyQt6.QtCore import QObject, QThread, pyqtSignal, pyqtSlot
+from PyQt6.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox #, QProgressBar
 from PyQt6.uic import loadUi
-import winsound
 
 # MULTI-THREADING
-
 class Worker(QObject):
     finished = pyqtSignal()
     intReady = pyqtSignal(str)
@@ -26,7 +24,6 @@ class Worker(QObject):
                 line = '' # otherwise, set the line to an empty string
 
             if line != '': # if the line is not empty
-                print(line) # print it to the console
                 time.sleep(0.1) # wait for 0.1 seconds
                 self.intReady.emit(line) # emit the line as a signal
 
@@ -44,9 +41,6 @@ class main_window(QMainWindow):
         self.pushButton.clicked.connect(self.start_loop)
         self.pushBtnClicked = False
         self.CopyFlag = 0
-
-    def loop_finished(self):
-        print('Loop Finished')
 
     def start_loop(self):
         #Verify the correct COM Port
@@ -75,7 +69,6 @@ class main_window(QMainWindow):
 
         self.pushButton_2.clicked.connect(self.stop_loop)      # stop the loop on the stop button click
 
-        self.worker.finished.connect(self.loop_finished)       # do something in the gui when the worker loop ends
         self.worker.finished.connect(self.thread.quit)         # tell the thread it's time to stop running
         self.worker.finished.connect(self.worker.deleteLater)  # have worker mark itself for deletion
         self.thread.finished.connect(self.thread.deleteLater)  # have thread mark itself for deletion
@@ -90,11 +83,6 @@ class main_window(QMainWindow):
     def onIntReady(self, i):
         if i != '':
             self.textEdit_3.insertPlainText("{}".format(i))
-            print(i)
-            if i.find('CINE Frames') != -1:
-                #IQ file stored make beep
-                winsound.Beep(1740, 800)
-
             if self.ck_AuSC.isChecked():
                 #Auto Copy files
                 if i.find('io copy j:') != -1:
@@ -193,7 +181,6 @@ class main_window(QMainWindow):
             self.pushBtnClicked = False
             return
         mytext = self.textEdit_2.toPlainText() + "\n"
-        print(mytext.encode())
         ser.write(mytext.encode())
         self.pushBtnClicked = True
 
@@ -203,7 +190,6 @@ class main_window(QMainWindow):
             self.pushBtnClicked = False
             return
         mytext = "cine freeze\n"
-        print(mytext.encode())
         ser.write(mytext.encode())
         self.pushBtnClicked = True
 
@@ -226,7 +212,6 @@ class main_window(QMainWindow):
             self.pushBtnClicked = False
             return
         mytext = "cine unfreeze\n"
-        print(mytext.encode())
         ser.write(mytext.encode())
         self.pushBtnClicked = True
 
@@ -236,7 +221,6 @@ class main_window(QMainWindow):
             self.pushBtnClicked = False
             return
         mytext = "io dir " + self.cb_Drive.currentText() + "\n"
-        print(mytext.encode())
         ser.write(mytext.encode())
         self.pushBtnClicked = True
 
@@ -251,7 +235,6 @@ class main_window(QMainWindow):
 
         self.txt_Dir.setText(folder)
         self.pushBtnClicked = True
-        winsound.Beep(1740, 800)
 
     def on_pb_Rena_clicked(self):
         if self.pushBtnClicked:
