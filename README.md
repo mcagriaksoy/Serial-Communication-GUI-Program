@@ -1,9 +1,14 @@
-# COM Port Tool Documentation
-Author: Mehmet Cagri Aksoy 2023
-## Introduction
-The AFCOM port tool is a software application that allows users to send and receive data via the serial port (COM port) of their computer. 
-
+The AFCOM (aka Serial communication GUI program) tool is a software application that allows users to send and receive data via the serial port (COM port) of their computer. 
 The tool can be used for various purposes, such as testing, debugging, or communicating with other devices that use the serial protocol.
+
+
+<a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program" title="Go to GitHub repo"><img src="https://img.shields.io/static/v1?label=mcagriaksoy&message=Serial-Communication-GUI-Program&color=blue&logo=github" alt="mcagriaksoy - Serial-Communication-GUI-Program"></a>
+<a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/releases/"><img src="https://img.shields.io/github/tag/mcagriaksoy/Serial-Communication-GUI-Program?include_prereleases=&sort=semver&color=blue" alt="GitHub tag"></a>
+<a href="#license"><img src="https://img.shields.io/badge/License-MIT-blue" alt="License"></a>
+<a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/issues"><img src="https://img.shields.io/github/issues/mcagriaksoy/Serial-Communication-GUI-Program" alt="issues - Serial-Communication-GUI-Program"></a>
+[![OS - Linux](https://img.shields.io/badge/OS-Linux-blue?logo=linux&logoColor=white)](https://www.linux.org/ "Go to Linux homepage")
+[![Hosted with GH Pages](https://img.shields.io/badge/Hosted_with-GitHub_Pages-blue?logo=github&logoColor=white)](https://pages.github.com/ "Go to GitHub Pages homepage")
+[![OS - Windows](https://img.shields.io/badge/OS-Windows-blue?logo=windows&logoColor=white)](https://www.microsoft.com/ "Go to Microsoft homepage")
 
 ## Features
 The COM port tool has the following features:
@@ -28,5 +33,12 @@ Make sure that the parameters of the serial communication match with those of th
 Make sure that you have sufficient permissions to access the COM port.
 If you have any questions or feedback, please contact me.
 
+<h2>Documentation</h2>
+<div align="center">
+<a href="/docs/" title="Go to project documentation"><img src="https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge" alt="view - Documentation"></a>
 
+</div>
+<h2>License</h2>
+Released under <a href="/LICENSE">MIT</a> by <a href="https://github.com/mcagriaksoy">@mcagriaksoy</a>.
 Many Thanks to JulianRene also!
+
