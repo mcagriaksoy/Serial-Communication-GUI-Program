@@ -1,10 +1,16 @@
 __author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
 
-import sys, os, serial, time
+import os
+import sys
+import time
+
+import serial
 import serial.tools.list_ports
 from PyQt6.QtCore import QObject, QThread, pyqtSignal, pyqtSlot
-from PyQt6.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox #, QProgressBar
+from PyQt6.QtWidgets import (QApplication, QFileDialog,  # , QProgressBar
+                             QMainWindow, QMessageBox)
 from PyQt6.uic import loadUi
+
 
 # MULTI-THREADING
 class Worker(QObject):
