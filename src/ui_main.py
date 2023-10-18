@@ -3,6 +3,7 @@ __annotations__ = 'Serial Communication GUI Program'
 
 # IMPORTS
 import sys
+import glob
 
 try:
     import serial
@@ -14,28 +15,38 @@ try:
 except ImportError as e:
     print("Import Error! Please install the required libraries: " + str(e))
     sys.exit(1)
-# IMPORTS END
+
 # GLOBAL VARIABLES
 SERIAL_INFO = serial.Serial()
+PORTS = []
 
-#Port Detection START
-try:
-    PORTS = [
-        p.device
-        for p in serial.tools.list_ports.comports()
-        if 'USB' in p.description
-    ]
+def get_serial_port():
+    """ Lists serial port names
 
-    if not PORTS:
-        print("There is no device exist on serial port!")
-        PORTS = "-"
-    elif len(PORTS) > 1:
-        print("Available serial PORTS are: " + str(PORTS))
-        SERIAL_INFO = serial.Serial(PORTS[0], 9600)
-except SerialException as e:
-    print("Serial Exception! Please check the serial port: " + str(e))
-    sys.exit(1)
-#Port Detection END
+        :raises EnvironmentError:
+            On unsupported or unknown platforms
+        :returns:
+            A list of the serial ports available on the system
+    """
+    if sys.platform.startswith('win'):
+        ports = ['COM%s' % (i + 1) for i in range(256)]
+    elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
+        # this excludes your current terminal "/dev/tty"
+        ports = glob.glob('/dev/tty[A-Za-z]*')
+    elif sys.platform.startswith('darwin'):
+        ports = glob.glob('/dev/tty.*')
+    else:
+        raise EnvironmentError('Unsupported platform')
+
+    result = []
+    for port in ports:
+        try:
+            s = serial.Serial(port)
+            s.close()
+            result.append(port)
+        except (OSError, serial.SerialException):
+            pass
+    return result
 
 # MULTI-THREADING
 class Worker(QObject):
@@ -69,10 +80,12 @@ class MainWindow(QMainWindow):
 
         loadUi('..\\ui\\main_window.ui', self)
 
+        PORTS = get_serial_port()
+
         self.thread = None
         self.worker = None
         self.start_button.clicked.connect(self.start_loop)
-        self.label_11.setText(PORTS[0])
+        self.comboBox_3.addItems(PORTS)
 
     def print_message_on_screen(self, text):
         """ Print the message on the screen """
@@ -82,8 +95,29 @@ class MainWindow(QMainWindow):
         msg.setText(text)
         msg.exec()
 
+    def establish_serial_communication(self):
+        """ Establish serial communication """
+        port = self.comboBox_3.currentText()
+        baudrate = self.comboBox_1.currentText()
+        timeout = self.comboBox.currentText()
+        length = self.comboBox_2.currentText()
+        parity = self.comboBox_4.currentText()
+        stopbits = self.comboBox_5.currentText()
+        SERIAL_INFO = serial.Serial(port=str(port),
+                                    baudrate=int(baudrate, base=10),
+                                    timeout=float(timeout),
+                                    bytesize=int(length, base=10),
+                                    parity = parity[0], #get first character
+                                    stopbits = float(stopbits)
+                                    )
+
     def start_loop(self):
         """ Start the loop """
+        try:
+            self.establish_serial_communication()
+        except SerialException:
+            self.print_message_on_screen("Exception occured while trying establish serial communication!")
+
         try:
             self.worker = Worker()   # a new worker to perform those tasks
             self.thread = QThread()  # a new thread to run our background tasks in

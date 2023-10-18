@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>939</width>
-    <height>498</height>
+    <height>486</height>
    </rect>
   </property>
   <property name="cursor">
@@ -36,14 +36,14 @@
       <x>740</x>
       <y>10</y>
       <width>191</width>
-      <height>171</height>
+      <height>211</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>PORT Name:</string>
+        <string>Selected Port:</string>
        </property>
       </widget>
      </item>
@@ -58,7 +58,7 @@
       <widget class="QComboBox" name="comboBox_1">
        <item>
         <property name="text">
-         <string>Select...</string>
+         <string>9600</string>
         </property>
        </item>
        <item>
@@ -74,11 +74,6 @@
        <item>
         <property name="text">
          <string>4800</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>9600</string>
         </property>
        </item>
        <item>
@@ -114,75 +109,7 @@
       <widget class="QComboBox" name="comboBox_2">
        <item>
         <property name="text">
-         <string>Select...</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>4</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>8</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>16</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>32</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>64</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label_11">
-       <property name="text">
-        <string>-</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QPushButton" name="save_button">
-       <property name="text">
-        <string>Save</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QComboBox" name="comboBox">
-       <item>
-        <property name="text">
-         <string>Select...</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>0</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>4</string>
+         <string>5</string>
         </property>
        </item>
        <item>
@@ -192,7 +119,36 @@
        </item>
        <item>
         <property name="text">
+         <string>7</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>8</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QComboBox" name="comboBox">
+       <item>
+        <property name="text">
+         <string>2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>4</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>5</string>
         </property>
        </item>
        <item>
@@ -202,12 +158,17 @@
        </item>
        <item>
         <property name="text">
-         <string>15</string>
+         <string>30</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>20</string>
+         <string>50</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>100</string>
         </property>
        </item>
       </widget>
@@ -215,8 +176,80 @@
      <item row="3" column="0">
       <widget class="QLabel" name="label_12">
        <property name="text">
-        <string>Timelimit</string>
+        <string>Timeout:</string>
        </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="comboBox_3"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_13">
+       <property name="text">
+        <string>Parity:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QComboBox" name="comboBox_4">
+       <item>
+        <property name="text">
+         <string>None</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Even</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Odd</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Mark</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Space</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_14">
+       <property name="text">
+        <string>StopBits:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QPushButton" name="save_button">
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QComboBox" name="comboBox_5">
+       <item>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1.5</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>2</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -251,21 +284,37 @@
     <property name="geometry">
      <rect>
       <x>740</x>
-      <y>390</y>
-      <width>171</width>
+      <y>240</y>
+      <width>191</width>
       <height>21</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_2">
      <item row="0" column="0">
       <widget class="QLabel" name="label_4">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="text">
-        <string>Port Status</string>
+        <string>Port Status :</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
       <widget class="QLabel" name="label_5">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -280,9 +329,9 @@
     <property name="geometry">
      <rect>
       <x>740</x>
-      <y>180</y>
+      <y>290</y>
       <width>197</width>
-      <height>203</height>
+      <height>121</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -336,10 +385,10 @@
    <widget class="QPushButton" name="save_txt_button">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>600</x>
       <y>430</y>
       <width>121</width>
-      <height>41</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -349,8 +398,8 @@
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>405</y>
+      <x>0</x>
+      <y>400</y>
       <width>451</width>
       <height>31</height>
      </rect>
@@ -362,20 +411,20 @@
    <widget class="QTextEdit" name="textEdit_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>430</y>
       <width>501</width>
-      <height>41</height>
+      <height>31</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="send_data_button">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>500</x>
       <y>430</y>
       <width>101</width>
-      <height>41</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
