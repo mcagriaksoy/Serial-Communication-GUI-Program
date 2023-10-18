@@ -9,8 +9,7 @@ try:
     import serial.tools.list_ports
     from serial import SerialException
     from PyQt6.QtCore import QObject, QThread, pyqtSignal, pyqtSlot
-    from PyQt6.QtWidgets import (QApplication, QFileDialog,
-                                QMainWindow, QMessageBox)
+    from PyQt6.QtWidgets import (QApplication, QMainWindow, QMessageBox)
     from PyQt6.uic import loadUi
 except ImportError as e:
     print("Import Error! Please install the required libraries: " + str(e))
@@ -21,18 +20,18 @@ SERIAL_INFO = serial.Serial()
 
 #Port Detection START
 try:
-    ports = [
+    PORTS = [
         p.device
         for p in serial.tools.list_ports.comports()
         if 'USB' in p.description
     ]
 
-    if not ports:
+    if not PORTS:
         print("There is no device exist on serial port!")
-        ports = "-"
-    elif len(ports) > 1:
-        print("Available serial ports are: " + str(ports))
-        SERIAL_INFO = serial.Serial(ports[0], 9600)
+        PORTS = "-"
+    elif len(PORTS) > 1:
+        print("Available serial PORTS are: " + str(PORTS))
+        SERIAL_INFO = serial.Serial(PORTS[0], 9600)
 except SerialException as e:
     print("Serial Exception! Please check the serial port: " + str(e))
     sys.exit(1)
@@ -73,7 +72,7 @@ class MainWindow(QMainWindow):
         self.thread = None
         self.worker = None
         self.start_button.clicked.connect(self.start_loop)
-        self.label_11.setText(ports[0])
+        self.label_11.setText(PORTS[0])
 
     def print_message_on_screen(self, text):
         """ Print the message on the screen """
@@ -119,8 +118,8 @@ class MainWindow(QMainWindow):
             self.label_5.setStyleSheet('color: red')
         else:
             self.comboBox.setEnabled(False)
+            self.comboBox_1.setEnabled(False)
             self.comboBox_2.setEnabled(False)
-            self.comboBox_3.setEnabled(False)
             self.start_button.setEnabled(False)
 
             self.textEdit.setText('Data Gathering...')
@@ -147,8 +146,8 @@ class MainWindow(QMainWindow):
         """ Stop the process """
         self.textEdit.setText('Stopped!')
         self.comboBox.setEnabled(True)
+        self.comboBox_1.setEnabled(True)
         self.comboBox_2.setEnabled(True)
-        self.comboBox_3.setEnabled(True)
         self.start_button.setEnabled(True)
 
     def on_send_data_button_clicked(self):
