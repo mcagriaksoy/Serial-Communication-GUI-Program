@@ -32,6 +32,8 @@ Make sure that the COM port is not used by another application or device.
 Make sure that the parameters of the serial communication match with those of the device you are communicating with.
 Make sure that you have sufficient permissions to access the COM port.
 If you have any questions or feedback, please contact me.
+## Dependencies
+[![PyQt - > 6.0](https://img.shields.io/badge/PyQt->_6.0-2ea44f)](https://wiki.python.org/moin/PyQt)
 
 <h2>Documentation</h2>
 <div align="center">
