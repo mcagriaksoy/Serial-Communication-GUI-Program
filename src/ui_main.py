@@ -4,6 +4,7 @@ __annotations__ = 'Serial Communication GUI Program'
 # IMPORTS
 import sys
 import glob
+import os
 
 try:
     import serial
@@ -78,7 +79,13 @@ class MainWindow(QMainWindow):
         """ Initialize Main Window """
         QMainWindow.__init__(self)
 
-        loadUi('..\\ui\\main_window.ui', self)
+        file_path = os.path.join("../ui/main_window.ui")
+
+        if not os.path.exists(file_path):
+            print("UI File Not Found!")
+            sys.exit(1)
+
+        loadUi(file_path, self)
 
         PORTS = get_serial_port()
 
