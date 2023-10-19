@@ -116,7 +116,8 @@ class MainWindow(QMainWindow):
         try:
             self.establish_serial_communication()
         except SerialException:
-            self.print_message_on_screen("Exception occured while trying establish serial communication!")
+            self.print_message_on_screen(
+                "Exception occured while trying establish serial communication!")
 
         try:
             self.worker = Worker()   # a new worker to perform those tasks
@@ -154,6 +155,10 @@ class MainWindow(QMainWindow):
             self.comboBox.setEnabled(False)
             self.comboBox_1.setEnabled(False)
             self.comboBox_2.setEnabled(False)
+            self.comboBox_3.setEnabled(False)
+            self.comboBox_4.setEnabled(False)
+            self.comboBox_5.setEnabled(False)
+            self.save_button.setEnabled(False)
             self.start_button.setEnabled(False)
 
             self.textEdit.setText('Data Gathering...')
@@ -182,6 +187,10 @@ class MainWindow(QMainWindow):
         self.comboBox.setEnabled(True)
         self.comboBox_1.setEnabled(True)
         self.comboBox_2.setEnabled(True)
+        self.comboBox_3.setEnabled(True)
+        self.comboBox_4.setEnabled(True)
+        self.comboBox_5.setEnabled(True)
+        self.save_button.setEnabled(True)
         self.start_button.setEnabled(True)
 
     def on_send_data_button_clicked(self):
