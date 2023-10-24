@@ -1,18 +1,32 @@
+# -*- coding: utf-8 -*-
+"""
+AFCOM - Serial Communication GUI Program
+Cannot be used directly, it is a part of main.py
+"""
+
 __author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
-__annotations__ = 'Serial Communication GUI Program'
+__annotations__ = 'AFCOM - Serial Communication GUI Program'
 
 # IMPORTS
 import sys
 import glob
 import os
 
+# Runtime Type Checking
+PROGRAM_TYPE_DEBUG = 1
+PROGRAM_TYPE_RELEASE = 0
+
 try:
     import serial
     import serial.tools.list_ports
     from serial import SerialException
     from PyQt6.QtCore import QObject, QThread, pyqtSignal, pyqtSlot
-    from PyQt6.QtWidgets import (QApplication, QMainWindow, QMessageBox)
-    from PyQt6.uic import loadUi
+    from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox
+
+    if (PROGRAM_TYPE_DEBUG):
+        from PyQt6.uic import loadUi
+    else: # PROGRAM_TYPE_RELEASE
+        from ui_config import Ui_main_window
 except ImportError as e:
     print("Import Error! Please install the required libraries: " + str(e))
     sys.exit(1)
@@ -78,14 +92,6 @@ class MainWindow(QMainWindow):
     def __init__(self):
         """ Initialize Main Window """
         QMainWindow.__init__(self)
-
-        file_path = os.path.join("../ui/main_window.ui")
-
-        if not os.path.exists(file_path):
-            print("UI File Not Found!")
-            sys.exit(1)
-
-        loadUi(file_path, self)
 
         PORTS = get_serial_port()
 
@@ -209,6 +215,17 @@ class MainWindow(QMainWindow):
 def start_ui_design():
     """ Start the UI Design """
     app = QApplication(sys.argv)
-    widget = MainWindow()
-    widget.show()
+    window_object = QMainWindow()
+
+    if PROGRAM_TYPE_RELEASE:
+        ui = Ui_main_window()
+        ui.setupUi(window_object)
+    elif PROGRAM_TYPE_DEBUG:
+        file_path = os.path.join("../ui/main_window.ui")
+        if not os.path.exists(file_path):
+            print("UI File Not Found!")
+            sys.exit(1)
+        loadUi(file_path, window_object)
+
+    window_object.show()
     sys.exit(app.exec())

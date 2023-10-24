@@ -59,5 +59,11 @@ If you have any questions or feedback, please contact me.
 <a href="/docs/" title="Go to project documentation"><img src="https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge" alt="view - Documentation"></a>
 
 </div>
+<h2>Executable Command</h2>
+The following command have been used to create AFCOM.exe
+```
+pyinstaller --noconfirm --onefile --windowed --icon "img/icon.ico"  "src/main.py"
+```
+</div>
 <h2>License</h2>
 Released under <a href="/LICENSE">MIT</a> by <a href="https://github.com/mcagriaksoy">@mcagriaksoy</a>.

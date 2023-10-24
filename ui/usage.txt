@@ -1,6 +1,0 @@
-I do not prefer text version of ui file on the python code.
-Instead I am calling pyuic tool to convert it for python usage.
-
-pip install pyuic5-tool
-
-pyuic5 input.ui -o output.py

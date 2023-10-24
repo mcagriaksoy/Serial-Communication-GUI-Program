@@ -1,5 +1,17 @@
-__author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
-from ui_main import start_ui_design             
+# -*- coding: utf-8 -*-
+"""
+AFCOM - Serial Communication GUI Program
+Usage: python main.py
+"""
+__author__ = "Mehmet Cagri Aksoy - github.com/mcagriaksoy"
+__copyright__ = "Copyright 2023, The AFCOM Project"
+__credits__ = ["Mehmet Cagri Aksoy"]
+__license__ = "MIT"
+__version__ = "1.0.1"
+__maintainer__ = "Mehmet Cagri Aksoy"
+__status__ = "Production"
+
+from ui_main import start_ui_design
 
 if __name__ == "__main__":
     start_ui_design()
