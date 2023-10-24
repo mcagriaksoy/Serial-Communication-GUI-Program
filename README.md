@@ -1,7 +1,8 @@
 <div align="center">
 ![AFCOM Icon](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/icon.png)
-  
-</div>
+ </div>
+
+ 
 The AFCOM (aka Serial communication GUI program) tool is a software application that allows users to send and receive data via the serial port (COM port) of their computer.
 The tool can be used for various purposes, such as testing, debugging, or communicating with other devices that use the serial protocol.
 
