@@ -15,25 +15,30 @@ import os
 # Runtime Type Checking
 PROGRAM_TYPE_DEBUG = 1
 PROGRAM_TYPE_RELEASE = 0
-
 try:
     import serial
     import serial.tools.list_ports
     from serial import SerialException
+except ImportError as e:
+    print("Import Error! I am installing the PySerial library.")
+    os.system("python -m pip install pyserial")
+
+try:
     from PyQt6.QtCore import QObject, QThread, pyqtSignal, pyqtSlot
     from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox
 
     if (PROGRAM_TYPE_DEBUG):
         from PyQt6.uic import loadUi
-    else: # PROGRAM_TYPE_RELEASE
+    else:  # PROGRAM_TYPE_RELEASE
         from ui_config import Ui_main_window
 except ImportError as e:
-    print("Import Error! Please install the required libraries: " + str(e))
-    sys.exit(1)
+    print("Import Error! I am installing the required libraries: " + str(e))
+    os.system("pip install {0}".format(str(e).split(" ")[-1]))
 
 # GLOBAL VARIABLES
 SERIAL_INFO = serial.Serial()
 PORTS = []
+
 
 def get_serial_port():
     """ Lists serial port names
@@ -64,6 +69,8 @@ def get_serial_port():
     return result
 
 # MULTI-THREADING
+
+
 class Worker(QObject):
     """ Worker Thread """
     finished = pyqtSignal()
@@ -87,11 +94,20 @@ class Worker(QObject):
                 self.working = False
             self.finished.emit()
 
+
 class MainWindow(QMainWindow):
     """ Main Window """
+
     def __init__(self):
         """ Initialize Main Window """
-        QMainWindow.__init__(self)
+        super(MainWindow, self).__init__()
+        if PROGRAM_TYPE_DEBUG:
+            file_path = os.path.join("../ui/main_window.ui")
+            if not os.path.exists(file_path):
+                print("UI File Not Found!")
+                sys.exit(1)
+            loadUi(file_path, self)  # Load the .ui file
+            self.show()  # Show the GUI
 
         PORTS = get_serial_port()
 
@@ -120,12 +136,21 @@ class MainWindow(QMainWindow):
                                     baudrate=int(baudrate, base=10),
                                     timeout=float(timeout),
                                     bytesize=int(length, base=10),
-                                    parity = parity[0], #get first character
-                                    stopbits = float(stopbits)
+                                    parity=parity[0],  # get first character
+                                    stopbits=float(stopbits)
                                     )
 
     def start_loop(self):
         """ Start the loop """
+        self.comboBox_3.setStyleSheet('background-color: white')
+
+        # If the serial port is not selected, print a message
+        if self.comboBox_3.currentText() == "":
+            self.print_message_on_screen("Please select a serial port first!")
+            # Set comboBox_3 background color to red
+            self.comboBox_3.setStyleSheet('background-color: red')
+            return
+
         try:
             self.establish_serial_communication()
         except SerialException:
@@ -161,7 +186,9 @@ class MainWindow(QMainWindow):
         """ Write the result to the text edit box"""
         # self.textEdit_3.append("{}".format(i))
         if "ERROR_SERIAL_EXCEPTION" in serial_data:
-            self.print_message_on_screen("Serial Exception! Please check the serial port")
+            self.print_message_on_screen(
+                "Serial Port Exception! Please check the serial port"
+                " Possibly it is not connected or the port is not available!")
             self.label_5.setText("NOT CONNECTED!")
             self.label_5.setStyleSheet('color: red')
         else:
@@ -212,20 +239,14 @@ class MainWindow(QMainWindow):
         print(mytext.encode())
         SERIAL_INFO.write(mytext.encode())
 
+
 def start_ui_design():
     """ Start the UI Design """
-    app = QApplication(sys.argv)
-    window_object = QMainWindow()
+    app = QApplication(sys.argv)  # Create an instance
+    window_object = MainWindow()  # Create an instance of our class
 
     if PROGRAM_TYPE_RELEASE:
         ui = Ui_main_window()
         ui.setupUi(window_object)
-    elif PROGRAM_TYPE_DEBUG:
-        file_path = os.path.join("../ui/main_window.ui")
-        if not os.path.exists(file_path):
-            print("UI File Not Found!")
-            sys.exit(1)
-        loadUi(file_path, window_object)
 
-    window_object.show()
-    sys.exit(app.exec())
+    app.exec()  # Start the application
