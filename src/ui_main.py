@@ -25,7 +25,7 @@ except ImportError as e:
 
 try:
     from PyQt6.QtCore import QObject, QThread, pyqtSignal, pyqtSlot
-    from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox
+    from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QInputDialog
 
     if (PROGRAM_TYPE_DEBUG):
         from PyQt6.uic import loadUi
@@ -38,6 +38,8 @@ except ImportError as e:
 # GLOBAL VARIABLES
 SERIAL_INFO = serial.Serial()
 PORTS = []
+
+is_serial_port_established = False
 
 
 def get_serial_port():
@@ -113,8 +115,83 @@ class MainWindow(QMainWindow):
 
         self.thread = None
         self.worker = None
+
         self.start_button.clicked.connect(self.start_loop)
-        self.comboBox_3.addItems(PORTS)
+        self.refresh_button.clicked.connect(self.refresh_port)
+
+        self.command_edit_1.clicked.connect(self.command1)
+        self.command_edit_2.clicked.connect(self.command2)
+        self.command_edit_3.clicked.connect(self.command3)
+        self.command_edit_4.clicked.connect(self.command4)
+
+        self.saved_command_1.clicked.connect(self.move_command1_to_text)
+        self.saved_command_2.clicked.connect(self.move_command2_to_text)
+        self.saved_command_3.clicked.connect(self.move_command3_to_text)
+        self.saved_command_4.clicked.connect(self.move_command4_to_text)
+
+        self.comboBox_6.addItems(PORTS)
+
+        self.send_data_button.clicked.connect(
+            self.on_send_data_button_clicked)
+
+        self.end_button.clicked.connect(self.on_end_button_clicked)
+
+    def command1(self):
+        """ Open the text input popup to save command for button 1 """
+        self.command_edit(1)
+
+    def command2(self):
+        """ Open the text input popup to save command for button 2 """
+        self.command_edit(2)
+
+    def command3(self):
+        """ Open the text input popup to save command for button 3 """
+        self.command_edit(3)
+
+    def command4(self):
+        """ Open the text input popup to save command for button 4 """
+        self.command_edit(4)
+
+    def command_edit(self, button_number):
+        """ Open the text input popup to save command """
+        # Create a text input popup
+        text, ok = QInputDialog.getText(
+            self, 'Set your command', 'Please enter the command that you want to save:')
+        if ok:
+            if button_number == 1:
+                self.saved_command_1.setText(str(text))
+            elif button_number == 2:
+                self.saved_command_2.setText(str(text))
+            elif button_number == 3:
+                self.saved_command_3.setText(str(text))
+            elif button_number == 4:
+                self.saved_command_4.setText(str(text))
+
+    def move_command1_to_text(self):
+        """ Move the saved command to the text box """
+        self.textEdit_5.setText(self.saved_command_1.text())
+        self.on_send_data_button_clicked()
+
+    def move_command2_to_text(self):
+        """ Move the saved command to the text box """
+        self.textEdit_5.setText(self.saved_command_2.text())
+        self.on_send_data_button_clicked()
+
+    def move_command3_to_text(self):
+        """ Move the saved command to the text box """
+        self.textEdit_5.setText(self.saved_command_3.text())
+        self.on_send_data_button_clicked()
+
+    def move_command4_to_text(self):
+        """ Move the saved command to the text box """
+        self.textEdit_5.setText(self.saved_command_4.text())
+        self.on_send_data_button_clicked()
+
+    def refresh_port(self):
+        """ Refresh the serial port list """
+        PORTS = get_serial_port()
+        self.comboBox_6.clear()
+        self.comboBox_6.addItems(PORTS)
 
     def print_message_on_screen(self, text):
         """ Print the message on the screen """
@@ -156,6 +233,9 @@ class MainWindow(QMainWindow):
         except SerialException:
             self.print_message_on_screen(
                 "Exception occured while trying establish serial communication!")
+            return
+
+        is_serial_port_established = True
 
         try:
             self.worker = Worker()   # a new worker to perform those tasks
@@ -198,21 +278,12 @@ class MainWindow(QMainWindow):
             self.comboBox_3.setEnabled(False)
             self.comboBox_4.setEnabled(False)
             self.comboBox_5.setEnabled(False)
-            self.save_button.setEnabled(False)
             self.start_button.setEnabled(False)
 
             self.textEdit.setText('Data Gathering...')
             self.label_5.setText("CONNECTED!")
             self.label_5.setStyleSheet('color: green')
             self.textEdit_3.insertPlainText("{}".format(serial_data))
-
-    # Save the settings
-    def on_save_button_clicked(self):
-        """ Save the settings """
-        if self.x != 0:
-            self.textEdit.setText('Settings Saved!')
-        else:
-            self.textEdit.setText('Please enter port and speed!')
 
     def on_save_txt_button_clicked(self):
         """ Save the values to the TXT file"""
@@ -223,6 +294,7 @@ class MainWindow(QMainWindow):
 
     def on_end_button_clicked(self):
         """ Stop the process """
+        is_serial_port_established = False
         self.textEdit.setText('Stopped!')
         self.comboBox.setEnabled(True)
         self.comboBox_1.setEnabled(True)
@@ -230,14 +302,17 @@ class MainWindow(QMainWindow):
         self.comboBox_3.setEnabled(True)
         self.comboBox_4.setEnabled(True)
         self.comboBox_5.setEnabled(True)
-        self.save_button.setEnabled(True)
         self.start_button.setEnabled(True)
 
     def on_send_data_button_clicked(self):
         """ Send data to serial port """
-        mytext = self.textEdit_2.toPlainText()
-        print(mytext.encode())
-        SERIAL_INFO.write(mytext.encode())
+        if (is_serial_port_established):
+            mytext = self.textEdit_2.toPlainText()
+            print(mytext.encode())
+            SERIAL_INFO.write(mytext.encode())
+        else:
+            self.print_message_on_screen(
+                "Serial Port is not established yet! Please establish the serial port first!")
 
 
 def start_ui_design():

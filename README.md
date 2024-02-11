@@ -1,4 +1,3 @@
-
 ![AFCOM Icon](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/icon.png)
 
 The AFCOM (aka Serial communication GUI program) tool is a software application that allows users to send and receive data via the serial port (COM port) of their computer.
@@ -39,7 +38,7 @@ Then the project can be run with:
 pip install -r requirements.txt
 ```
 
-![Project](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/screenshot.jpg)
+![Project SS](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/ss.png)
 
 If you encounter any problems while using the COM port tool, try these solutions:
 
