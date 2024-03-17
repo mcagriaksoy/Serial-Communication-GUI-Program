@@ -6,25 +6,28 @@ Cannot be used directly, it is a part of main.py
 
 __author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
 __annotations__ = 'AFCOM - Serial Communication GUI Program'
+__version__ = '2024.04'
+__license__ = 'MIT'
+__status__ = 'Research'
 
 # IMPORTS
-import sys
-import glob
-import os
+from os import path, system
+from sys import platform, exit, argv
+from glob import glob
 
 # Runtime Type Checking
 PROGRAM_TYPE_DEBUG = 1
 PROGRAM_TYPE_RELEASE = 0
-try:
-    import serial
-    import serial.tools.list_ports
-    from serial import SerialException
-except ImportError as e:
-    print("Import Error! I am installing the PySerial library.")
-    os.system("python -m pip install pyserial")
 
 try:
-    from PyQt6.QtCore import QObject, QThread, pyqtSignal, pyqtSlot
+    import serial.tools.list_ports
+    from serial import SerialException, Serial
+except ImportError as e:
+    print("Import Error! I am installing the PySerial library.")
+    system("python -m pip install pyserial")
+
+try:
+    from PyQt6.QtCore import QObject, QThread, pyqtSignal
     from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QInputDialog
 
     if (PROGRAM_TYPE_DEBUG):
@@ -33,14 +36,12 @@ try:
         from ui_config import Ui_main_window
 except ImportError as e:
     print("Import Error! I am installing the required libraries: " + str(e))
-    os.system("pip install {0}".format(str(e).split(" ")[-1]))
+    system("pip install {0}".format(str(e).split(" ")[-1]))
 
 # GLOBAL VARIABLES
-SERIAL_INFO = serial.Serial()
+SERIAL_INFO = Serial()
 PORTS = []
-
 is_serial_port_established = False
-
 
 def get_serial_port():
     """ Lists serial port names
@@ -50,35 +51,32 @@ def get_serial_port():
         :returns:
             A list of the serial ports available on the system
     """
-    if sys.platform.startswith('win'):
+    if platform.startswith('win'):
         ports = ['COM%s' % (i + 1) for i in range(256)]
-    elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
+    elif platform.startswith('linux') or platform.startswith('cygwin'):
         # this excludes your current terminal "/dev/tty"
-        ports = glob.glob('/dev/tty[A-Za-z]*')
-    elif sys.platform.startswith('darwin'):
-        ports = glob.glob('/dev/tty.*')
+        ports = glob('/dev/tty[A-Za-z]*')
+    elif platform.startswith('darwin'):
+        ports = glob('/dev/tty.*')
     else:
         raise EnvironmentError('Unsupported platform')
 
     result = []
     for port in ports:
         try:
-            s = serial.Serial(port)
+            s = Serial(port)
             s.close()
             result.append(port)
-        except (OSError, serial.SerialException):
+        except SerialException:
             pass
     return result
 
 # MULTI-THREADING
-
-
 class Worker(QObject):
     """ Worker Thread """
     finished = pyqtSignal()
     serial_data = pyqtSignal(str)
 
-    @pyqtSlot()
     def __init__(self):
         super(Worker, self).__init__()
         self.working = True
@@ -96,7 +94,6 @@ class Worker(QObject):
                 self.working = False
             self.finished.emit()
 
-
 class MainWindow(QMainWindow):
     """ Main Window """
 
@@ -104,10 +101,10 @@ class MainWindow(QMainWindow):
         """ Initialize Main Window """
         super(MainWindow, self).__init__()
         if PROGRAM_TYPE_DEBUG:
-            file_path = os.path.join("../ui/main_window.ui")
-            if not os.path.exists(file_path):
+            file_path = path.join("../ui/main_window.ui")
+            if not path.exists(file_path):
                 print("UI File Not Found!")
-                sys.exit(1)
+                exit(1)
             loadUi(file_path, self)  # Load the .ui file
             self.show()  # Show the GUI
 
@@ -314,10 +311,9 @@ class MainWindow(QMainWindow):
             self.print_message_on_screen(
                 "Serial Port is not established yet! Please establish the serial port first!")
 
-
 def start_ui_design():
     """ Start the UI Design """
-    app = QApplication(sys.argv)  # Create an instance
+    app = QApplication(argv)  # Create an instance
     window_object = MainWindow()  # Create an instance of our class
 
     if PROGRAM_TYPE_RELEASE:
