@@ -126,7 +126,7 @@ class MainWindow(QMainWindow):
         self.saved_command_3.clicked.connect(self.move_command3_to_text)
         self.saved_command_4.clicked.connect(self.move_command4_to_text)
 
-        self.comboBox_6.addItems(PORTS)
+        self.port_comboBox.addItems(PORTS)
 
         self.send_data_button.clicked.connect(
             self.on_send_data_button_clicked)
@@ -187,8 +187,8 @@ class MainWindow(QMainWindow):
     def refresh_port(self):
         """ Refresh the serial port list """
         PORTS = get_serial_port()
-        self.comboBox_6.clear()
-        self.comboBox_6.addItems(PORTS)
+        self.port_comboBox.clear()
+        self.port_comboBox.addItems(PORTS)
 
     def print_message_on_screen(self, text):
         """ Print the message on the screen """
@@ -200,12 +200,12 @@ class MainWindow(QMainWindow):
 
     def establish_serial_communication(self):
         """ Establish serial communication """
-        port = self.comboBox_3.currentText()
-        baudrate = self.comboBox_1.currentText()
-        timeout = self.comboBox.currentText()
-        length = self.comboBox_2.currentText()
-        parity = self.comboBox_4.currentText()
-        stopbits = self.comboBox_5.currentText()
+        port = self.port_comboBox.currentText()
+        baudrate = self.baudrate_comboBox.currentText()
+        timeout = self.timeout_comboBox.currentText()
+        length = self.len_comboBox.currentText()
+        parity = self.parity_comboBox.currentText()
+        stopbits = self.bit_comboBox.currentText()
         SERIAL_INFO = serial.Serial(port=str(port),
                                     baudrate=int(baudrate, base=10),
                                     timeout=float(timeout),
@@ -216,13 +216,13 @@ class MainWindow(QMainWindow):
 
     def start_loop(self):
         """ Start the loop """
-        self.comboBox_3.setStyleSheet('background-color: white')
+        self.port_comboBox.setStyleSheet('background-color: white')
 
         # If the serial port is not selected, print a message
-        if self.comboBox_3.currentText() == "":
+        if self.port_comboBox.currentText() == "":
             self.print_message_on_screen("Please select a serial port first!")
-            # Set comboBox_3 background color to red
-            self.comboBox_3.setStyleSheet('background-color: red')
+            # Set port_comboBox background color to red
+            self.port_comboBox.setStyleSheet('background-color: red')
             return
 
         try:
@@ -257,55 +257,55 @@ class MainWindow(QMainWindow):
     def stop_loop(self):
         """ Stop the loop """
         self.worker.working = False
-        self.textEdit.setText('Stopped!')
+        self.options_textEdit.setText('Stopped!')
 
     def read_data_from_thread(self, serial_data):
         """ Write the result to the text edit box"""
-        # self.textEdit_3.append("{}".format(i))
+        # self.data_textEdit.append("{}".format(i))
         if "ERROR_SERIAL_EXCEPTION" in serial_data:
             self.print_message_on_screen(
                 "Serial Port Exception! Please check the serial port"
                 " Possibly it is not connected or the port is not available!")
-            self.label_5.setText("NOT CONNECTED!")
-            self.label_5.setStyleSheet('color: red')
+            self.status_label.setText("NOT CONNECTED!")
+            self.status_label.setStyleSheet('color: red')
         else:
-            self.comboBox.setEnabled(False)
-            self.comboBox_1.setEnabled(False)
-            self.comboBox_2.setEnabled(False)
-            self.comboBox_3.setEnabled(False)
-            self.comboBox_4.setEnabled(False)
-            self.comboBox_5.setEnabled(False)
+            self.timeout_comboBox.setEnabled(False)
+            self.baudrate_comboBox.setEnabled(False)
+            self.len_comboBox.setEnabled(False)
+            self.port_comboBox.setEnabled(False)
+            self.parity_comboBox.setEnabled(False)
+            self.bit_comboBox.setEnabled(False)
             self.start_button.setEnabled(False)
 
-            self.textEdit.setText('Data Gathering...')
-            self.label_5.setText("CONNECTED!")
-            self.label_5.setStyleSheet('color: green')
-            self.textEdit_3.insertPlainText("{}".format(serial_data))
+            self.options_textEdit.setText('Data Gathering...')
+            self.status_label.setText("CONNECTED!")
+            self.status_label.setStyleSheet('color: green')
+            self.data_textEdit.insertPlainText("{}".format(serial_data))
 
     def on_save_txt_button_clicked(self):
         """ Save the values to the TXT file"""
         with open('Output.txt', 'w', encoding='utf-8') as f:
-            my_text = self.textEdit_3.toPlainText()
+            my_text = self.data_textEdit.toPlainText()
             f.write(my_text)
             f.close()
 
     def on_end_button_clicked(self):
         """ Stop the process """
         is_serial_port_established = False
-        self.textEdit.setText('Stopped!')
-        self.comboBox.setEnabled(True)
-        self.comboBox_1.setEnabled(True)
-        self.comboBox_2.setEnabled(True)
-        self.comboBox_3.setEnabled(True)
-        self.comboBox_4.setEnabled(True)
-        self.comboBox_5.setEnabled(True)
+        self.options_textEdit.setText('Stopped!')
+        self.timeout_comboBox.setEnabled(True)
+        self.baudrate_comboBox.setEnabled(True)
+        self.len_comboBox.setEnabled(True)
+        self.port_comboBox.setEnabled(True)
+        self.parity_comboBox.setEnabled(True)
+        self.bit_comboBox.setEnabled(True)
         self.start_button.setEnabled(True)
 
     def on_send_data_button_clicked(self):
         """ Send data to serial port """
         if (is_serial_port_established):
-            mytext = self.textEdit_2.toPlainText()
-            print(mytext.encode())
+            mytext = self.send_data_text.toPlainText()
+            #print(mytext.encode())
             SERIAL_INFO.write(mytext.encode())
         else:
             self.print_message_on_screen(
