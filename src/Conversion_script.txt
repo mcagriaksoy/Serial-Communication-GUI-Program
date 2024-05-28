@@ -1,0 +1,1 @@
+python -m PyQt6.uic.pyuic -o .\ui_config.py -x .\main_window.ui

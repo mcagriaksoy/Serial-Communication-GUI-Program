@@ -6,7 +6,7 @@ Cannot be used directly, it is a part of main.py
 
 __author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
 __annotations__ = 'AFCOM - Serial Communication GUI Program'
-__version__ = '2024.04'
+__version__ = '2024.05'
 __license__ = 'MIT'
 __status__ = 'Research'
 
@@ -86,9 +86,10 @@ class Worker(QObject):
         while self.working:
             try:
                 char = SERIAL_INFO.read()
-                h = char.hex()
+                h = char.decode('utf-8')
                 self.serial_data.emit(h)
-            except SerialException:
+            except SerialException as e:
+                print(e)
                 # Emit last error message before die!
                 self.serial_data.emit("ERROR_SERIAL_EXCEPTION")
                 self.working = False
@@ -206,13 +207,19 @@ class MainWindow(QMainWindow):
         length = self.len_comboBox.currentText()
         parity = self.parity_comboBox.currentText()
         stopbits = self.bit_comboBox.currentText()
+        global SERIAL_INFO
         SERIAL_INFO = serial.Serial(port=str(port),
                                     baudrate=int(baudrate, base=10),
                                     timeout=float(timeout),
                                     bytesize=int(length, base=10),
-                                    parity=parity[0],  # get first character
-                                    stopbits=float(stopbits)
+                                    parity=serial.PARITY_NONE, #TODO: Fix this
+                                    stopbits=float(stopbits),
+                                    xonxoff = False,
+                                    rtscts = False,
+                                    dsrdtr = False,
                                     )
+        if SERIAL_INFO.isOpen() == False:
+            SERIAL_INFO.open()
 
     def start_loop(self):
         """ Start the loop """
@@ -233,7 +240,6 @@ class MainWindow(QMainWindow):
             return
 
         is_serial_port_established = True
-
         try:
             self.worker = Worker()   # a new worker to perform those tasks
             self.thread = QThread()  # a new thread to run our background tasks in
