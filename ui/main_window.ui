@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>926</width>
-    <height>574</height>
+    <height>579</height>
    </rect>
   </property>
   <property name="cursor">
@@ -54,8 +54,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>731</width>
-        <height>521</height>
+        <width>721</width>
+        <height>511</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
@@ -241,7 +241,7 @@
        <rect>
         <x>70</x>
         <y>520</y>
-        <width>501</width>
+        <width>491</width>
         <height>31</height>
        </rect>
       </property>
@@ -290,38 +290,6 @@
         </widget>
        </item>
       </layout>
-     </widget>
-     <widget class="QPushButton" name="save_txt_button">
-      <property name="geometry">
-       <rect>
-        <x>640</x>
-        <y>520</y>
-        <width>91</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Save as .txt</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="send_data_button">
-      <property name="geometry">
-       <rect>
-        <x>570</x>
-        <y>520</y>
-        <width>71</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>SEND</string>
-      </property>
      </widget>
      <widget class="QLabel" name="label_22">
       <property name="geometry">
@@ -620,6 +588,38 @@
        <string>↻</string>
       </property>
      </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>510</y>
+        <width>151</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="send_data_button">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>SEND</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="save_txt_button">
+         <property name="text">
+          <string>Save as .txt</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -651,19 +651,6 @@ p, li { white-space: pre-wrap; }
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>116</y>
-        <width>681</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Feel free to ask any questions or bug report on: https://github.com/mcagriaksoy/Serial-Communication-GUI-Program</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
@@ -674,7 +661,23 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="text">
-       <string>Version 2024.04</string>
+       <string>Version 2024.07</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>110</y>
+        <width>281</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/mcagriaksoy/Serial-Communication-GUI-Program&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Github&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Feel free to ask any questions or bug report on &lt;a href=&quot;https://github.com/mcagriaksoy/Serial-Communication-GUI-Program&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Github&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </widget>
