@@ -1,4 +1,17 @@
-![AFCOM Icon](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/icon.png)
+```
+
+ .----------------.  .----------------.  .----------------.  .----------------.  .----------------. 
+| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
+| |      __      | || |  _________   | || |     ______   | || |     ____     | || | ____    ____ | |
+| |     /  \     | || | |_   ___  |  | || |   .' ___  |  | || |   .'    `.   | || ||_   \  /   _|| |
+| |    / /\ \    | || |   | |_  \_|  | || |  / .'   \_|  | || |  /  .--.  \  | || |  |   \/   |  | |
+| |   / ____ \   | || |   |  _|      | || |  | |         | || |  | |    | |  | || |  | |\  /| |  | |
+| | _/ /    \ \_ | || |  _| |_       | || |  \ `.___.'\  | || |  \  `--'  /  | || | _| |_\/_| |_ | |
+| ||____|  |____|| || | |_____|      | || |   `._____.'  | || |   `.____.'   | || ||_____||_____|| |
+| |              | || |              | || |              | || |              | || |              | |
+| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
+ '----------------'  '----------------'  '----------------'  '----------------'  '----------------' 
+```
 
 The AFCOM (aka Serial communication GUI program) tool is a software application that allows users to send and receive data via the serial port (COM port) of their computer.
 The tool can be used for various purposes, such as testing, debugging, or communicating with other devices that use the serial protocol.
@@ -66,3 +79,5 @@ pyinstaller --noconfirm --onefile --windowed --icon "img/icon.ico"  "src/main.py
 </div>
 <h2>License</h2>
 Released under <a href="/LICENSE">MIT</a> by <a href="https://github.com/mcagriaksoy">@mcagriaksoy</a>.
+
+![AFCOM Icon](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/icon.png)
