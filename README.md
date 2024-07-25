@@ -73,9 +73,12 @@ If you have any questions or feedback, please contact me.
 </div>
 <h2>Executable Command</h2>
 The following command have been used to create AFCOM.exe
+
 ```
-pyinstaller --noconfirm --onefile --windowed --icon "img/icon.ico"  "src/main.py"
+pyinstaller --noconfirm --onefile --windowed --icon "ui/icon.ico"  "src/main.py"
+
 ```
+
 </div>
 <h2>License</h2>
 Released under <a href="/LICENSE">MIT</a> by <a href="https://github.com/mcagriaksoy">@mcagriaksoy</a>.
