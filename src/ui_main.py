@@ -127,6 +127,8 @@ class MainWindow(QMainWindow):
         self.saved_command_3.clicked.connect(self.move_command3_to_text)
         self.saved_command_4.clicked.connect(self.move_command4_to_text)
 
+        self.clear_buffer_button.clicked.connect(self.clear_buffer)
+
         self.port_comboBox.addItems(PORTS)
 
         self.send_data_button.clicked.connect(
@@ -207,16 +209,50 @@ class MainWindow(QMainWindow):
         length = self.len_comboBox.currentText()
         parity = self.parity_comboBox.currentText()
         stopbits = self.bit_comboBox.currentText()
+        flowControl = self.flow_comboBox.currentText()
+
+        if parity == "None":
+            _parity = serial.PARITY_NONE
+        elif parity == "Even":
+            _parity = serial.PARITY_EVEN
+        elif parity == "Odd":
+            _parity = serial.PARITY_ODD
+        elif parity == "Mark":
+            _parity = serial.PARITY_MARK
+        elif parity == "Space":
+            _parity = serial.PARITY_SPACE
+        else:
+            self.print_message_on_screen("Parity Error!")
+
+        if flowControl == "None":
+            _xonxoff = False
+            _rtscts = False
+            _dsrdtr = False
+        elif flowControl == "Xon/Xoff":
+            _xonxoff = True
+            _rtscts = False
+            _dsrdtr = False
+        elif flowControl == "RTS/CTS":
+            _xonxoff = False
+            _rtscts = True
+            _dsrdtr = False
+        elif flowControl == "DSR/DTR":
+            _xonxoff = False
+            _rtscts = False
+            _dsrdtr = True
+        else:
+            self.print_message_on_screen("Flow Control Error!")
+        
         global SERIAL_INFO
         SERIAL_INFO = serial.Serial(port=str(port),
                                     baudrate=int(baudrate, base=10),
                                     timeout=float(timeout),
                                     bytesize=int(length, base=10),
-                                    parity=serial.PARITY_NONE, #TODO: Fix this
+                                    parity=_parity,
                                     stopbits=float(stopbits),
-                                    xonxoff = False,
-                                    rtscts = False,
-                                    dsrdtr = False,
+                                    xonxoff = _xonxoff,
+                                    rtscts = _rtscts,
+                                    dsrdtr = _dsrdtr,
                                     )
         if SERIAL_INFO.isOpen() == False:
             SERIAL_INFO.open()
@@ -256,6 +292,7 @@ class MainWindow(QMainWindow):
             self.worker.finished.connect(self.worker.deleteLater)
             # have thread mark itself for deletion
             self.thread.finished.connect(self.thread.deleteLater)
+            # start the thread
             self.thread.start()
         except RuntimeError:
             self.print_message_on_screen("Exception in Worker Thread!")
@@ -264,6 +301,11 @@ class MainWindow(QMainWindow):
         """ Stop the loop """
         self.worker.working = False
         self.options_textEdit.setText('Stopped!')
+    
+    def clear_buffer(self):
+        """ Clear the buffer """
+        self.data_textEdit.clear()
+        self.send_data_text.clear()
 
     def read_data_from_thread(self, serial_data):
         """ Write the result to the text edit box"""
@@ -281,11 +323,13 @@ class MainWindow(QMainWindow):
             self.port_comboBox.setEnabled(False)
             self.parity_comboBox.setEnabled(False)
             self.bit_comboBox.setEnabled(False)
+            self.flow_comboBox.setEnabled(False)
             self.start_button.setEnabled(False)
 
             self.options_textEdit.setText('Data Gathering...')
             self.status_label.setText("CONNECTED!")
             self.status_label.setStyleSheet('color: green')
+            serial_data = serial_data.replace('\n', '')
             self.data_textEdit.insertPlainText("{}".format(serial_data))
 
     def on_save_txt_button_clicked(self):
@@ -299,12 +343,15 @@ class MainWindow(QMainWindow):
         """ Stop the process """
         is_serial_port_established = False
         self.options_textEdit.setText('Stopped!')
+        self.status_label.setText("DISCONNECTED!")
+        self.status_label.setStyleSheet('color: red')
         self.timeout_comboBox.setEnabled(True)
         self.baudrate_comboBox.setEnabled(True)
         self.len_comboBox.setEnabled(True)
         self.port_comboBox.setEnabled(True)
         self.parity_comboBox.setEnabled(True)
         self.bit_comboBox.setEnabled(True)
+        self.flow_comboBox.setEnabled(True)
         self.start_button.setEnabled(True)
 
     def on_send_data_button_clicked(self):

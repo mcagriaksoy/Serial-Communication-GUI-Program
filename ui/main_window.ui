@@ -239,9 +239,9 @@
      <widget class="QTextEdit" name="send_data_text">
       <property name="geometry">
        <rect>
-        <x>70</x>
+        <x>60</x>
         <y>520</y>
-        <width>491</width>
+        <width>501</width>
         <height>31</height>
        </rect>
       </property>
@@ -294,9 +294,9 @@
      <widget class="QLabel" name="label_22">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>10</x>
         <y>520</y>
-        <width>71</width>
+        <width>41</width>
         <height>31</height>
        </rect>
       </property>
@@ -537,10 +537,10 @@
         </widget>
        </item>
        <item row="6" column="1">
-        <widget class="QComboBox" name="bit_comboBox_2">
+        <widget class="QComboBox" name="flow_comboBox">
          <item>
           <property name="text">
-           <string>none</string>
+           <string>None</string>
           </property>
          </item>
          <item>
@@ -593,7 +593,7 @@
        <rect>
         <x>570</x>
         <y>510</y>
-        <width>151</width>
+        <width>158</width>
         <height>41</height>
        </rect>
       </property>
@@ -607,7 +607,7 @@
           </font>
          </property>
          <property name="text">
-          <string>SEND</string>
+          <string>↑ SEND ↑</string>
          </property>
         </widget>
        </item>
@@ -619,6 +619,19 @@
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QPushButton" name="clear_buffer_button">
+      <property name="geometry">
+       <rect>
+        <x>830</x>
+        <y>530</y>
+        <width>91</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Clear Buffer ⎚</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
@@ -669,7 +682,7 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>90</x>
         <y>110</y>
-        <width>281</width>
+        <width>331</width>
         <height>16</height>
        </rect>
       </property>
