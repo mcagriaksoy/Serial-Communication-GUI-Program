@@ -85,6 +85,6 @@ pyinstaller --noconfirm --onefile --windowed --icon "ui/icon.ico"  "src/main.py"
 
 </div>
 <h2>License</h2>
-Released under <a href="/LICENSE">MIT</a> by <a href="https://github.com/mcagriaksoy">@mcagriaksoy</a>.
+Released under <a href="/LICENSE">GNU General Public License v3.0</a> by <a href="https://github.com/mcagriaksoy">@mcagriaksoy</a>.
 
 ![AFCOM Icon](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/icon.png)
