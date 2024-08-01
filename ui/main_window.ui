@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>926</width>
-    <height>579</height>
+    <width>929</width>
+    <height>580</height>
    </rect>
   </property>
   <property name="cursor">
@@ -81,10 +81,13 @@
         <x>900</x>
         <y>390</y>
         <width>21</width>
-        <height>135</height>
+        <height>132</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMaximumSize</enum>
+       </property>
        <item>
         <widget class="QPushButton" name="command_edit_1">
          <property name="minimumSize">
@@ -145,7 +148,7 @@
         <x>730</x>
         <y>390</y>
         <width>171</width>
-        <height>135</height>
+        <height>141</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -210,6 +213,12 @@
              <bold>true</bold>
             </font>
            </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:rgb(255, 102, 14)</string>
+           </property>
            <property name="locale">
             <locale language="English" country="UnitedStates"/>
            </property>
@@ -227,6 +236,12 @@
              <bold>true</bold>
             </font>
            </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:rgb(180, 255, 66)</string>
+           </property>
            <property name="text">
             <string>START</string>
            </property>
@@ -241,7 +256,7 @@
        <rect>
         <x>60</x>
         <y>520</y>
-        <width>501</width>
+        <width>431</width>
         <height>31</height>
        </rect>
       </property>
@@ -572,7 +587,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Settings:           Refresh:</string>
+       <string>Settings:                   Refresh:</string>
       </property>
      </widget>
      <widget class="QPushButton" name="refresh_button">
@@ -591,13 +606,19 @@
      <widget class="QWidget" name="horizontalLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>570</x>
-        <y>510</y>
-        <width>158</width>
-        <height>41</height>
+        <x>500</x>
+        <y>520</y>
+        <width>221</width>
+        <height>31</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMaximumSize</enum>
+       </property>
        <item>
         <widget class="QPushButton" name="send_data_button">
          <property name="font">
@@ -606,32 +627,89 @@
            <bold>true</bold>
           </font>
          </property>
+         <property name="toolTip">
+          <string>Send the data via serial port</string>
+         </property>
+         <property name="statusTip">
+          <string>Send the data via serial port</string>
+         </property>
+         <property name="whatsThis">
+          <string>Send the data via serial port</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(255, 255, 255, 255), stop:0.495 rgba(255, 255, 255, 255), stop:0.505 rgba(255, 0, 0, 255), stop:1 rgba(255, 0, 0, 255)</string>
+         </property>
          <property name="text">
-          <string>↑ SEND ↑</string>
+          <string>↑ SEND</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="save_txt_button">
+         <property name="toolTip">
+          <string>Save the output</string>
+         </property>
+         <property name="statusTip">
+          <string>Save the output</string>
+         </property>
+         <property name="whatsThis">
+          <string>Save the output</string>
+         </property>
          <property name="text">
           <string>Save as .txt</string>
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="view_change">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>Click Here to go to the Simple View</string>
+         </property>
+         <property name="statusTip">
+          <string>Click Here to go to the Simple View</string>
+         </property>
+         <property name="whatsThis">
+          <string>Click Here to go to the Simple View</string>
+         </property>
+         <property name="text">
+          <string>&lt;&lt;</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="clear_buffer_button">
+     <widget class="QWidget" name="horizontalLayoutWidget_2">
       <property name="geometry">
        <rect>
-        <x>830</x>
+        <x>730</x>
         <y>530</y>
-        <width>91</width>
-        <height>23</height>
+        <width>191</width>
+        <height>25</height>
        </rect>
       </property>
-      <property name="text">
-       <string>Clear Buffer ⎚</string>
-      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="night_mode">
+         <property name="text">
+          <string>🌘 Night Mode</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="clear_buffer_button">
+         <property name="text">
+          <string>Clear Buffer ⎚</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
@@ -641,10 +719,10 @@
      <widget class="QTextEdit" name="textEdit_3">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>30</y>
-        <width>681</width>
-        <height>71</height>
+        <x>60</x>
+        <y>70</y>
+        <width>521</width>
+        <height>131</height>
        </rect>
       </property>
       <property name="undoRedoEnabled">
@@ -667,8 +745,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
-        <x>820</x>
-        <y>530</y>
+        <x>490</x>
+        <y>200</y>
         <width>101</width>
         <height>16</height>
        </rect>
@@ -680,8 +758,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>110</y>
+        <x>130</x>
+        <y>200</y>
         <width>331</width>
         <height>16</height>
        </rect>

@@ -42,6 +42,8 @@ except ImportError as e:
 SERIAL_INFO = Serial()
 PORTS = []
 is_serial_port_established = False
+nightModeEnabled = False
+simpleViewEnabled = False
 
 def get_serial_port():
     """ Lists serial port names
@@ -129,12 +131,42 @@ class MainWindow(QMainWindow):
 
         self.clear_buffer_button.clicked.connect(self.clear_buffer)
 
+        self.night_mode.clicked.connect(self.night_mode_clicked)
+        self.view_change.clicked.connect(self.view_changes)
+
         self.port_comboBox.addItems(PORTS)
 
         self.send_data_button.clicked.connect(
             self.on_send_data_button_clicked)
 
         self.end_button.clicked.connect(self.on_end_button_clicked)
+    
+    def view_changes(self):
+        """ Change the window size """
+        global simpleViewEnabled
+        # Change the window size
+        if simpleViewEnabled == False:
+            self.resize(726, 580)
+            self.view_change.setText(">>")
+            simpleViewEnabled = True
+        else:
+            self.resize(929, 580)
+            self.view_change.setText("<<")
+            simpleViewEnabled = False
+
+    def night_mode_clicked(self):
+        """ Night Mode """
+        #define static variable
+        global nightModeEnabled
+
+        if nightModeEnabled == False:
+            self.data_textEdit.setStyleSheet("background-color: black; color: white;")
+            self.night_mode.setText("Day Mode")
+            nightModeEnabled = True
+        else:
+            self.data_textEdit.setStyleSheet("background-color: white; color: black;")
+            self.night_mode.setText("🌘 Night Mode")
+            nightModeEnabled = False
 
     def command1(self):
         """ Open the text input popup to save command for button 1 """
