@@ -1,0 +1,9 @@
+{
+    "files": [
+        "main.py",
+        "src/ui_config.py",
+        "src/ui_main.py",
+        "ui/icon.ico",
+        "ui/main_window.ui"
+    ]
+}

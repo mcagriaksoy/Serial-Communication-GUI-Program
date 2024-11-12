@@ -104,7 +104,7 @@ class MainWindow(QMainWindow):
         """ Initialize Main Window """
         super(MainWindow, self).__init__()
         if PROGRAM_TYPE_DEBUG:
-            file_path = path.join("../ui/main_window.ui")
+            file_path = path.join("ui/main_window.ui")
             if not path.exists(file_path):
                 print("UI File Not Found!")
                 exit(1)

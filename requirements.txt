@@ -1,5 +1,4 @@
-# Project related dependencies
-PyQt6
+PySide6
 PyQt6_sip
 pyserial
 
