@@ -14,4 +14,5 @@ __status__ = "Production"
 from src.ui_main import start_ui_design
 
 if __name__ == "__main__":
+    print("AFCOM - Serial Communication GUI Program")
     start_ui_design()

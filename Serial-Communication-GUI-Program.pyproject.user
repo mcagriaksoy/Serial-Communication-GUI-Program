@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 14.0.2, 2024-11-20T15:03:13. -->
+<!-- Written by QtCreator 14.0.2, 2024-12-04T10:44:32. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -171,10 +171,8 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.C:/Projects/Qt_playground/Serial-Communication-GUI-Program/src/ui_config.py</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Projects/Qt_playground/Serial-Communication-GUI-Program/src/ui_config.py</value>
     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">true</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Projects\Qt_playground\Serial-Communication-GUI-Program\src\ui_config.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Projects/Qt_playground/Serial-Communication-GUI-Program/src</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.2">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>

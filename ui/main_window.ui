@@ -95,6 +95,12 @@
          <property name="frameShadow">
           <enum>QFrame::Shadow::Raised</enum>
          </property>
+         <property name="autoFormatting">
+          <set>QTextEdit::AutoFormattingFlag::AutoAll</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>
@@ -660,32 +666,18 @@
          <property name="frameShadow">
           <enum>QFrame::Shadow::Plain</enum>
          </property>
+         <property name="acceptRichText">
+          <bool>false</bool>
+         </property>
          <property name="placeholderText">
           <string>Please enter the data want to sent...</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="send_data_button">
-         <property name="font">
-          <font>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="toolTip">
-          <string>Send the data via serial port</string>
-         </property>
-         <property name="statusTip">
-          <string>Send the data via serial port</string>
-         </property>
-         <property name="whatsThis">
-          <string>Send the data via serial port</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(255, 255, 255, 255), stop:0.495 rgba(255, 255, 255, 255), stop:0.505 rgba(255, 0, 0, 255), stop:1 rgba(255, 0, 0, 255)</string>
-         </property>
+        <widget class="QPushButton" name="send_button">
          <property name="text">
-          <string>↑ SEND</string>
+          <string>SEND</string>
          </property>
         </widget>
        </item>

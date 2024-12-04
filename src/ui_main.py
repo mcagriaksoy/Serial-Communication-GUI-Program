@@ -6,8 +6,8 @@ Cannot be used directly, it is a part of main.py
 
 __author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
 __annotations__ = 'AFCOM - Serial Communication GUI Program'
-__version__ = '2024.05'
-__license__ = 'MIT'
+__version__ = '2024.12'
+__license__ = 'JGPLv3'
 __status__ = 'Research'
 
 # IMPORTS
@@ -16,30 +16,30 @@ from sys import platform, exit, argv
 from glob import glob
 
 # Runtime Type Checking
-PROGRAM_TYPE_DEBUG = 1
-PROGRAM_TYPE_RELEASE = 0
+PROGRAM_TYPE_DEBUG = False
+PROGRAM_TYPE_RELEASE = True
 
 try:
     import serial.tools.list_ports
     from serial import SerialException, Serial
 except ImportError as e:
     print("Import Error! I am installing the PySerial library.")
-    system("python -m pip install pyserial")
+    #system("python -m pip install pyserial")
 
 try:
     from PyQt6.QtCore import QObject, QThread, pyqtSignal
-    from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QInputDialog
+    from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QInputDialog, QFileDialog
 
     if (PROGRAM_TYPE_DEBUG):
         from PyQt6.uic import loadUi
     else:  # PROGRAM_TYPE_RELEASE
-        from ui_config import Ui_main_window
+        from ui.ui_main_window import Ui_main_window
 except ImportError as e:
     print("Import Error! I am installing the required libraries: " + str(e))
-    system("pip install {0}".format(str(e).split(" ")[-1]))
+    #system("pip install {0}".format(str(e).split(" ")[-1]))
 
 # GLOBAL VARIABLES
-SERIAL_INFO = Serial()
+SERIAL_DEVICE = Serial()
 PORTS = []
 is_serial_port_established = False
 nightModeEnabled = False
@@ -56,7 +56,6 @@ def get_serial_port():
     if platform.startswith('win'):
         ports = ['COM%s' % (i + 1) for i in range(256)]
     elif platform.startswith('linux') or platform.startswith('cygwin'):
-        # this excludes your current terminal "/dev/tty"
         ports = glob('/dev/tty[A-Za-z]*')
     elif platform.startswith('darwin'):
         ports = glob('/dev/tty.*')
@@ -69,7 +68,7 @@ def get_serial_port():
             s = Serial(port)
             s.close()
             result.append(port)
-        except SerialException:
+        except (OSError, SerialException):
             pass
     return result
 
@@ -87,7 +86,7 @@ class Worker(QObject):
         """ Read data from serial port """
         while self.working:
             try:
-                char = SERIAL_INFO.read()
+                char = SERIAL_DEVICE.read()
                 h = char.decode('utf-8')
                 self.serial_data.emit(h)
             except SerialException as e:
@@ -108,38 +107,41 @@ class MainWindow(QMainWindow):
             if not path.exists(file_path):
                 print("UI File Not Found!")
                 exit(1)
-            loadUi(file_path, self)  # Load the .ui file
-            self.show()  # Show the GUI
+            loadUi(file_path, self.ui)  # Load the .ui file
+            self.ui.show()  # Show the GUI
+        else:  # PROGRAM_TYPE_RELEASE
+            print("UI File Found!")
+            self.ui= Ui_main_window()
+            self.ui.setupUi(self)
 
         PORTS = get_serial_port()
 
         self.thread = None
         self.worker = None
 
-        self.start_button.clicked.connect(self.start_loop)
-        self.refresh_button.clicked.connect(self.refresh_port)
+        self.ui.start_button.clicked.connect(self.start_loop)
+        self.ui.refresh_button.clicked.connect(self.refresh_port)
 
-        self.command_edit_1.clicked.connect(self.command1)
-        self.command_edit_2.clicked.connect(self.command2)
-        self.command_edit_3.clicked.connect(self.command3)
-        self.command_edit_4.clicked.connect(self.command4)
+        self.ui.command_edit_1.clicked.connect(self.command1)
+        self.ui.command_edit_2.clicked.connect(self.command2)
+        self.ui.command_edit_3.clicked.connect(self.command3)
+        self.ui.command_edit_4.clicked.connect(self.command4)
 
-        self.saved_command_1.clicked.connect(self.move_command1_to_text)
-        self.saved_command_2.clicked.connect(self.move_command2_to_text)
-        self.saved_command_3.clicked.connect(self.move_command3_to_text)
-        self.saved_command_4.clicked.connect(self.move_command4_to_text)
+        self.ui.saved_command_1.clicked.connect(self.move_command1_to_text)
+        self.ui.saved_command_2.clicked.connect(self.move_command2_to_text)
+        self.ui.saved_command_3.clicked.connect(self.move_command3_to_text)
+        self.ui.saved_command_4.clicked.connect(self.move_command4_to_text)
 
-        self.clear_buffer_button.clicked.connect(self.clear_buffer)
+        self.ui.clear_buffer_button.clicked.connect(self.clear_buffer)
 
-        self.night_mode.clicked.connect(self.night_mode_clicked)
-        self.view_change.clicked.connect(self.view_changes)
+        self.ui.night_mode.clicked.connect(self.night_mode_clicked)
+        self.ui.view_change.clicked.connect(self.view_changes)
 
-        self.port_comboBox.addItems(PORTS)
+        self.ui.port_comboBox.addItems(PORTS)
 
-        self.send_data_button.clicked.connect(
-            self.on_send_data_button_clicked)
+        self.ui.send_button.clicked.connect(self.on_send_data_button_clicked)
 
-        self.end_button.clicked.connect(self.on_end_button_clicked)
+        self.ui.end_button.clicked.connect(self.on_end_button_clicked)
     
     def view_changes(self):
         """ Change the window size """
@@ -147,11 +149,11 @@ class MainWindow(QMainWindow):
         # Change the window size
         if simpleViewEnabled == False:
             self.resize(726, 580)
-            self.view_change.setText(">>")
+            self.ui.view_change.setText(">>")
             simpleViewEnabled = True
         else:
             self.resize(929, 580)
-            self.view_change.setText("<<")
+            self.ui.view_change.setText("<<")
             simpleViewEnabled = False
 
     def night_mode_clicked(self):
@@ -162,13 +164,13 @@ class MainWindow(QMainWindow):
         # Invert all colors
         if nightModeEnabled == False:
             self.setStyleSheet("background-color: #2C2F33; color: #FFFFFF;")
-            self.night_mode.setText("🌘 Day Mode")
-            self.tabWidget.setStyleSheet("QWidget { background-color: #2C2F33; color: #FFFFFF; } QTabBar::tab { background: #2C2F33; color: #FFFFFF; }")
+            self.ui.night_mode.setText("🌘 Day Mode")
+            self.ui.tabWidget.setStyleSheet("QWidget { background-color: #2C2F33; color: #FFFFFF; } QTabBar::tab { background: #2C2F33; color: #FFFFFF; }")
             nightModeEnabled = True
         else:
             self.setStyleSheet("background-color: #FFFFFF; color: #000000;")
-            self.night_mode.setText("🌘 Night Mode")
-            self.tabWidget.setStyleSheet("QWidget { background-color: #FFFFFF; color: #000000; } QTabBar::tab { background: #FFFFFF; color: #000000; }")
+            self.ui.night_mode.setText("🌘 Night Mode")
+            self.ui.tabWidget.setStyleSheet("QWidget { background-color: #FFFFFF; color: #000000; } QTabBar::tab { background: #FFFFFF; color: #000000; }")
             nightModeEnabled = False
         
 
@@ -195,39 +197,39 @@ class MainWindow(QMainWindow):
             self, 'Set your command', 'Please enter the command that you want to save:')
         if ok:
             if button_number == 1:
-                self.saved_command_1.setText(str(text))
+                self.ui.saved_command_1.setText(str(text))
             elif button_number == 2:
-                self.saved_command_2.setText(str(text))
+                self.ui.saved_command_2.setText(str(text))
             elif button_number == 3:
-                self.saved_command_3.setText(str(text))
+                self.ui.saved_command_3.setText(str(text))
             elif button_number == 4:
-                self.saved_command_4.setText(str(text))
+                self.ui.saved_command_4.setText(str(text))
 
     def move_command1_to_text(self):
         """ Move the saved command to the text box """
-        self.textEdit_5.setText(self.saved_command_1.text())
+        self.ui.send_data_text.setText(self.ui.saved_command_1.text())
         self.on_send_data_button_clicked()
 
     def move_command2_to_text(self):
         """ Move the saved command to the text box """
-        self.textEdit_5.setText(self.saved_command_2.text())
+        self.ui.send_data_text.setText(self.ui.saved_command_2.text())
         self.on_send_data_button_clicked()
 
     def move_command3_to_text(self):
         """ Move the saved command to the text box """
-        self.textEdit_5.setText(self.saved_command_3.text())
+        self.ui.send_data_text.setText(self.ui.saved_command_3.text())
         self.on_send_data_button_clicked()
 
     def move_command4_to_text(self):
         """ Move the saved command to the text box """
-        self.textEdit_5.setText(self.saved_command_4.text())
+        self.ui.send_data_text.setText(self.ui.saved_command_4.text())
         self.on_send_data_button_clicked()
 
     def refresh_port(self):
         """ Refresh the serial port list """
         PORTS = get_serial_port()
-        self.port_comboBox.clear()
-        self.port_comboBox.addItems(PORTS)
+        self.ui.port_comboBox.clear()
+        self.ui.port_comboBox.addItems(PORTS)
 
     def print_message_on_screen(self, text):
         """ Print the message on the screen """
@@ -239,13 +241,13 @@ class MainWindow(QMainWindow):
 
     def establish_serial_communication(self):
         """ Establish serial communication """
-        port = self.port_comboBox.currentText()
-        baudrate = self.baudrate_comboBox.currentText()
-        timeout = self.timeout_comboBox.currentText()
-        length = self.len_comboBox.currentText()
-        parity = self.parity_comboBox.currentText()
-        stopbits = self.bit_comboBox.currentText()
-        flowControl = self.flow_comboBox.currentText()
+        port = self.ui.port_comboBox.currentText()
+        baudrate = self.ui.baudrate_comboBox.currentText()
+        timeout = self.ui.timeout_comboBox.currentText()
+        length = self.ui.len_comboBox.currentText()
+        parity = self.ui.parity_comboBox.currentText()
+        stopbits = self.ui.bit_comboBox.currentText()
+        flowControl = self.ui.flow_comboBox.currentText()
 
         if parity == "None":
             _parity = serial.PARITY_NONE
@@ -279,8 +281,8 @@ class MainWindow(QMainWindow):
         else:
             self.print_message_on_screen("Flow Control Error!")
         
-        global SERIAL_INFO
-        SERIAL_INFO = serial.Serial(port=str(port),
+        global SERIAL_DEVICE
+        SERIAL_DEVICE = serial.Serial(port=str(port),
                                     baudrate=int(baudrate, base=10),
                                     timeout=float(timeout),
                                     bytesize=int(length, base=10),
@@ -290,18 +292,18 @@ class MainWindow(QMainWindow):
                                     rtscts = _rtscts,
                                     dsrdtr = _dsrdtr,
                                     )
-        if SERIAL_INFO.isOpen() == False:
-            SERIAL_INFO.open()
+        if SERIAL_DEVICE.isOpen() == False:
+            SERIAL_DEVICE.open()
 
     def start_loop(self):
         """ Start the loop """
-        self.port_comboBox.setStyleSheet('background-color: white')
+        self.ui.port_comboBox.setStyleSheet('background-color: white')
 
         # If the serial port is not selected, print a message
-        if self.port_comboBox.currentText() == "":
+        if self.ui.port_comboBox.currentText() == "":
             self.print_message_on_screen("Please select a serial port first!")
             # Set port_comboBox background color to red
-            self.port_comboBox.setStyleSheet('background-color: red')
+            self.ui.port_comboBox.setStyleSheet('background-color: red')
             return
 
         try:
@@ -311,6 +313,7 @@ class MainWindow(QMainWindow):
                 "Exception occured while trying establish serial communication!")
             return
 
+        global is_serial_port_established
         is_serial_port_established = True
         try:
             self.worker = Worker()   # a new worker to perform those tasks
@@ -321,7 +324,7 @@ class MainWindow(QMainWindow):
             self.thread.started.connect(self.worker.work)
             self.worker.serial_data.connect(self.read_data_from_thread)
             # stop the loop on the stop button click
-            self.end_button.clicked.connect(self.stop_loop)
+            self.ui.end_button.clicked.connect(self.stop_loop)
             # tell the thread it's time to stop running
             self.worker.finished.connect(self.thread.quit)
             # have worker mark itself for deletion
@@ -336,77 +339,85 @@ class MainWindow(QMainWindow):
     def stop_loop(self):
         """ Stop the loop """
         self.worker.working = False
-        self.options_textEdit.setText('Stopped!')
+        self.ui.options_textEdit.setText('Stopped!')
+        # Disconnect the serial port and close it
+        SERIAL_DEVICE.close()
+
     
     def clear_buffer(self):
         """ Clear the buffer """
-        self.data_textEdit.clear()
-        self.send_data_text.clear()
+        self.ui.data_textEdit.clear()
+        self.ui.send_data_text.clear()
 
     def read_data_from_thread(self, serial_data):
         """ Write the result to the text edit box"""
-        # self.data_textEdit.append("{}".format(i))
+        # self.ui.data_textEdit.append("{}".format(i))
         if "ERROR_SERIAL_EXCEPTION" in serial_data:
             self.print_message_on_screen(
                 "Serial Port Exception! Please check the serial port"
                 " Possibly it is not connected or the port is not available!")
-            self.status_label.setText("NOT CONNECTED!")
-            self.status_label.setStyleSheet('color: red')
+            self.ui.status_label.setText("NOT CONNECTED!")
+            self.ui.status_label.setStyleSheet('color: red')
         else:
-            self.timeout_comboBox.setEnabled(False)
-            self.baudrate_comboBox.setEnabled(False)
-            self.len_comboBox.setEnabled(False)
-            self.port_comboBox.setEnabled(False)
-            self.parity_comboBox.setEnabled(False)
-            self.bit_comboBox.setEnabled(False)
-            self.flow_comboBox.setEnabled(False)
-            self.start_button.setEnabled(False)
+            self.ui.timeout_comboBox.setEnabled(False)
+            self.ui.baudrate_comboBox.setEnabled(False)
+            self.ui.len_comboBox.setEnabled(False)
+            self.ui.port_comboBox.setEnabled(False)
+            self.ui.parity_comboBox.setEnabled(False)
+            self.ui.bit_comboBox.setEnabled(False)
+            self.ui.flow_comboBox.setEnabled(False)
+            self.ui.start_button.setEnabled(False)
 
-            self.options_textEdit.setText('Data Gathering...')
-            self.status_label.setText("CONNECTED!")
-            self.status_label.setStyleSheet('color: green')
+            self.ui.options_textEdit.setText('Data Gathering...')
+            self.ui.status_label.setText("CONNECTED!")
+            self.ui.status_label.setStyleSheet('color: green')
             serial_data = serial_data.replace('\n', '')
-            self.data_textEdit.insertPlainText("{}".format(serial_data))
+            self.ui.data_textEdit.insertPlainText("{}".format(serial_data))
+            self.ui.data_textEdit.verticalScrollBar().setValue(
+                self.ui.data_textEdit.verticalScrollBar().maximum())
 
     def on_save_txt_button_clicked(self):
         """ Save the values to the TXT file"""
-        with open('Output.txt', 'w', encoding='utf-8') as f:
-            my_text = self.data_textEdit.toPlainText()
-            f.write(my_text)
-            f.close()
+        # Open file dialog to create new .txt file
+        file_name, _ = QFileDialog.getSaveFileName(
+            self, 'Save File', '', 'Text Files (*.txt)')
+        if file_name:
+            with open(file_name, 'w') as file:
+                text = self.ui.data_textEdit.toPlainText()
+                file.write(text)
+                file.close()
 
     def on_end_button_clicked(self):
         """ Stop the process """
+        global is_serial_port_established
         is_serial_port_established = False
-        self.options_textEdit.setText('Stopped!')
-        self.status_label.setText("DISCONNECTED!")
-        self.status_label.setStyleSheet('color: red')
-        self.timeout_comboBox.setEnabled(True)
-        self.baudrate_comboBox.setEnabled(True)
-        self.len_comboBox.setEnabled(True)
-        self.port_comboBox.setEnabled(True)
-        self.parity_comboBox.setEnabled(True)
-        self.bit_comboBox.setEnabled(True)
-        self.flow_comboBox.setEnabled(True)
-        self.start_button.setEnabled(True)
+        self.ui.options_textEdit.setText('Stopped!')
+        self.ui.status_label.setText("DISCONNECTED!")
+        self.ui.status_label.setStyleSheet('color: red')
+        self.ui.timeout_comboBox.setEnabled(True)
+        self.ui.baudrate_comboBox.setEnabled(True)
+        self.ui.len_comboBox.setEnabled(True)
+        self.ui.port_comboBox.setEnabled(True)
+        self.ui.parity_comboBox.setEnabled(True)
+        self.ui.bit_comboBox.setEnabled(True)
+        self.ui.flow_comboBox.setEnabled(True)
+        self.ui.start_button.setEnabled(True)
 
     def on_send_data_button_clicked(self):
         """ Send data to serial port """
         if (is_serial_port_established):
-            mytext = self.send_data_text.toPlainText()
-            #print(mytext.encode())
-            SERIAL_INFO.write(mytext.encode())
+            mytext = self.ui.send_data_text.toPlainText().encode('utf-8')
+            #SERIAL_DEVICE.flushInput()
+            #SERIAL_DEVICE.flushOutput()
+            SERIAL_DEVICE.write(mytext + b'\r')
         else:
             self.print_message_on_screen(
                 "Serial Port is not established yet! Please establish the serial port first!")
+        
 
 def start_ui_design():
     """ Start the UI Design """
     app = QApplication(argv)  # Create an instance
     window_object = MainWindow()  # Create an instance of our class
-
-    if PROGRAM_TYPE_RELEASE:
-        ui = Ui_main_window()
-        ui.setupUi(window_object)
-
-    app.exec()  # Start the application
+    window_object.show()
+    exit(app.exec())
