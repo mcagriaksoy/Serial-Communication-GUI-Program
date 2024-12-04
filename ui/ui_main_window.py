@@ -25,7 +25,7 @@ class Ui_main_window(object):
     def setupUi(self, main_window):
         if not main_window.objectName():
             main_window.setObjectName(u"main_window")
-        main_window.resize(966, 602)
+        main_window.resize(933, 595)
         main_window.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
         icon = QIcon()
         icon.addFile(u"icon.ico", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
@@ -39,7 +39,7 @@ class Ui_main_window(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
-        self.tabWidget.setGeometry(QRect(0, 0, 1101, 591))
+        self.tabWidget.setGeometry(QRect(0, 0, 931, 591))
         self.tabWidget.setTabPosition(QTabWidget.TabPosition.North)
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
@@ -62,7 +62,7 @@ class Ui_main_window(object):
 
         self.verticalLayoutWidget_5 = QWidget(self.tab)
         self.verticalLayoutWidget_5.setObjectName(u"verticalLayoutWidget_5")
-        self.verticalLayoutWidget_5.setGeometry(QRect(900, 390, 21, 132))
+        self.verticalLayoutWidget_5.setGeometry(QRect(900, 390, 21, 121))
         self.verticalLayout_5 = QVBoxLayout(self.verticalLayoutWidget_5)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setSizeConstraint(QLayout.SizeConstraint.SetMaximumSize)
@@ -93,7 +93,7 @@ class Ui_main_window(object):
 
         self.verticalLayoutWidget_6 = QWidget(self.tab)
         self.verticalLayoutWidget_6.setObjectName(u"verticalLayoutWidget_6")
-        self.verticalLayoutWidget_6.setGeometry(QRect(730, 390, 171, 141))
+        self.verticalLayoutWidget_6.setGeometry(QRect(730, 390, 171, 121))
         self.verticalLayout_6 = QVBoxLayout(self.verticalLayoutWidget_6)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
@@ -158,9 +158,6 @@ class Ui_main_window(object):
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_3)
 
-        self.send_data_text = QTextEdit(self.tab)
-        self.send_data_text.setObjectName(u"send_data_text")
-        self.send_data_text.setGeometry(QRect(50, 520, 441, 21))
         self.formLayoutWidget_3 = QWidget(self.tab)
         self.formLayoutWidget_3.setObjectName(u"formLayoutWidget_3")
         self.formLayoutWidget_3.setGeometry(QRect(730, 230, 191, 21))
@@ -184,9 +181,6 @@ class Ui_main_window(object):
 
         self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.status_label)
 
-        self.label_22 = QLabel(self.tab)
-        self.label_22.setObjectName(u"label_22")
-        self.label_22.setGeometry(QRect(0, 520, 51, 16))
         self.formLayoutWidget_4 = QWidget(self.tab)
         self.formLayoutWidget_4.setObjectName(u"formLayoutWidget_4")
         self.formLayoutWidget_4.setGeometry(QRect(732, 28, 191, 231))
@@ -305,12 +299,22 @@ class Ui_main_window(object):
         self.refresh_button.setGeometry(QRect(890, 0, 31, 28))
         self.horizontalLayoutWidget = QWidget(self.tab)
         self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
-        self.horizontalLayoutWidget.setGeometry(QRect(500, 520, 231, 31))
+        self.horizontalLayoutWidget.setGeometry(QRect(2, 522, 921, 31))
         self.horizontalLayout = QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setSpacing(2)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setSizeConstraint(QLayout.SizeConstraint.SetMaximumSize)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.label_22 = QLabel(self.horizontalLayoutWidget)
+        self.label_22.setObjectName(u"label_22")
+
+        self.horizontalLayout.addWidget(self.label_22)
+
+        self.send_data_text = QTextEdit(self.horizontalLayoutWidget)
+        self.send_data_text.setObjectName(u"send_data_text")
+
+        self.horizontalLayout.addWidget(self.send_data_text)
+
         self.send_data_button = QPushButton(self.horizontalLayoutWidget)
         self.send_data_button.setObjectName(u"send_data_button")
         font2 = QFont()
@@ -331,37 +335,31 @@ class Ui_main_window(object):
 
         self.horizontalLayout.addWidget(self.view_change)
 
-        self.horizontalLayoutWidget_2 = QWidget(self.tab)
-        self.horizontalLayoutWidget_2.setObjectName(u"horizontalLayoutWidget_2")
-        self.horizontalLayoutWidget_2.setGeometry(QRect(730, 530, 191, 27))
-        self.horizontalLayout_2 = QHBoxLayout(self.horizontalLayoutWidget_2)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.night_mode = QPushButton(self.horizontalLayoutWidget_2)
+        self.night_mode = QPushButton(self.horizontalLayoutWidget)
         self.night_mode.setObjectName(u"night_mode")
 
-        self.horizontalLayout_2.addWidget(self.night_mode)
+        self.horizontalLayout.addWidget(self.night_mode)
 
-        self.clear_buffer_button = QPushButton(self.horizontalLayoutWidget_2)
+        self.clear_buffer_button = QPushButton(self.horizontalLayoutWidget)
         self.clear_buffer_button.setObjectName(u"clear_buffer_button")
 
-        self.horizontalLayout_2.addWidget(self.clear_buffer_button)
+        self.horizontalLayout.addWidget(self.clear_buffer_button)
 
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
         self.textEdit_3 = QTextEdit(self.tab_2)
         self.textEdit_3.setObjectName(u"textEdit_3")
-        self.textEdit_3.setGeometry(QRect(60, 70, 521, 131))
+        self.textEdit_3.setGeometry(QRect(10, 10, 911, 491))
         self.textEdit_3.setUndoRedoEnabled(False)
         self.textEdit_3.setReadOnly(True)
         self.textEdit_3.setAcceptRichText(False)
         self.label_3 = QLabel(self.tab_2)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(490, 200, 101, 16))
+        self.label_3.setGeometry(QRect(590, 530, 101, 16))
         self.label_2 = QLabel(self.tab_2)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(130, 200, 331, 16))
+        self.label_2.setGeometry(QRect(150, 530, 331, 16))
         self.tabWidget.addTab(self.tab_2, "")
         main_window.setCentralWidget(self.centralwidget)
 
@@ -397,7 +395,6 @@ class Ui_main_window(object):
         self.start_button.setText(QCoreApplication.translate("main_window", u"START", None))
         self.label_8.setText(QCoreApplication.translate("main_window", u"Port Status :", None))
         self.status_label.setText(QCoreApplication.translate("main_window", u"Not Connected", None))
-        self.label_22.setText(QCoreApplication.translate("main_window", u"Tx Data:", None))
         self.label_16.setText(QCoreApplication.translate("main_window", u"Selected Port:", None))
         self.label_17.setText(QCoreApplication.translate("main_window", u"Baud Rate:", None))
         self.baudrate_comboBox.setItemText(0, QCoreApplication.translate("main_window", u"9600", None))
@@ -447,6 +444,7 @@ class Ui_main_window(object):
 
         self.label_46.setText(QCoreApplication.translate("main_window", u"Settings:                   Refresh:", None))
         self.refresh_button.setText(QCoreApplication.translate("main_window", u"\u21bb", None))
+        self.label_22.setText(QCoreApplication.translate("main_window", u"Tx Data:", None))
 #if QT_CONFIG(tooltip)
         self.send_data_button.setToolTip(QCoreApplication.translate("main_window", u"Send the data via serial port", None))
 #endif // QT_CONFIG(tooltip)
@@ -487,7 +485,25 @@ class Ui_main_window(object):
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt;\">The AFCOM (aka Serial communication GUI program) tool is a software application that allows users to send and receive data via the serial port (COM port) of their computer. The tool can be used for various purposes, such as testing, debugging, or communicating with other devices that use the serial protocol.</span></p></body></html>", None))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:700;\">Information</span></p>\n"
+"<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:"
+                        "0px;\"><span style=\" font-size:12pt;\">The AFCOM (aka Serial communication GUI program) tool is a software application that allows users to send and receive data via the serial port (COM port) of their computer. The tool can be used for various purposes, such as testing, debugging, or communicating with other devices that use the serial protocol. </span></p>\n"
+"<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:700;\">Features</span><span style=\" font-size:12pt;\"> </span></p>\n"
+"<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p>\n"
+"<p align=\"just"
+                        "ify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">The COM port tool has the following features: It supports multiple COM ports and can detect the available ports automatically. It allows users to configure the parameters of the serial communication, such as baud rate. It provides a user-friendly interface that shows the transmitted and received data in hexadecimal, decimal, ASCII, or binary formats. It allows users to save and load the data to and from files.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right"
+                        ":0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:700;\">Legal Information</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">This application incorporates Qt for Python (PySide), which is licensed under the GNU Lesser General Public License version 3 (LGPLv3). By using this software, you agree to comply with the terms of the LGPLv3 license. For more information about Qt for Python, visit https://www.qt.io/qt-for-python. A copy of the LGPLv3 license is included with this application.</span></p>\n"
+"<p align=\"justify\" style=\"-qt"
+                        "-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
         self.label_3.setText(QCoreApplication.translate("main_window", u"Version 2024.07", None))
 #if QT_CONFIG(tooltip)
         self.label_2.setToolTip(QCoreApplication.translate("main_window", u"<html><head/><body><p><a href=\"https://github.com/mcagriaksoy/Serial-Communication-GUI-Program\"><span style=\" text-decoration: underline; color:#0000ff;\">Github</span></a></p></body></html>", None))
