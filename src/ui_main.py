@@ -159,14 +159,18 @@ class MainWindow(QMainWindow):
         #define static variable
         global nightModeEnabled
 
+        # Invert all colors
         if nightModeEnabled == False:
-            self.data_textEdit.setStyleSheet("background-color: black; color: white;")
-            self.night_mode.setText("Day Mode")
+            self.setStyleSheet("background-color: #2C2F33; color: #FFFFFF;")
+            self.night_mode.setText("🌘 Day Mode")
+            self.tabWidget.setStyleSheet("QWidget { background-color: #2C2F33; color: #FFFFFF; } QTabBar::tab { background: #2C2F33; color: #FFFFFF; }")
             nightModeEnabled = True
         else:
-            self.data_textEdit.setStyleSheet("background-color: white; color: black;")
+            self.setStyleSheet("background-color: #FFFFFF; color: #000000;")
             self.night_mode.setText("🌘 Night Mode")
+            self.tabWidget.setStyleSheet("QWidget { background-color: #FFFFFF; color: #000000; } QTabBar::tab { background: #FFFFFF; color: #000000; }")
             nightModeEnabled = False
+        
 
     def command1(self):
         """ Open the text input popup to save command for button 1 """

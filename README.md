@@ -51,10 +51,6 @@ Then the project can be run with:
 pip install -r requirements.txt
 ```
 
-![Project SS](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/Screenshot_v2024_07.jpg)
-
-Simple View and Night Mode have been introduced:
-
 ![Project SS](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/Screenshot_v2024_07_2.jpg)
 
 If you encounter any problems while using the COM port tool, try these solutions:
