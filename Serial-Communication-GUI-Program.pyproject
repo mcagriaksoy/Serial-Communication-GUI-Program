@@ -4,6 +4,7 @@
         "src/ui_main.py",
         "ui/icon.ico",
         "ui/main_window.ui",
+        "ui/resources.qrc",
         "ui/ui_main_window.py"
     ]
 }
