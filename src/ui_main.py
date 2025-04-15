@@ -16,8 +16,8 @@ from sys import platform, exit, argv
 from glob import glob
 
 # Runtime Type Checking
-PROGRAM_TYPE_DEBUG = False
-PROGRAM_TYPE_RELEASE = True
+PROGRAM_TYPE_DEBUG = True
+PROGRAM_TYPE_RELEASE = False
 
 try:
     import serial.tools.list_ports
@@ -27,11 +27,11 @@ except ImportError as e:
     #system("python -m pip install pyserial")
 
 try:
-    from PyQt6.QtCore import QObject, QThread, pyqtSignal
-    from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QInputDialog, QFileDialog
+    from PySide6.QtCore import QObject, QThread, Signal, QFile
+    from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QInputDialog, QFileDialog
 
     if (PROGRAM_TYPE_DEBUG):
-        from PyQt6.uic import loadUi
+        from PySide6.QtUiTools import QUiLoader
     else:  # PROGRAM_TYPE_RELEASE
         from ui.ui_main_window import Ui_main_window
 except ImportError as e:
@@ -75,8 +75,8 @@ def get_serial_port():
 # MULTI-THREADING
 class Worker(QObject):
     """ Worker Thread """
-    finished = pyqtSignal()
-    serial_data = pyqtSignal(str)
+    finished = Signal()
+    serial_data = Signal(str)
 
     def __init__(self):
         super(Worker, self).__init__()
@@ -103,12 +103,16 @@ class MainWindow(QMainWindow):
         """ Initialize Main Window """
         super(MainWindow, self).__init__()
         if PROGRAM_TYPE_DEBUG:
+            
             file_path = path.join("ui/main_window.ui")
             if not path.exists(file_path):
                 print("UI File Not Found!")
                 exit(1)
-            loadUi(file_path, self.ui)  # Load the .ui file
-            self.ui.show()  # Show the GUI
+            ui_file = QFile(file_path)
+            ui_file.open(QFile.ReadOnly)
+            loader = QUiLoader()
+            self.ui = loader.load(ui_file)
+            self.ui.show()
         else:  # PROGRAM_TYPE_RELEASE
             print("UI File Found!")
             self.ui= Ui_main_window()

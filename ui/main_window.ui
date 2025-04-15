@@ -270,7 +270,7 @@
             <bool>false</bool>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.409, y1:0, x2:0.430448, y2:1, stop:0 rgba(255, 0, 0, 255), stop:1 rgba(255, 255, 255, 255))</string>
+            <string notr="true"/>
            </property>
            <property name="locale">
             <locale language="English" country="UnitedStates"/>
@@ -292,7 +292,7 @@
             <bool>false</bool>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.556, y1:0, x2:0.550444, y2:1, stop:0 rgba(0, 146, 0, 255), stop:1 rgba(255, 255, 255, 255))</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>START</string>
