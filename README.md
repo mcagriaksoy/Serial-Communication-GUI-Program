@@ -38,20 +38,13 @@ The COM port tool is compatible with:
 [![OS - Linux](https://img.shields.io/badge/OS-Linux-blue?logo=linux&logoColor=white)](https://www.linux.org/ "Go to Linux homepage")
 [![OS - Windows](https://img.shields.io/badge/OS-Windows-blue?logo=windows&logoColor=white)](https://www.microsoft.com/ "Go to Microsoft homepage")
 
-To use the tool, follow these steps:
-First of all, please ensure that you installed dependencies already.
+1. Run the program.
+2. Select a serial port and configure parameters.
+3. Start communication using the **Start** button.
+4. Send or receive data as needed.
+5. Save received data or clear buffers using the respective buttons.
 
-```
-python main.py
-```
-
-Then the project can be run with:
-
-```
-pip install -r requirements.txt
-```
-
-![Project SS](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/Screenshot_v2024_07_2.jpg)
+![Project SS](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/Screenshot_v2025_04.jpg)
 
 If you encounter any problems while using the COM port tool, try these solutions:
 
@@ -62,9 +55,9 @@ If you have any questions or feedback, please contact me.
 
 ## Dependencies
 
-[![PyQt - >= 6.0](https://img.shields.io/badge/PyQt->_6.0-2ea44f)](https://wiki.python.org/moin/PyQt)
-[![PyQt_sip - >= 13.0](https://img.shields.io/badge/PyQt_sip->_13.0-2ea44f)](https://pypi.org/project/PyQt6-sip/)
-[![PySerial - >= 3.0](https://img.shields.io/badge/PyQt->_3.0-2ea44f)](https://pypi.org/project/pyserial/)
+[![PySide - >= 6.0](https://img.shields.io/badge/PySide->_6.0-2ea44f)](https://wiki.python.org/moin/PySide)
+[![PySide_sip - >= 13.0](https://img.shields.io/badge/PySide_sip->_13.0-2ea44f)](https://pypi.org/project/PySide6-sip/)
+[![PySerial - >= 3.0](https://img.shields.io/badge/PySide->_3.0-2ea44f)](https://pypi.org/project/pyserial/)
 
 <h2>Documentation</h2>
 <div align="center">
@@ -78,6 +71,21 @@ The following command have been used to create AFCOM.exe
 pyinstaller --noconfirm --onefile --windowed --icon "ui/icon.ico"  "src/main.py"
 
 ```
+
+## Changes
+
+### V1.4.0 - 2025 Update
+
+Feature: Added basic_view_enabled and advanced_view_enabled methods to toggle UI layouts visibility.
+Implemented start_loop and stop_loop for managing serial communication with threading.
+Added on_save_txt_button_clicked to save received data to a .txt file.
+
+Improvement: Enhanced error handling for serial communication and worker threads.
+Added visual feedback for serial port selection and connection status.
+
+Bug Fix: Fixed UI responsiveness during active serial communication.
+
+Refactor: Organized serial communication logic into reusable methods.
 
 </div>
 <h2>License</h2>
