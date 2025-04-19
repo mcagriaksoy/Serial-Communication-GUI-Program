@@ -6,9 +6,9 @@ Cannot be used directly, it is a part of main.py
 
 __author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
 __annotations__ = 'AFCOM - Serial Communication GUI Program'
-__version__ = '2024.12'
+__version__ = '2025 - 1.4.0.0'
 __license__ = 'JGPLv3'
-__status__ = 'Research'
+__status__ = 'Development'
 
 # IMPORTS
 from os import path, system
@@ -42,8 +42,20 @@ except ImportError as e:
 SERIAL_DEVICE = Serial()
 PORTS = []
 is_serial_port_established = False
-nightModeEnabled = False
-simpleViewEnabled = False
+
+from winreg import OpenKey, HKEY_CURRENT_USER, QueryValueEx, ConnectRegistry, KEY_READ, KEY_WOW64_64KEY
+
+def is_windows_dark_mode(self):
+    try:
+        registry = ConnectRegistry(None, HKEY_CURRENT_USER)
+        registry_key = OpenKey(registry, r'Software\Microsoft\Windows\CurrentVersion\Themes\Personalize')
+        value, _ = QueryValueEx(registry_key, 'AppsUseLightTheme')
+        return value == 0  # 0 means dark mode is enabled
+    except WindowsError:
+        return False
+
+# simpleViewEnabled = False
+
 
 def get_serial_port():
     """ Lists serial port names
@@ -102,6 +114,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         """ Initialize Main Window """
         super(MainWindow, self).__init__()
+
         if PROGRAM_TYPE_DEBUG:
             
             file_path = path.join("ui/main_window.ui")
@@ -117,6 +130,10 @@ class MainWindow(QMainWindow):
             print("UI File Found!")
             self.ui= Ui_main_window()
             self.ui.setupUi(self)
+        
+        if (is_windows_dark_mode(self)):
+            print("Windows Dark Mode is enabled!")
+            # todo add dark mode support for the UI
 
         PORTS = get_serial_port()
 
@@ -125,7 +142,7 @@ class MainWindow(QMainWindow):
 
         self.ui.start_button.clicked.connect(self.start_loop)
         self.ui.refresh_button.clicked.connect(self.refresh_port)
-
+        '''
         self.ui.command_edit_1.clicked.connect(self.command1)
         self.ui.command_edit_2.clicked.connect(self.command2)
         self.ui.command_edit_3.clicked.connect(self.command3)
@@ -135,49 +152,50 @@ class MainWindow(QMainWindow):
         self.ui.saved_command_2.clicked.connect(self.move_command2_to_text)
         self.ui.saved_command_3.clicked.connect(self.move_command3_to_text)
         self.ui.saved_command_4.clicked.connect(self.move_command4_to_text)
+        '''
 
-        self.ui.clear_buffer_button.clicked.connect(self.clear_buffer)
+        # When actionClear_Cache is triggered, clear the buffer
+        self.ui.actionClear_Cache.triggered.connect(self.clear_buffer)
 
-        self.ui.night_mode.clicked.connect(self.night_mode_clicked)
-        self.ui.view_change.clicked.connect(self.view_changes)
+        self.ui.actionBasic_View.triggered.connect(self.basic_view_enabled)
+        self.ui.actionAdvanced_View.triggered.connect(self.advanced_view_enabled)
+        #self.ui.clear_buffer_button.clicked.connect(self.clear_buffer)
+
+        # self.ui.view_change.clicked.connect(self.view_changes)
 
         self.ui.port_comboBox.addItems(PORTS)
-
         self.ui.send_button.clicked.connect(self.on_send_data_button_clicked)
 
-        self.ui.end_button.clicked.connect(self.on_end_button_clicked)
+    def basic_view_enabled(self):
+        """ Hide specific layouts in the UI for basic view """
+        # Hide all widgets in the verticalLayout_config
+        for i in range(self.ui.verticalLayout_config.count()):
+            widget = self.ui.verticalLayout_config.itemAt(i).widget()
+            if widget:
+                widget.setVisible(False)
+
+        # Optionally, hide all widgets in the formLayout_config
+        for i in range(self.ui.formLayout_config.count()):
+            widget = self.ui.formLayout_config.itemAt(i).widget()
+            if widget:
+                widget.setVisible(False)
     
-    def view_changes(self):
-        """ Change the window size """
-        global simpleViewEnabled
-        # Change the window size
-        if simpleViewEnabled == False:
-            self.resize(726, 580)
-            self.ui.view_change.setText(">>")
-            simpleViewEnabled = True
-        else:
-            self.resize(929, 580)
-            self.ui.view_change.setText("<<")
-            simpleViewEnabled = False
+    def advanced_view_enabled(self):
+        """ Show specific layouts in the UI for advanced view """
+        # Show all widgets in the verticalLayout_config
+        for i in range(self.ui.verticalLayout_config.count()):
+            widget = self.ui.verticalLayout_config.itemAt(i).widget()
+            if widget:
+                widget.setVisible(True)
 
-    def night_mode_clicked(self):
-        """ Night Mode """
-        #define static variable
-        global nightModeEnabled
+        # Optionally, show all widgets in the formLayout_config
+        for i in range(self.ui.formLayout_config.count()):
+            widget = self.ui.formLayout_config.itemAt(i).widget()
+            if widget:
+                widget.setVisible(True)
 
-        # Invert all colors
-        if nightModeEnabled == False:
-            self.setStyleSheet("background-color: #2C2F33; color: #FFFFFF;")
-            self.ui.night_mode.setText("🌘 Day Mode")
-            self.ui.tabWidget.setStyleSheet("QWidget { background-color: #2C2F33; color: #FFFFFF; } QTabBar::tab { background: #2C2F33; color: #FFFFFF; }")
-            nightModeEnabled = True
-        else:
-            self.setStyleSheet("background-color: #FFFFFF; color: #000000;")
-            self.ui.night_mode.setText("🌘 Night Mode")
-            self.ui.tabWidget.setStyleSheet("QWidget { background-color: #FFFFFF; color: #000000; } QTabBar::tab { background: #FFFFFF; color: #000000; }")
-            nightModeEnabled = False
         
-
+    '''
     def command1(self):
         """ Open the text input popup to save command for button 1 """
         self.command_edit(1)
@@ -228,7 +246,7 @@ class MainWindow(QMainWindow):
         """ Move the saved command to the text box """
         self.ui.send_data_text.setText(self.ui.saved_command_4.text())
         self.on_send_data_button_clicked()
-
+    '''
     def refresh_port(self):
         """ Refresh the serial port list """
         PORTS = get_serial_port()
@@ -318,10 +336,20 @@ class MainWindow(QMainWindow):
             return
 
         global is_serial_port_established
+
+        if (is_serial_port_established == True):
+            is_serial_port_established = False
+            self.on_end_button_clicked()
+            self.ui.start_button.setText("START")
+            return
+
         is_serial_port_established = True
+        # change start_button to stop button
+        self.ui.start_button.setText("STOP")
+
         try:
             self.worker = Worker()   # a new worker to perform those tasks
-            self.thread = QThread()  # a new thread to run our background tasks in
+            self.thread = QThread()   # a new thread to run our background tasks in
             # move the worker into the thread, do this first before connecting the signals
             self.worker.moveToThread(self.thread)
             # begin our worker object's loop when the thread starts running
@@ -337,6 +365,8 @@ class MainWindow(QMainWindow):
             self.thread.finished.connect(self.thread.deleteLater)
             # start the thread
             self.thread.start()
+
+
         except RuntimeError:
             self.print_message_on_screen("Exception in Worker Thread!")
 
@@ -347,11 +377,11 @@ class MainWindow(QMainWindow):
         # Disconnect the serial port and close it
         SERIAL_DEVICE.close()
 
-    
     def clear_buffer(self):
         """ Clear the buffer """
         self.ui.data_textEdit.clear()
         self.ui.send_data_text.clear()
+
 
     def read_data_from_thread(self, serial_data):
         """ Write the result to the text edit box"""
@@ -423,5 +453,4 @@ def start_ui_design():
     """ Start the UI Design """
     app = QApplication(argv)  # Create an instance
     window_object = MainWindow()  # Create an instance of our class
-    window_object.show()
     exit(app.exec())
