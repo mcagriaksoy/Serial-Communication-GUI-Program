@@ -48,562 +48,774 @@
    <string>Serial Communication Program Mehmet Cagri Aksoy</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="2" column="0">
-       <widget class="QTextEdit" name="send_data_text">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-          <horstretch>5</horstretch>
-          <verstretch>5</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>5000</width>
-          <height>28</height>
-         </size>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::Box</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Sunken</enum>
-        </property>
-        <property name="acceptRichText">
-         <bool>false</bool>
-        </property>
-        <property name="placeholderText">
-         <string>Please enter the data want to sent...</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <property name="spacing">
-         <number>1</number>
-        </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetDefaultConstraint</enum>
-        </property>
-        <item>
-         <widget class="QPushButton" name="send_button">
-          <property name="maximumSize">
-           <size>
-            <width>250</width>
-            <height>16777215</height>
-           </size>
-          </property>
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>931</width>
+      <height>581</height>
+     </rect>
+    </property>
+    <property name="tabPosition">
+     <enum>QTabWidget::TabPosition::North</enum>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Main Page</string>
+     </attribute>
+     <widget class="QWidget" name="gridLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>721</width>
+        <height>511</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_23">
+         <property name="text">
+          <string>Gathering Data (Rx)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QTextEdit" name="data_textEdit">
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Shape::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Raised</enum>
+         </property>
+         <property name="autoFormatting">
+          <set>QTextEdit::AutoFormattingFlag::AutoAll</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_5">
+      <property name="geometry">
+       <rect>
+        <x>900</x>
+        <y>390</y>
+        <width>21</width>
+        <height>132</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="sizeConstraint">
+        <enum>QLayout::SizeConstraint::SetMaximumSize</enum>
+       </property>
+       <item>
+        <widget class="QPushButton" name="command_edit_1">
+         <property name="minimumSize">
+          <size>
+           <width>19</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="command_edit_2">
+         <property name="minimumSize">
+          <size>
+           <width>19</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="command_edit_3">
+         <property name="minimumSize">
+          <size>
+           <width>19</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="command_edit_4">
+         <property name="minimumSize">
+          <size>
+           <width>19</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_6">
+      <property name="geometry">
+       <rect>
+        <x>730</x>
+        <y>390</y>
+        <width>171</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QPushButton" name="saved_command_1">
+         <property name="text">
+          <string>Command 1</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="saved_command_2">
+         <property name="text">
+          <string>Command 2</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="saved_command_3">
+         <property name="text">
+          <string>Command 3</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="saved_command_4">
+         <property name="text">
+          <string>Command 4</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>730</x>
+        <y>260</y>
+        <width>191</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Connection Options:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="options_textEdit">
+         <property name="frameShape">
+          <enum>QFrame::Shape::Box</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QPushButton" name="end_button">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.409, y1:0, x2:0.430448, y2:1, stop:0 rgba(255, 0, 0, 255), stop:1 rgba(255, 255, 255, 255))</string>
+           </property>
+           <property name="locale">
+            <locale language="English" country="UnitedStates"/>
+           </property>
+           <property name="text">
+            <string>STOP</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="start_button">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.556, y1:0, x2:0.550444, y2:1, stop:0 rgba(0, 146, 0, 255), stop:1 rgba(255, 255, 255, 255))</string>
+           </property>
+           <property name="text">
+            <string>START</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="formLayoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>730</x>
+        <y>230</y>
+        <width>191</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>9</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Port Status :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="status_label">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>9</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Not Connected</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="formLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>732</x>
+        <y>28</y>
+        <width>191</width>
+        <height>231</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout_4">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>Selected Port:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="port_comboBox"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>Baud Rate:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="baudrate_comboBox">
+         <item>
           <property name="text">
-           <string>Push Data</string>
+           <string>9600</string>
           </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="0" column="1">
-       <layout class="QVBoxLayout" name="verticalLayout_config" stretch="2,0,4,0,0">
-        <property name="spacing">
-         <number>6</number>
-        </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetDefaultConstraint</enum>
-        </property>
-        <item>
-         <layout class="QFormLayout" name="formLayout_config">
-          <property name="labelAlignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
-          <property name="formAlignment">
-           <set>Qt::AlignJustify|Qt::AlignVCenter</set>
-          </property>
-          <property name="horizontalSpacing">
-           <number>4</number>
-          </property>
-          <property name="verticalSpacing">
-           <number>2</number>
-          </property>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_46">
-            <property name="text">
-             <string>Refresh Port(s):</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QPushButton" name="refresh_button">
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>↻</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_22">
-            <property name="text">
-             <string>Selected Port:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="port_comboBox">
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>16777215</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_25">
-            <property name="text">
-             <string>Baud Rate:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QComboBox" name="baudrate_comboBox">
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>9600</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>57600</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>115200</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>110</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>300</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>1200</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>2400</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>4800</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>19200</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>38400</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_26">
-            <property name="text">
-             <string>Length (B):</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QComboBox" name="len_comboBox">
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>8</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>7</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>6</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>5</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_27">
-            <property name="text">
-             <string>Timeout:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QComboBox" name="timeout_comboBox">
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>2</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>3</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>4</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>5</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>10</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>30</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>50</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>100</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="label_28">
-            <property name="text">
-             <string>Parity:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="QComboBox" name="parity_comboBox">
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>None</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Even</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Odd</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Mark</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Space</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="label_29">
-            <property name="text">
-             <string>StopBits:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="QComboBox" name="bit_comboBox">
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>1</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>1.5</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>2</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <widget class="QLabel" name="label_30">
-            <property name="text">
-             <string>Flow Control:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="1">
-           <widget class="QComboBox" name="flow_comboBox">
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>None</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Xon/Xoff</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>RTS/CTS</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>DSR/DTR</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_12">
+         </item>
+         <item>
           <property name="text">
-           <string>Connection Options:</string>
+           <string>57600</string>
           </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTextEdit" name="options_textEdit">
-          <property name="maximumSize">
-           <size>
-            <width>205</width>
-            <height>16777215</height>
-           </size>
+         </item>
+         <item>
+          <property name="text">
+           <string>115200</string>
           </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+         </item>
+         <item>
+          <property name="text">
+           <string>110</string>
           </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QFormLayout" name="formLayout_6">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="font">
-             <font>
-              <family>Arial</family>
-              <pointsize>9</pointsize>
-              <weight>50</weight>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Status :</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="status_label">
-            <property name="font">
-             <font>
-              <family>Arial</family>
-              <pointsize>9</pointsize>
-              <weight>50</weight>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string>Not Connected</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <property name="spacing">
-           <number>4</number>
+         </item>
+         <item>
+          <property name="text">
+           <string>300</string>
           </property>
-          <item>
-           <widget class="QPushButton" name="start_button">
-            <property name="maximumSize">
-             <size>
-              <width>250</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>9</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string>CONNECT</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-      <item row="0" column="0">
-       <widget class="QTextEdit" name="data_textEdit">
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::Box</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Sunken</enum>
-        </property>
-        <property name="autoFormatting">
-         <set>QTextEdit::AutoNone</set>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1127</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="separator"/>
-    <addaction name="actionNew"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSave_As"/>
-    <addaction name="separator"/>
-    <addaction name="actionExit"/>
-   </widget>
-   <widget class="QMenu" name="menuEdit">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuSetup">
-    <property name="title">
-     <string>Settings</string>
-    </property>
-    <addaction name="actionPreferences"/>
-   </widget>
-   <widget class="QMenu" name="menuControl">
-    <property name="title">
-     <string>Control</string>
-    </property>
-    <addaction name="actionReset_terminal"/>
-    <addaction name="actionClear_Cache"/>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionHelp_2"/>
-    <addaction name="separator"/>
-    <addaction name="actionAbout"/>
-    <addaction name="actionCheck_for_updates"/>
-   </widget>
-   <widget class="QMenu" name="menuWindow">
-    <property name="title">
-     <string>Window</string>
-    </property>
-    <addaction name="actionBasic_View"/>
-    <addaction name="actionAdvanced_View"/>
-    <addaction name="separator"/>
+         </item>
+         <item>
+          <property name="text">
+           <string>1200</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>2400</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>4800</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>19200</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>38400</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>Length (B):</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="len_comboBox">
+         <item>
+          <property name="text">
+           <string>8</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>7</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>6</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>5</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_19">
+         <property name="text">
+          <string>Timeout:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="timeout_comboBox">
+         <item>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>5</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>10</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>30</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>50</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>100</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_20">
+         <property name="text">
+          <string>Parity:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="parity_comboBox">
+         <item>
+          <property name="text">
+           <string>None</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Even</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Odd</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Mark</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Space</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_21">
+         <property name="text">
+          <string>StopBits:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="bit_comboBox">
+         <item>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1.5</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_24">
+         <property name="text">
+          <string>Flow Control:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QComboBox" name="flow_comboBox">
+         <item>
+          <property name="text">
+           <string>None</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Xon/Xoff</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RTS/CTS</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>DSR/DTR</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="label_46">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>10</y>
+        <width>151</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Settings:                   Refresh:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="refresh_button">
+      <property name="geometry">
+       <rect>
+        <x>890</x>
+        <y>0</y>
+        <width>31</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>↻</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>520</y>
+        <width>901</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>1</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SizeConstraint::SetNoConstraint</enum>
+       </property>
+       <item>
+        <widget class="QTextEdit" name="send_data_text">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <horstretch>5</horstretch>
+           <verstretch>5</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>465</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Shape::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Plain</enum>
+         </property>
+         <property name="acceptRichText">
+          <bool>false</bool>
+         </property>
+         <property name="placeholderText">
+          <string>Please enter the data want to sent...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="send_button">
+         <property name="text">
+          <string>SEND</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="save_txt_button">
+         <property name="toolTip">
+          <string>Save the output</string>
+         </property>
+         <property name="statusTip">
+          <string>Save the output</string>
+         </property>
+         <property name="whatsThis">
+          <string>Save the output</string>
+         </property>
+         <property name="text">
+          <string>Save as .txt</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="view_change">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>Click Here to go to the Simple View</string>
+         </property>
+         <property name="statusTip">
+          <string>Click Here to go to the Simple View</string>
+         </property>
+         <property name="whatsThis">
+          <string>Click Here to go to the Simple View</string>
+         </property>
+         <property name="text">
+          <string>&lt;&lt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="night_mode">
+         <property name="text">
+          <string>🌘 Night Mode</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="clear_buffer_button">
+         <property name="text">
+          <string>Clear Buffer</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>About</string>
+     </attribute>
+     <widget class="QTextEdit" name="textEdit_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>911</width>
+        <height>491</height>
+       </rect>
+      </property>
+      <property name="undoRedoEnabled">
+       <bool>false</bool>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;Information&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;The AFCOM (aka Serial communication GUI program) tool is a software application that allows users to send and receive data via the serial port (COM port) of their computer. The tool can be used for various purposes, such as testing, debugging, or communicating with other devices that use the serial protocol. &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;Features&lt;/span&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;The COM port tool has the following features: It supports multiple COM ports and can detect the available ports automatically. It allows users to configure the parameters of the serial communication, such as baud rate. It provides a user-friendly interface that shows the transmitted and received data in hexadecimal, decimal, ASCII, or binary formats. It allows users to save and load the data to and from files.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;Legal Information&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;This application incorporates Qt for Python (PySide), which is licensed under the GNU Lesser General Public License version 3 (LGPLv3). By using this software, you agree to comply with the terms of the LGPLv3 license. For more information about Qt for Python, visit https://www.qt.io/qt-for-python. A copy of the LGPLv3 license is included with this application.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="acceptRichText">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>530</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Version 2024.12</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>530</y>
+        <width>331</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/mcagriaksoy/Serial-Communication-GUI-Program&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Github&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Feel free to ask any questions or bug report on &lt;a href=&quot;https://github.com/mcagriaksoy/Serial-Communication-GUI-Program&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Github&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -620,76 +832,6 @@
   <action name="actionHelp">
    <property name="text">
     <string>Help</string>
-   </property>
-  </action>
-  <action name="actionAbout">
-   <property name="text">
-    <string>About</string>
-   </property>
-  </action>
-  <action name="actionCheck_for_updates">
-   <property name="text">
-    <string>Check for Updates</string>
-   </property>
-  </action>
-  <action name="actionReset_terminal">
-   <property name="text">
-    <string>Reset terminal</string>
-   </property>
-  </action>
-  <action name="actionClear_Cache">
-   <property name="text">
-    <string>Clear Cache</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </action>
-  <action name="actionNew">
-   <property name="text">
-    <string>New..</string>
-   </property>
-  </action>
-  <action name="actionBasic_View">
-   <property name="text">
-    <string>Basic View</string>
-   </property>
-  </action>
-  <action name="actionAdvanced_View">
-   <property name="text">
-    <string>Advanced View</string>
-   </property>
-  </action>
-  <action name="actionPreferences">
-   <property name="text">
-    <string>Preferences..</string>
-   </property>
-  </action>
-  <action name="actionMinimize">
-   <property name="text">
-    <string>Minimize</string>
-   </property>
-  </action>
-  <action name="actionFull_Screen">
-   <property name="text">
-    <string>Full Screen</string>
-   </property>
-  </action>
-  <action name="actionHelp_2">
-   <property name="text">
-    <string>Help</string>
-   </property>
-  </action>
-  <action name="actionSave_As">
-   <property name="text">
-    <string>Save As..</string>
-   </property>
-  </action>
-  <action name="actionSave">
-   <property name="text">
-    <string>Save</string>
    </property>
   </action>
  </widget>
