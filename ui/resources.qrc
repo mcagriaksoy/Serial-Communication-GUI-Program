@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
-        <file>resource/play.svg</file>
-    </qresource>
+  <qresource prefix="res">
+    <file>icon.ico</file>
+  </qresource>
 </RCC>
