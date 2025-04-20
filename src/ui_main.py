@@ -15,6 +15,7 @@ from os import path, system
 from sys import platform, exit, argv
 from glob import glob
 
+from src import action_ui
 # Runtime Type Checking
 PROGRAM_TYPE_DEBUG = True
 PROGRAM_TYPE_RELEASE = False
@@ -27,8 +28,8 @@ except ImportError as e:
     #system("python -m pip install pyserial")
 
 try:
-    from PySide6.QtCore import QObject, QThread, Signal, QFile
-    from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QInputDialog, QFileDialog
+    from PySide6.QtCore import QObject, QThread, Signal, QFile, Qt
+    from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QInputDialog
 
     if (PROGRAM_TYPE_DEBUG):
         from PySide6.QtUiTools import QUiLoader
@@ -154,47 +155,23 @@ class MainWindow(QMainWindow):
         self.ui.saved_command_4.clicked.connect(self.move_command4_to_text)
         '''
 
-        # When actionClear_Cache is triggered, clear the buffer
-        self.ui.actionClear_Cache.triggered.connect(self.clear_buffer)
+        self.ui.actionClear_Cache.triggered.connect(action_ui.clear_buffer)
 
-        self.ui.actionBasic_View.triggered.connect(self.basic_view_enabled)
-        self.ui.actionAdvanced_View.triggered.connect(self.advanced_view_enabled)
-        #self.ui.clear_buffer_button.clicked.connect(self.clear_buffer)
+        self.ui.actionBasic_View.triggered.connect(lambda: action_ui.basic_view_enabled(self.ui))
+        self.ui.actionAdvanced_View.triggered.connect(lambda: action_ui.advanced_view_enabled(self.ui))
 
-        # self.ui.view_change.clicked.connect(self.view_changes)
+        self.ui.actionSave.triggered.connect(action_ui.action_save)
+        self.ui.actionSave_As.triggered.connect(action_ui.action_save_as)
 
         self.ui.port_comboBox.addItems(PORTS)
         self.ui.send_button.clicked.connect(self.on_send_data_button_clicked)
 
-    def basic_view_enabled(self):
-        """ Hide specific layouts in the UI for basic view """
-        # Hide all widgets in the verticalLayout_config
-        for i in range(self.ui.verticalLayout_config.count()):
-            widget = self.ui.verticalLayout_config.itemAt(i).widget()
-            if widget:
-                widget.setVisible(False)
+        self.ui.actionExit.triggered.connect(lambda: exit(0))
+        self.ui.actionAbout.triggered.connect(action_ui.show_about_dialog)
+        self.ui.actionCheck_for_updates.triggered.connect(action_ui.check_for_updates)
+        self.ui.actionHelp_2.triggered.connect(action_ui.show_help_dialog)
+        self.ui.actionPreferences.triggered.connect(action_ui.show_settings_dialog)
 
-        # Optionally, hide all widgets in the formLayout_config
-        for i in range(self.ui.formLayout_config.count()):
-            widget = self.ui.formLayout_config.itemAt(i).widget()
-            if widget:
-                widget.setVisible(False)
-    
-    def advanced_view_enabled(self):
-        """ Show specific layouts in the UI for advanced view """
-        # Show all widgets in the verticalLayout_config
-        for i in range(self.ui.verticalLayout_config.count()):
-            widget = self.ui.verticalLayout_config.itemAt(i).widget()
-            if widget:
-                widget.setVisible(True)
-
-        # Optionally, show all widgets in the formLayout_config
-        for i in range(self.ui.formLayout_config.count()):
-            widget = self.ui.formLayout_config.itemAt(i).widget()
-            if widget:
-                widget.setVisible(True)
-
-        
     '''
     def command1(self):
         """ Open the text input popup to save command for button 1 """
@@ -377,12 +354,6 @@ class MainWindow(QMainWindow):
         # Disconnect the serial port and close it
         SERIAL_DEVICE.close()
 
-    def clear_buffer(self):
-        """ Clear the buffer """
-        self.ui.data_textEdit.clear()
-        self.ui.send_data_text.clear()
-
-
     def read_data_from_thread(self, serial_data):
         """ Write the result to the text edit box"""
         # self.ui.data_textEdit.append("{}".format(i))
@@ -409,17 +380,6 @@ class MainWindow(QMainWindow):
             self.ui.data_textEdit.insertPlainText("{}".format(serial_data))
             self.ui.data_textEdit.verticalScrollBar().setValue(
                 self.ui.data_textEdit.verticalScrollBar().maximum())
-
-    def on_save_txt_button_clicked(self):
-        """ Save the values to the TXT file"""
-        # Open file dialog to create new .txt file
-        file_name, _ = QFileDialog.getSaveFileName(
-            self, 'Save File', '', 'Text Files (*.txt)')
-        if file_name:
-            with open(file_name, 'w') as file:
-                text = self.ui.data_textEdit.toPlainText()
-                file.write(text)
-                file.close()
 
     def on_end_button_clicked(self):
         """ Stop the process """
