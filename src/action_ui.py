@@ -4,13 +4,17 @@
 @brief Action UI for the application.
 @details This module provides the Action UI for the application, allowing users to interact with the system.
 """
+# Runtime Type Checking
+PROGRAM_TYPE_DEBUG = True
+PROGRAM_TYPE_RELEASE = False
 try:
     from PySide6.QtUiTools import QUiLoader
     from PySide6.QtWidgets import QDialog, QFileDialog, QMessageBox
     from PySide6.QtCore import QFile
+    from ui.settings import Ui_Dialog
+    from ui.help import Ui_HelpDialog
 except ImportError:
         print("PySide6 is not installed. Please install it to use this module.")
-
 
 def action_save_as(ui):
     """
@@ -85,47 +89,61 @@ def show_about_dialog(ui):
 
 def show_help_dialog(ui):
     """ Show the help dialog """
-    # Load the help.ui file
-    file_path = "ui/help.ui"  # Adjust the path if necessary
-    ui_file = QFile(file_path)
-    if not ui_file.exists():
-        QMessageBox.critical(None, "Error", f"Help UI file not found: {file_path}")
-        return
-
-    ui_file.open(QFile.ReadOnly)
-    loader = QUiLoader()
-    help_dialog = loader.load(ui_file)
-    ui_file.close()
-
-    if help_dialog:
-        # Show the help dialog as a modal dialog
-        help_dialog.setWindowTitle("Help")
-        help_dialog.setModal(True)
-        help_dialog.exec()
+    if PROGRAM_TYPE_DEBUG:
+        file_path = "ui/help.ui"  # Adjust the path if necessary
+        ui_file = QFile(file_path)
+        if not ui_file.exists():
+            QMessageBox.critical(None, "Error", f"Help UI file not found: {file_path}")
+            return
+        
+        ui_file.open(QFile.ReadOnly)
+        loader = QUiLoader()
+        help_dialog = loader.load(ui_file)
+        ui_file.close()
+        if help_dialog:
+            help_dialog.setWindowTitle("Help")
+            help_dialog.setModal(True)
+            help_dialog.exec()
+        else:
+            QMessageBox.critical(None, "Error", "Failed to load the help UI.")
     else:
-        QMessageBox.critical(None, "Error", "Failed to load the help UI.")
+        try:
+            dialog = QDialog()  # Create a QDialog instance
+            help_dialog = Ui_HelpDialog()  # Initialize the UI class
+            help_dialog.setupUi(dialog)  # Set up the UI on the dialog
+            dialog.setWindowTitle("Help")  # Set the dialog title
+            dialog.exec()  # Show the dialog modally
+        except Exception as e:
+            print(f"Error in show_help_dialog: {e}")
 
 def show_settings_dialog(ui):
     """ Show the settings dialog """
-    # Load the settings.ui file
-    file_path = "ui/settings.ui"  # Adjust the path if necessary
-    ui_file = QFile(file_path)
-    if not ui_file.exists():
-        QMessageBox.critical(None, "Error", f"Settings UI file not found: {file_path}")
-        return
-    
-    ui_file.open(QFile.ReadOnly)
-    loader = QUiLoader()
-    settings_dialog = loader.load(ui_file)
-    ui_file.close()
-
-    if settings_dialog:
-        # Show the settings dialog as a modal dialog
-        settings_dialog.setWindowTitle("Settings")
-        settings_dialog.setModal(True)
-        settings_dialog.exec()
+    if PROGRAM_TYPE_DEBUG:
+        file_path = "ui/settings.ui"  # Adjust the path if necessary
+        ui_file = QFile(file_path)
+        if not ui_file.exists():
+            QMessageBox.critical(None, "Error", f"Settings UI file not found: {file_path}")
+            return
+        
+        ui_file.open(QFile.ReadOnly)
+        loader = QUiLoader()
+        settings_dialog = loader.load(ui_file)
+        ui_file.close()
+        if settings_dialog:
+            settings_dialog.setWindowTitle("Settings")
+            settings_dialog.setModal(True)
+            settings_dialog.exec()
+        else:
+            QMessageBox.critical(None, "Error", "Failed to load the settings UI.")
     else:
-        QMessageBox.critical(None, "Error", "Failed to load the settings UI.")
+        try:
+            dialog = QDialog()  # Create a QDialog instance
+            settings_dialog = Ui_Dialog()  # Initialize the UI class
+            settings_dialog.setupUi(dialog)  # Set up the UI on the dialog
+            dialog.setWindowTitle("Settings")  # Set the dialog title
+            dialog.exec()  # Show the dialog modally
+        except Exception as e:
+            print(f"Error in show_settings_dialog: {e}")
 
 def check_for_updates(ui):
     """ Check for updates """
