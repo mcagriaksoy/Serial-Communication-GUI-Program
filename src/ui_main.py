@@ -14,7 +14,6 @@ __status__ = 'Development'
 from os import path, system
 from sys import platform, exit, argv
 from glob import glob
-
 from src import action_ui
 # Runtime Type Checking
 PROGRAM_TYPE_DEBUG = True
@@ -28,13 +27,12 @@ except ImportError as e:
     #system("python -m pip install pyserial")
 
 try:
-    from PySide6.QtCore import QObject, QThread, Signal, QFile, Qt
+    from PySide6.QtCore import QObject, QThread, Signal, QFile, Qt, QEvent, QTimer
     from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QInputDialog
-
+    from ui.main_window import Ui_main_window
     if (PROGRAM_TYPE_DEBUG):
         from PySide6.QtUiTools import QUiLoader
-    else:  # PROGRAM_TYPE_RELEASE
-        from ui.ui_main_window import Ui_main_window
+
 except ImportError as e:
     print("Import Error! I am installing the required libraries: " + str(e))
     #system("pip install {0}".format(str(e).split(" ")[-1]))
@@ -129,7 +127,7 @@ class MainWindow(QMainWindow):
             self.ui.show()
         else:  # PROGRAM_TYPE_RELEASE
             print("UI File Found!")
-            self.ui= Ui_main_window()
+            self.ui = Ui_main_window()
             self.ui.setupUi(self)
         
         if (is_windows_dark_mode(self)):
@@ -141,7 +139,7 @@ class MainWindow(QMainWindow):
         self.thread = None
         self.worker = None
 
-        self.ui.start_button.clicked.connect(self.start_loop)
+        self.ui.start_button.clicked.connect(self.on_start_button_clicked)
         self.ui.refresh_button.clicked.connect(self.refresh_port)
         '''
         self.ui.command_edit_1.clicked.connect(self.command1)
@@ -165,6 +163,9 @@ class MainWindow(QMainWindow):
 
         self.ui.port_comboBox.addItems(PORTS)
         self.ui.send_button.clicked.connect(self.on_send_data_button_clicked)
+
+        # when Enter is pressed in send_data_text
+        self.ui.send_data_text.installEventFilter(self)
 
         self.ui.actionExit.triggered.connect(lambda: exit(0))
         self.ui.actionAbout.triggered.connect(action_ui.show_about_dialog)
@@ -224,6 +225,14 @@ class MainWindow(QMainWindow):
         self.ui.send_data_text.setText(self.ui.saved_command_4.text())
         self.on_send_data_button_clicked()
     '''
+    def eventFilter(self, obj, event):
+        # Check if the event is for send_data_text and Enter is pressed
+        if obj == self.ui.send_data_text and event.type() == QEvent.KeyPress:
+            if event.key() in (Qt.Key_Return, Qt.Key_Enter):
+                self.on_send_data_button_clicked()
+                return True  # Prevents QTextEdit from adding a new line
+        return super().eventFilter(obj, event)
+
     def refresh_port(self):
         """ Refresh the serial port list """
         PORTS = get_serial_port()
@@ -294,9 +303,20 @@ class MainWindow(QMainWindow):
         if SERIAL_DEVICE.isOpen() == False:
             SERIAL_DEVICE.open()
 
-    def start_loop(self):
+    def on_start_button_clicked(self):
         """ Start the loop """
-        self.ui.port_comboBox.setStyleSheet('background-color: white')
+        # Check if the port_comboBox style is red, if so, set it to system default
+        if self.ui.port_comboBox.styleSheet() == 'background-color: red':
+            self.ui.port_comboBox.setStyleSheet('')
+
+        global is_serial_port_established
+
+        if is_serial_port_established:
+            is_serial_port_established = False
+            self.ui.start_button.setText("START")
+            self.ui.start_button.setStyleSheet('color: green;')
+            self.on_stop_button_clicked()
+            return
 
         # If the serial port is not selected, print a message
         if self.ui.port_comboBox.currentText() == "":
@@ -311,18 +331,11 @@ class MainWindow(QMainWindow):
             self.print_message_on_screen(
                 "Exception occured while trying establish serial communication!")
             return
-
-        global is_serial_port_established
-
-        if (is_serial_port_established == True):
-            is_serial_port_established = False
-            self.on_end_button_clicked()
-            self.ui.start_button.setText("START")
-            return
-
         is_serial_port_established = True
         # change start_button to stop button
+        self.ui.options_textEdit.setText('Disconnected!')
         self.ui.start_button.setText("STOP")
+        self.ui.start_button.setStyleSheet('color: red;')
 
         try:
             self.worker = Worker()   # a new worker to perform those tasks
@@ -332,27 +345,50 @@ class MainWindow(QMainWindow):
             # begin our worker object's loop when the thread starts running
             self.thread.started.connect(self.worker.work)
             self.worker.serial_data.connect(self.read_data_from_thread)
-            # stop the loop on the stop button click
-            self.ui.end_button.clicked.connect(self.stop_loop)
             # tell the thread it's time to stop running
             self.worker.finished.connect(self.thread.quit)
             # have worker mark itself for deletion
             self.worker.finished.connect(self.worker.deleteLater)
             # have thread mark itself for deletion
             self.thread.finished.connect(self.thread.deleteLater)
+            
+            self.enable_configuration(False)
+            self.ui.options_textEdit.setText('RX/TX Connected!')
+            self.ui.status_label.setText("CONNECTED!")
+            self.ui.status_label.setStyleSheet('color: green')
             # start the thread
             self.thread.start()
-
-
         except RuntimeError:
             self.print_message_on_screen("Exception in Worker Thread!")
 
-    def stop_loop(self):
+    def on_stop_button_clicked(self):
         """ Stop the loop """
-        self.worker.working = False
         self.ui.options_textEdit.setText('Stopped!')
-        # Disconnect the serial port and close it
-        SERIAL_DEVICE.close()
+        self.ui.status_label.setText("DISCONNECTED!")
+        self.ui.status_label.setStyleSheet('color: red')
+        self.enable_configuration(True)
+
+        # Safely stop the worker thread
+        if hasattr(self, 'worker') and self.worker is not None:
+            self.worker.working = False
+
+        # Safely close the serial device
+        global SERIAL_DEVICE
+        try:
+            if SERIAL_DEVICE.is_open:
+                SERIAL_DEVICE.close()
+        except Exception as e:
+            print(f"Error closing serial port: {e}")
+    
+    def enable_configuration(self, state):
+        """ enable/disable the configuration """
+        self.ui.timeout_comboBox.setEnabled(state)
+        self.ui.baudrate_comboBox.setEnabled(state)
+        self.ui.len_comboBox.setEnabled(state)
+        self.ui.port_comboBox.setEnabled(state)
+        self.ui.parity_comboBox.setEnabled(state)
+        self.ui.bit_comboBox.setEnabled(state)
+        self.ui.flow_comboBox.setEnabled(state)
 
     def read_data_from_thread(self, serial_data):
         """ Write the result to the text edit box"""
@@ -361,49 +397,23 @@ class MainWindow(QMainWindow):
             self.print_message_on_screen(
                 "Serial Port Exception! Please check the serial port"
                 " Possibly it is not connected or the port is not available!")
-            self.ui.status_label.setText("NOT CONNECTED!")
-            self.ui.status_label.setStyleSheet('color: red')
+            self.on_stop_button_clicked()
         else:
-            self.ui.timeout_comboBox.setEnabled(False)
-            self.ui.baudrate_comboBox.setEnabled(False)
-            self.ui.len_comboBox.setEnabled(False)
-            self.ui.port_comboBox.setEnabled(False)
-            self.ui.parity_comboBox.setEnabled(False)
-            self.ui.bit_comboBox.setEnabled(False)
-            self.ui.flow_comboBox.setEnabled(False)
-            self.ui.start_button.setEnabled(False)
-
-            self.ui.options_textEdit.setText('Data Gathering...')
-            self.ui.status_label.setText("CONNECTED!")
-            self.ui.status_label.setStyleSheet('color: green')
             serial_data = serial_data.replace('\n', '')
             self.ui.data_textEdit.insertPlainText("{}".format(serial_data))
             self.ui.data_textEdit.verticalScrollBar().setValue(
                 self.ui.data_textEdit.verticalScrollBar().maximum())
 
-    def on_end_button_clicked(self):
-        """ Stop the process """
-        global is_serial_port_established
-        is_serial_port_established = False
-        self.ui.options_textEdit.setText('Stopped!')
-        self.ui.status_label.setText("DISCONNECTED!")
-        self.ui.status_label.setStyleSheet('color: red')
-        self.ui.timeout_comboBox.setEnabled(True)
-        self.ui.baudrate_comboBox.setEnabled(True)
-        self.ui.len_comboBox.setEnabled(True)
-        self.ui.port_comboBox.setEnabled(True)
-        self.ui.parity_comboBox.setEnabled(True)
-        self.ui.bit_comboBox.setEnabled(True)
-        self.ui.flow_comboBox.setEnabled(True)
-        self.ui.start_button.setEnabled(True)
-
     def on_send_data_button_clicked(self):
         """ Send data to serial port """
-        if (is_serial_port_established):
+        if is_serial_port_established:
+            self.ui.indicate_button.setChecked(True)
             mytext = self.ui.send_data_text.toPlainText().encode('utf-8')
-            #SERIAL_DEVICE.flushInput()
-            #SERIAL_DEVICE.flushOutput()
-            SERIAL_DEVICE.write(mytext + b'\r')
+            SERIAL_DEVICE.flushOutput()  # Flush output buffer
+            SERIAL_DEVICE.write(mytext + b'\r\n')
+
+            # Uncheck after 5 seconds without blocking the UI
+            QTimer.singleShot(500, lambda: self.ui.indicate_button.setChecked(False))
         else:
             self.print_message_on_screen(
                 "Serial Port is not established yet! Please establish the serial port first!")
@@ -413,4 +423,6 @@ def start_ui_design():
     """ Start the UI Design """
     app = QApplication(argv)  # Create an instance
     window_object = MainWindow()  # Create an instance of our class
+    if PROGRAM_TYPE_RELEASE:
+        window_object.show()
     exit(app.exec())
