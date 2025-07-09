@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1127</width>
-    <height>633</height>
+    <width>1026</width>
+    <height>597</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -35,7 +35,8 @@
    <string>AFCOM Client (A free COM port data transfer client)</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="applications-development"/>
+   <iconset theme="applications-development">
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <property name="windowOpacity">
    <double>1.000000000000000</double>
@@ -56,7 +57,7 @@
          <number>1</number>
         </property>
         <property name="sizeConstraint">
-         <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+         <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <item>
          <widget class="QRadioButton" name="indicate_button">
@@ -95,27 +96,28 @@
            <string>Push Data</string>
           </property>
           <property name="icon">
-           <iconset theme="mail-send"/>
+           <iconset theme="mail-send">
+            <normaloff>.</normaloff>.</iconset>
           </property>
          </widget>
         </item>
        </layout>
       </item>
       <item row="0" column="1">
-       <layout class="QVBoxLayout" name="verticalLayout_config" stretch="2,0,0,0,0">
+       <layout class="QVBoxLayout" name="verticalLayout_config" stretch="2,0,0,0,0,0">
         <property name="spacing">
          <number>6</number>
         </property>
         <property name="sizeConstraint">
-         <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+         <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <item>
          <layout class="QFormLayout" name="formLayout_config">
           <property name="labelAlignment">
-           <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+           <set>Qt::AlignLeading</set>
           </property>
           <property name="formAlignment">
-           <set>Qt::AlignmentFlag::AlignJustify|Qt::AlignmentFlag::AlignVCenter</set>
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
           </property>
           <property name="horizontalSpacing">
            <number>4</number>
@@ -142,7 +144,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="sync-synchronizing"/>
+             <iconset theme="sync-synchronizing">
+              <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
           </item>
@@ -435,7 +438,45 @@
             </item>
            </widget>
           </item>
+          <item row="8" column="1">
+           <widget class="QComboBox" name="lineEnd_comboBox">
+            <item>
+             <property name="text">
+              <string>CRLF</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>LF</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>CR</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>None</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Line Ending:</string>
+            </property>
+           </widget>
+          </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="nightMode_Button">
+          <property name="text">
+           <string>Night Mode</string>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_12">
@@ -453,7 +494,7 @@
            </size>
           </property>
           <property name="frameShape">
-           <enum>QFrame::Shape::NoFrame</enum>
+           <enum>QFrame::NoFrame</enum>
           </property>
          </widget>
         </item>
@@ -465,6 +506,7 @@
              <font>
               <family>Arial</family>
               <pointsize>9</pointsize>
+              <weight>50</weight>
               <bold>false</bold>
              </font>
             </property>
@@ -479,6 +521,7 @@
              <font>
               <family>Arial</family>
               <pointsize>9</pointsize>
+              <weight>50</weight>
               <bold>false</bold>
              </font>
             </property>
@@ -508,6 +551,7 @@
             <property name="font">
              <font>
               <pointsize>9</pointsize>
+              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -532,13 +576,10 @@
          <bool>false</bool>
         </property>
         <property name="frameShape">
-         <enum>QFrame::Shape::Box</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Shadow::Sunken</enum>
+         <enum>QFrame::NoFrame</enum>
         </property>
         <property name="autoFormatting">
-         <set>QTextEdit::AutoFormattingFlag::AutoNone</set>
+         <set>QTextEdit::AutoNone</set>
         </property>
         <property name="readOnly">
          <bool>true</bool>
@@ -560,13 +601,10 @@
          </size>
         </property>
         <property name="inputMethodHints">
-         <set>Qt::InputMethodHint::ImhNone</set>
+         <set>Qt::ImhNone</set>
         </property>
         <property name="frameShape">
-         <enum>QFrame::Shape::Box</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Shadow::Sunken</enum>
+         <enum>QFrame::NoFrame</enum>
         </property>
         <property name="acceptRichText">
          <bool>false</bool>
@@ -585,8 +623,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1127</width>
-     <height>33</height>
+     <width>1026</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

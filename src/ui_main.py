@@ -15,6 +15,7 @@ from os import path, system
 from sys import platform, exit, argv
 from glob import glob
 from src import action_ui
+import re
 # Runtime Type Checking
 PROGRAM_TYPE_DEBUG = True
 PROGRAM_TYPE_RELEASE = False
@@ -83,6 +84,37 @@ def get_serial_port():
             pass
     return result
 
+def strip_ansi_codes(text):
+    ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
+    return ansi_escape.sub('', text)
+
+def ansi_to_html(text):
+    # Improved ANSI to HTML conversion with support for bold and combined codes
+    ansi_color_map = {
+        '30': 'black', '31': 'red', '32': 'green', '33': 'yellow',
+        '34': 'blue', '35': 'magenta', '36': 'cyan', '37': 'white',
+        '90': 'gray', '91': 'lightcoral', '92': 'lightgreen', '93': 'lightyellow',
+        '94': 'lightblue', '95': 'violet', '96': 'lightcyan', '97': 'white'
+    }
+    def ansi_repl(match):
+        codes = match.group(1).split(';')
+        styles = []
+        for code in codes:
+            if code == '1':
+                styles.append('font-weight:bold;')
+            elif code in ansi_color_map:
+                styles.append(f'color:{ansi_color_map[code]};')
+        if styles:
+            return f'<span style="{''.join(styles)}">'
+        elif '0' in codes:
+            return '</span>'
+        return ''
+    # Open/close spans for each ANSI code
+    text = re.sub(r'\x1b\[([0-9;]+)m', ansi_repl, text)
+    # Remove any remaining ANSI codes
+    text = re.sub(r'\x1b\[[0-9;]*[A-Za-z]', '', text)
+    return text
+
 # MULTI-THREADING
 class Worker(QObject):
     """ Worker Thread """
@@ -94,18 +126,22 @@ class Worker(QObject):
         self.working = True
 
     def work(self):
-        """ Read data from serial port """
+        """ Read data from serial port, emit full lines """
+        buffer = ''
         while self.working:
             try:
-                char = SERIAL_DEVICE.read()
-                h = char.decode('utf-8')
-                self.serial_data.emit(h)
+                char = SERIAL_DEVICE.read().decode('utf-8', errors='replace')
+                buffer += char
+                if '\n' in buffer:
+                    lines = buffer.split('\n')
+                    for line in lines[:-1]:
+                        self.serial_data.emit(line + '\n')
+                    buffer = lines[-1]
             except SerialException as e:
                 print(e)
-                # Emit last error message before die!
                 self.serial_data.emit("ERROR_SERIAL_EXCEPTION")
                 self.working = False
-            self.finished.emit()
+        self.finished.emit()
 
 class MainWindow(QMainWindow):
     """ Main Window """
@@ -172,6 +208,11 @@ class MainWindow(QMainWindow):
         self.ui.actionCheck_for_updates.triggered.connect(action_ui.check_for_updates)
         self.ui.actionHelp_2.triggered.connect(action_ui.show_help_dialog)
         self.ui.actionPreferences.triggered.connect(action_ui.show_settings_dialog)
+
+        # Night mode button event
+        self.night_mode_enabled = False
+        if hasattr(self.ui, 'nightMode_Button'):
+            self.ui.nightMode_Button.clicked.connect(self.enable_night_mode)
 
     '''
     def command1(self):
@@ -367,11 +408,7 @@ class MainWindow(QMainWindow):
         self.ui.status_label.setText("DISCONNECTED!")
         self.ui.status_label.setStyleSheet('color: red')
         self.enable_configuration(True)
-
-        # Safely stop the worker thread
-        if hasattr(self, 'worker') and self.worker is not None:
-            self.worker.working = False
-
+        self.stop_worker_thread()
         # Safely close the serial device
         global SERIAL_DEVICE
         try:
@@ -380,6 +417,15 @@ class MainWindow(QMainWindow):
         except Exception as e:
             print(f"Error closing serial port: {e}")
     
+    def stop_worker_thread(self):
+        # Safely stop the worker thread and wait for it to finish
+        if hasattr(self, 'worker') and self.worker is not None:
+            self.worker.working = False
+        if hasattr(self, 'thread') and self.thread is not None:
+            if self.thread.isRunning():
+                self.thread.quit()
+                self.thread.wait(2000)  # wait up to 2 seconds
+
     def enable_configuration(self, state):
         """ enable/disable the configuration """
         self.ui.timeout_comboBox.setEnabled(state)
@@ -389,18 +435,19 @@ class MainWindow(QMainWindow):
         self.ui.parity_comboBox.setEnabled(state)
         self.ui.bit_comboBox.setEnabled(state)
         self.ui.flow_comboBox.setEnabled(state)
+        self.ui.lineEnd_comboBox.setEnabled(state)
 
     def read_data_from_thread(self, serial_data):
         """ Write the result to the text edit box"""
-        # self.ui.data_textEdit.append("{}".format(i))
         if "ERROR_SERIAL_EXCEPTION" in serial_data:
             self.print_message_on_screen(
                 "Serial Port Exception! Please check the serial port"
                 " Possibly it is not connected or the port is not available!")
             self.on_stop_button_clicked()
         else:
-            serial_data = serial_data.replace('\n', '')
-            self.ui.data_textEdit.insertPlainText("{}".format(serial_data))
+            # Replace CRLF and LF with <br> for HTML display
+            html_data = ansi_to_html(serial_data.replace('\r\n', '<br>').replace('\n', '<br>'))
+            self.ui.data_textEdit.insertHtml(html_data)
             self.ui.data_textEdit.verticalScrollBar().setValue(
                 self.ui.data_textEdit.verticalScrollBar().maximum())
 
@@ -408,16 +455,46 @@ class MainWindow(QMainWindow):
         """ Send data to serial port """
         if is_serial_port_established:
             self.ui.indicate_button.setChecked(True)
-            mytext = self.ui.send_data_text.toPlainText().encode('utf-8')
+            # Clear end of line, spaces, and tabs from end of the text
+            mytext = self.ui.send_data_text.toPlainText().strip().encode('utf-8')
+            # Get line ending from combo box
+            line_end = self.ui.lineEnd_comboBox.currentText()
+            if line_end == "CR":
+                line_ending = b'\r'
+            elif line_end == "LF":
+                line_ending = b'\n'
+            elif line_end == "CRLF":
+                line_ending = b'\r\n'
+            else:
+                line_ending = b''
             SERIAL_DEVICE.flushOutput()  # Flush output buffer
-            SERIAL_DEVICE.write(mytext + b'\r\n')
+            SERIAL_DEVICE.write(mytext + line_ending)
 
             # Uncheck after 5 seconds without blocking the UI
             QTimer.singleShot(500, lambda: self.ui.indicate_button.setChecked(False))
         else:
             self.print_message_on_screen(
                 "Serial Port is not established yet! Please establish the serial port first!")
-        
+
+    def enable_night_mode(self):
+        """Toggle night/day mode for data_textEdit"""
+        if not hasattr(self, 'night_mode_enabled'):
+            self.night_mode_enabled = False
+        if not self.night_mode_enabled:
+            self.ui.data_textEdit.setStyleSheet("background-color: black;")
+            if hasattr(self.ui.nightMode_Button, 'setText'):
+                self.ui.nightMode_Button.setText("Day Mode")
+            self.night_mode_enabled = True
+        else:
+            self.ui.data_textEdit.setStyleSheet("")
+            if hasattr(self.ui.nightMode_Button, 'setText'):
+                self.ui.nightMode_Button.setText("Night Mode")
+            self.night_mode_enabled = False
+
+    def closeEvent(self, event):
+        # Properly stop the worker and thread before closing
+        self.stop_worker_thread()
+        event.accept()
 
 def start_ui_design():
     """ Start the UI Design """
