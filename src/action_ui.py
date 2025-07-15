@@ -11,10 +11,20 @@ try:
     from PySide6.QtUiTools import QUiLoader
     from PySide6.QtWidgets import QDialog, QFileDialog, QMessageBox
     from PySide6.QtCore import QFile
+    from PySide6.QtGui import QDesktopServices
+    from PySide6.QtCore import QUrl
     from ui.settings import Ui_Dialog
     from ui.help import Ui_HelpDialog
 except ImportError:
         print("PySide6 is not installed. Please install it to use this module.")
+
+import json
+try:
+    import requests
+except ImportError:
+    requests = None
+
+CURRENT_VERSION = "v1.5.1"
 
 def action_save_as(ui):
     """
@@ -76,16 +86,16 @@ def clear_buffer(ui):
 
 def show_about_dialog(ui):
     """ Show the about dialog """
-    # Crete a message box to display the about information
+    # Create a message box to display the about information
     msg_box = QMessageBox()
     msg_box.setWindowTitle("About")
-    msg_box.setText("AFCOM Client v1.4.0.0 (C) 2020 - 2025 \r\n\r\nAuthor: Mehmet Cagri Aksoy \r\ngithub.com/mcagriaksoy")
+    # Use CURRENT_VERSION for the version number
+    msg_box.setText(f"AFCOM Client {CURRENT_VERSION} (C) 2020 - 2025 \r\n\r\nAuthor: Mehmet Cagri Aksoy \r\ngithub.com/mcagriaksoy")
     msg_box.setIcon(QMessageBox.Information)
     msg_box.setStandardButtons(QMessageBox.Ok)
     msg_box.setDefaultButton(QMessageBox.Ok)
     msg_box.setModal(True)
     msg_box.exec()  # Show the message box modally
-
 
 def show_help_dialog(ui):
     """ Show the help dialog """
@@ -146,10 +156,36 @@ def show_settings_dialog(ui):
             print(f"Error in show_settings_dialog: {e}")
 
 def check_for_updates(ui):
-    """ Check for updates """
-    # Placeholder function for checking updates
-    # You can implement the actual update check logic here
-    QMessageBox.information(ui, "Check for Updates", "No updates available at this time.")
+    """Check for updates by comparing the latest GitHub tag with the current version."""
+    if requests is None:
+        QMessageBox.warning(None, "Check for Updates", "The 'requests' library is not installed. Please install it to check for updates.")
+        return
+    try:
+        url = "https://api.github.com/repos/mcagriaksoy/Serial-Communication-GUI-Program/tags"
+        response = requests.get(url, timeout=5)
+        if response.status_code == 200:
+            tags = response.json()
+            if tags:
+                latest_tag = tags[0]["name"]
+                if latest_tag != CURRENT_VERSION:
+                    msg_box = QMessageBox()
+                    msg_box.setWindowTitle("Update Available")
+                    msg_box.setText(f"A new version is available: {latest_tag}\nYou are using: {CURRENT_VERSION}\nWould you like to download the latest version?")
+                    download_button = msg_box.addButton("Download", QMessageBox.AcceptRole)
+                    msg_box.addButton(QMessageBox.Ok)
+                    msg_box.setIcon(QMessageBox.Information)
+                    msg_box.setModal(True)
+                    msg_box.exec()
+                    if msg_box.clickedButton() == download_button:
+                        QDesktopServices.openUrl(QUrl(f"https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/releases/tag/{latest_tag}"))
+                else:
+                    QMessageBox.information(None, "Check for Updates", "You are using the latest version.")
+            else:
+                QMessageBox.information(None, "Check for Updates", "No version tags found on GitHub.")
+        else:
+            QMessageBox.warning(None, "Check for Updates", f"Failed to fetch updates. Status code: {response.status_code}")
+    except Exception as e:
+        QMessageBox.critical(None, "Check for Updates", f"Error checking for updates: {e}")
 
 
 

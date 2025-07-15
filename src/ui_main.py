@@ -189,6 +189,10 @@ class MainWindow(QMainWindow):
         self.ui.saved_command_4.clicked.connect(self.move_command4_to_text)
         '''
 
+        self.ui.actionCopy.triggered.connect(lambda: self.ui.data_textEdit.copy())
+        self.ui.actionSelect_All.triggered.connect(lambda: self.ui.data_textEdit.selectAll())
+        self.ui.actionClear_Screen.triggered.connect(lambda: self.ui.data_textEdit.clear())
+
         self.ui.actionClear_Cache.triggered.connect(action_ui.clear_buffer)
 
         self.ui.actionBasic_View.triggered.connect(lambda: action_ui.basic_view_enabled(self.ui))
