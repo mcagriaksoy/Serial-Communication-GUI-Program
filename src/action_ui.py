@@ -24,7 +24,7 @@ try:
 except ImportError:
     requests = None
 
-CURRENT_VERSION = "v1.5.1"
+CURRENT_VERSION = "v1.6.0"
 
 def action_save_as(ui):
     """
