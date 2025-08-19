@@ -18,7 +18,7 @@ The tool can be used for various purposes, such as testing, debugging, or commun
 
 <a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program" title="Go to GitHub repo"><img src="https://img.shields.io/static/v1?label=mcagriaksoy&message=Serial-Communication-GUI-Program&color=blue&logo=github" alt="mcagriaksoy - Serial-Communication-GUI-Program"></a>
 <a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/releases/"><img src="https://img.shields.io/github/tag/mcagriaksoy/Serial-Communication-GUI-Program?include_prereleases=&sort=semver&color=blue" alt="GitHub tag"></a>
-<a href="#license"><img src="https://img.shields.io/badge/License-MIT-blue" alt="License"></a>
+<a href="#license"><img src="https://img.shields.io/badge/License-GPL_V3-red" alt="License"></a>
 <a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/issues"><img src="https://img.shields.io/github/issues/mcagriaksoy/Serial-Communication-GUI-Program" alt="issues - Serial-Communication-GUI-Program"></a>
 
 [![Hosted with GH Pages](https://img.shields.io/badge/Hosted_with-GitHub_Pages-blue?logo=github&logoColor=white)](https://pages.github.com/ "Go to GitHub Pages homepage")
