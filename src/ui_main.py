@@ -378,7 +378,18 @@ class MainWindow(QMainWindow):
             return
         is_serial_port_established = True
         # change start_button to stop button
-        self.ui.options_textEdit.setText('Disconnected!')
+        # Get more info about the selected port
+        port_info = None
+        selected_port = self.ui.port_comboBox.currentText()
+        for p in serial.tools.list_ports.comports():
+            if p.device == selected_port:
+                port_info = p
+                break
+        if port_info:
+            info_text = f"RX/TX Connected to: {port_info.device}\nDescription: {port_info.description}\nManufacturer: {getattr(port_info, 'manufacturer', 'N/A')}\nHWID: {port_info.hwid}"
+        else:
+            info_text = f"RX/TX Connected to: {selected_port}"
+        self.ui.options_textEdit.setText(info_text)
         self.ui.start_button.setText("STOP")
         self.ui.start_button.setStyleSheet('color: red;')
 
@@ -398,7 +409,7 @@ class MainWindow(QMainWindow):
             self.thread.finished.connect(self.thread.deleteLater)
             
             self.enable_configuration(False)
-            self.ui.options_textEdit.setText('RX/TX Connected!')
+            self.ui.options_textEdit.setText('RX/TX Connected to the: ' + str(SERIAL_DEVICE.portstr))
             self.ui.status_label.setText("CONNECTED!")
             self.ui.status_label.setStyleSheet('color: green')
             # start the thread
@@ -449,8 +460,14 @@ class MainWindow(QMainWindow):
                 " Possibly it is not connected or the port is not available!")
             self.on_stop_button_clicked()
         else:
-            # Replace CRLF and LF with <br> for HTML display
             html_data = ansi_to_html(serial_data.replace('\r\n', '<br>').replace('\n', '<br>'))
+            # Adjust text color for day/night mode
+            if hasattr(self, 'night_mode_enabled') and self.night_mode_enabled:
+                # Night mode: convert black text to white
+                html_data = html_data.replace('color:black;', 'color:white;')
+            else:
+                # Day mode: convert white text to black
+                html_data = html_data.replace('color:white;', 'color:black;')
             self.ui.data_textEdit.insertHtml(html_data)
             self.ui.data_textEdit.verticalScrollBar().setValue(
                 self.ui.data_textEdit.verticalScrollBar().maximum())
@@ -498,6 +515,10 @@ class MainWindow(QMainWindow):
     def closeEvent(self, event):
         # Properly stop the worker and thread before closing
         self.stop_worker_thread()
+        if hasattr(self, 'thread') and self.thread is not None:
+            if self.thread.isRunning():
+                self.thread.quit()
+                self.thread.wait(2000)  # Wait up to 2 seconds for thread to finish
         event.accept()
 
 def start_ui_design():
