@@ -485,7 +485,7 @@ class Ui_main_window(object):
         self.view_change.setWhatsThis(QCoreApplication.translate("main_window", u"Click Here to go to the Simple View", None))
 #endif // QT_CONFIG(whatsthis)
         self.view_change.setText(QCoreApplication.translate("main_window", u"<<", None))
-        self.night_mode.setText(QCoreApplication.translate("main_window", u"\ud83c\udf18 Night Mode", None))
+        self.night_mode.setText(QCoreApplication.translate("main_window", u"\ud83c\udf18 Dark Mode", None))
         self.clear_buffer_button.setText(QCoreApplication.translate("main_window", u"Clear Buffer", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("main_window", u"Main Page", None))
         self.textEdit_3.setHtml(QCoreApplication.translate("main_window", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"

@@ -24,7 +24,7 @@ try:
 except ImportError:
     requests = None
 
-CURRENT_VERSION = "v1.6.0"
+CURRENT_VERSION = "v1.7.0"
 
 def action_save_as(ui):
     """
@@ -52,32 +52,124 @@ def action_save(ui):
         action_save_as(ui)
 
 def basic_view_enabled(ui):
-    """ Hide specific layouts in the UI for basic view """
-    # Hide all widgets in the verticalLayout_config
-    for i in range(ui.verticalLayout_config.count()):
-        widget = ui.verticalLayout_config.itemAt(i).widget()
+    """ Hide specific layouts in the UI for basic view and collapse the
+    reserved space so the window side doesn't leave an empty gap.
+
+    This saves the layouts' margins/spacing and widgets' maximum heights the
+    first time it's called, then sets margins and spacing to zero and forces
+    widgets to zero height so the layout collapses. The values are restored
+    by `advanced_view_enabled`.
+    """
+    # Short aliases
+    v_layout = ui.verticalLayout_config
+    f_layout = ui.formLayout_config
+
+    # Save original layout settings and widget max heights once
+    if not hasattr(ui, '_basic_view_saved'):
+        ui._basic_view_saved = {
+            'v_margins': v_layout.contentsMargins(),
+            'v_spacing': v_layout.spacing(),
+            'f_margins': f_layout.contentsMargins(),
+            'f_spacing': f_layout.spacing(),
+            'widgets_maxheight': {}
+        }
+
+    # Collapse layout spacing and margins to remove empty space
+    try:
+        v_layout.setContentsMargins(0, 0, 0, 0)
+        v_layout.setSpacing(0)
+    except Exception:
+        pass
+    try:
+        f_layout.setContentsMargins(0, 0, 0, 0)
+        f_layout.setSpacing(0)
+    except Exception:
+        pass
+
+    # Hide and shrink widgets inside the layouts
+    for i in range(v_layout.count()):
+        item = v_layout.itemAt(i)
+        widget = item.widget() if item else None
         if widget:
+            # store previous maximum height to restore later
+            ui._basic_view_saved['widgets_maxheight'][str(id(widget))] = widget.maximumHeight()
+            widget.setMaximumHeight(0)
             widget.setVisible(False)
 
-    # Optionally, hide all widgets in the formLayout_config
-    for i in range(ui.formLayout_config.count()):
-        widget = ui.formLayout_config.itemAt(i).widget()
+    for i in range(f_layout.count()):
+        item = f_layout.itemAt(i)
+        widget = item.widget() if item else None
         if widget:
+            ui._basic_view_saved['widgets_maxheight'][str(id(widget))] = widget.maximumHeight()
+            widget.setMaximumHeight(0)
             widget.setVisible(False)
 
 def advanced_view_enabled(ui):
-    """ Show specific layouts in the UI for advanced view """
-    # Show all widgets in the verticalLayout_config
-    for i in range(ui.verticalLayout_config.count()):
-        widget = ui.verticalLayout_config.itemAt(i).widget()
-        if widget:
-            widget.setVisible(True)
+    """ Show specific layouts in the UI for advanced view and restore the
+    layout margins/spacing and widgets' sizes saved by `basic_view_enabled`.
+    """
+    v_layout = ui.verticalLayout_config
+    f_layout = ui.formLayout_config
 
-    # Optionally, show all widgets in the formLayout_config
-    for i in range(ui.formLayout_config.count()):
-        widget = ui.formLayout_config.itemAt(i).widget()
-        if widget:
-            widget.setVisible(True)
+    # Restore layout margins/spacing if we saved them earlier
+    if hasattr(ui, '_basic_view_saved'):
+        saved = ui._basic_view_saved
+        try:
+            m = saved.get('v_margins')
+            if m is not None:
+                v_layout.setContentsMargins(m.left(), m.top(), m.right(), m.bottom())
+            v_layout.setSpacing(saved.get('v_spacing', v_layout.spacing()))
+        except Exception:
+            pass
+        try:
+            m = saved.get('f_margins')
+            if m is not None:
+                f_layout.setContentsMargins(m.left(), m.top(), m.right(), m.bottom())
+            f_layout.setSpacing(saved.get('f_spacing', f_layout.spacing()))
+        except Exception:
+            pass
+
+        # Restore widgets' maximum heights and visibility
+        for i in range(v_layout.count()):
+            item = v_layout.itemAt(i)
+            widget = item.widget() if item else None
+            if widget:
+                key = str(id(widget))
+                prev_h = saved['widgets_maxheight'].get(key)
+                if prev_h is not None:
+                    widget.setMaximumHeight(prev_h)
+                else:
+                    widget.setMaximumHeight(16777215)
+                widget.setVisible(True)
+
+        for i in range(f_layout.count()):
+            item = f_layout.itemAt(i)
+            widget = item.widget() if item else None
+            if widget:
+                key = str(id(widget))
+                prev_h = saved['widgets_maxheight'].get(key)
+                if prev_h is not None:
+                    widget.setMaximumHeight(prev_h)
+                else:
+                    widget.setMaximumHeight(16777215)
+                widget.setVisible(True)
+        # clear saved state
+        delattr(ui, '_basic_view_saved') if hasattr(ui, '_basic_view_saved') else None
+    else:
+        # Fallback: simply show widgets
+        for i in range(v_layout.count()):
+            item = v_layout.itemAt(i)
+            widget = item.widget() if item else None
+            if widget:
+                widget.setVisible(True)
+                widget.setMaximumHeight(16777215)
+
+        for i in range(f_layout.count()):
+            item = f_layout.itemAt(i)
+            widget = item.widget() if item else None
+            if widget:
+                widget.setVisible(True)
+                widget.setMaximumHeight(16777215)
 
 def clear_buffer(ui):
     """ Clear the buffer """

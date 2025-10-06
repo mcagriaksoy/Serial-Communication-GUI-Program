@@ -6,7 +6,7 @@ Cannot be used directly, it is a part of main.py
 
 __author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
 __annotations__ = 'AFCOM - Serial Communication GUI Program'
-__version__ = '2025 - 1.4.0.0'
+__version__ = '1.7.0'
 __license__ = 'JGPLv3'
 __status__ = 'Development'
 
@@ -161,10 +161,46 @@ class MainWindow(QMainWindow):
             loader = QUiLoader()
             self.ui = loader.load(ui_file)
             self.ui.show()
+            # Try to make the menu bar more compact (smaller height and padding).
+            # Some platforms/skins make the menubar very tall; force a tighter style.
+            try:
+                m = getattr(self.ui, 'menuBar', None)
+                if callable(m):
+                    mb = m()
+                else:
+                    mb = m
+                if mb is not None:
+                    # Avoid forcing a fixed height (which can trigger the overflow '>>').
+                    # Reduce font size and item padding so the menu is visually smaller
+                    # but items remain visible.
+                    mb.setStyleSheet(
+                        "QMenuBar { font-size: 8pt; }")
+                    mb.setStyleSheet(mb.styleSheet() +
+                                    "QMenuBar::item { padding: 2px 8px; margin: 0px; }")
+                    mb.updateGeometry()
+            except Exception:
+                pass
         else:  # PROGRAM_TYPE_RELEASE
             print("UI File Found!")
             self.ui = Ui_main_window()
             self.ui.setupUi(self)
+            # Apply the same compact menubar style in release mode (setupUi created the menubar
+            # on the QMainWindow instance `self`). Use safe checks so this doesn't fail.
+            try:
+                m = getattr(self, 'menuBar', None)
+                if callable(m):
+                    mb = m()
+                else:
+                    mb = m
+                if mb is not None:
+                    # Avoid fixed height to prevent the menu overflow chevron (>>).
+                    mb.setStyleSheet(
+                        "QMenuBar { font-size: 9pt; }")
+                    mb.setStyleSheet(mb.styleSheet() +
+                                    "QMenuBar::item { padding: 2px 8px; margin: 0px; }")
+                    mb.updateGeometry()
+            except Exception:
+                pass
         
         if (is_windows_dark_mode(self)):
             print("Windows Dark Mode is enabled!")
@@ -213,7 +249,7 @@ class MainWindow(QMainWindow):
         self.ui.actionHelp_2.triggered.connect(action_ui.show_help_dialog)
         self.ui.actionPreferences.triggered.connect(action_ui.show_settings_dialog)
 
-        # Night mode button event
+        # Dark mode button event
         self.night_mode_enabled = False
         if hasattr(self.ui, 'nightMode_Button'):
             self.ui.nightMode_Button.clicked.connect(self.enable_night_mode)
@@ -461,7 +497,7 @@ class MainWindow(QMainWindow):
             self.on_stop_button_clicked()
         else:
             html_data = ansi_to_html(serial_data.replace('\r\n', '<br>').replace('\n', '<br>'))
-            # Adjust text color for day/night mode
+            # Adjust text color for day/Dark mode
             if hasattr(self, 'night_mode_enabled') and self.night_mode_enabled:
                 # Night mode: convert black text to white
                 html_data = html_data.replace('color:black;', 'color:white;')
@@ -509,7 +545,7 @@ class MainWindow(QMainWindow):
         else:
             self.ui.data_textEdit.setStyleSheet("")
             if hasattr(self.ui.nightMode_Button, 'setText'):
-                self.ui.nightMode_Button.setText("Night Mode")
+                self.ui.nightMode_Button.setText("Dark Mode")
             self.night_mode_enabled = False
 
     def closeEvent(self, event):
