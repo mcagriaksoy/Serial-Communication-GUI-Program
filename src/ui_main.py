@@ -16,6 +16,7 @@ from sys import platform, exit, argv
 from glob import glob
 from src import action_ui
 import re
+import webbrowser
 # Runtime Type Checking
 PROGRAM_TYPE_DEBUG = True
 PROGRAM_TYPE_RELEASE = False
@@ -33,7 +34,8 @@ try:
     from ui.main_window import Ui_main_window
     if (PROGRAM_TYPE_DEBUG):
         from PySide6.QtUiTools import QUiLoader
-
+    # Add QFont import for setting terminal fonts
+    from PySide6.QtGui import QFont
 except ImportError as e:
     print("Import Error! I am installing the required libraries: " + str(e))
     #system("pip install {0}".format(str(e).split(" ")[-1]))
@@ -229,7 +231,8 @@ class MainWindow(QMainWindow):
         self.ui.actionSelect_All.triggered.connect(lambda: self.ui.data_textEdit.selectAll())
         self.ui.actionClear_Screen.triggered.connect(lambda: self.ui.data_textEdit.clear())
 
-        self.ui.actionClear_Cache.triggered.connect(action_ui.clear_buffer)
+        # Ensure clear_buffer receives the UI object (triggered may pass a bool)
+        self.ui.actionClear_Cache.triggered.connect(lambda checked=False: action_ui.clear_buffer(self.ui))
 
         self.ui.actionBasic_View.triggered.connect(lambda: action_ui.basic_view_enabled(self.ui))
         self.ui.actionAdvanced_View.triggered.connect(lambda: action_ui.advanced_view_enabled(self.ui))
@@ -243,16 +246,37 @@ class MainWindow(QMainWindow):
         # when Enter is pressed in send_data_text
         self.ui.send_data_text.installEventFilter(self)
 
+        # Apply terminal font from saved settings (if available)
+        try:
+            settings = action_ui.load_settings()
+        except Exception:
+            settings = {'font_family': 'Segoe UI', 'font_size': 10}
+
+        # Apply initial font from saved settings
+        try:
+            font_family = settings.get('font_family', 'Segoe UI')
+            font_size = settings.get('font_size', 10)
+            self.on_font_changed_with_size(font_family, font_size)
+        except Exception:
+            pass
+
         self.ui.actionExit.triggered.connect(lambda: exit(0))
         self.ui.actionAbout.triggered.connect(action_ui.show_about_dialog)
         self.ui.actionCheck_for_updates.triggered.connect(action_ui.check_for_updates)
         self.ui.actionHelp_2.triggered.connect(action_ui.show_help_dialog)
-        self.ui.actionPreferences.triggered.connect(action_ui.show_settings_dialog)
+        self.ui.actionPreferences.triggered.connect(self.open_settings_and_apply_font)
 
         # Dark mode button event
         self.night_mode_enabled = False
         if hasattr(self.ui, 'nightMode_Button'):
             self.ui.nightMode_Button.clicked.connect(self.enable_night_mode)
+
+        # Donate button: open buymeacoffee page in default browser
+        if hasattr(self.ui, 'donateButton'):
+            try:
+                self.ui.donateButton.clicked.connect(lambda: webbrowser.open('https://buymeacoffee.com/mcagriaksoy'))
+            except Exception:
+                pass
 
     '''
     def command1(self):
@@ -547,6 +571,79 @@ class MainWindow(QMainWindow):
             if hasattr(self.ui.nightMode_Button, 'setText'):
                 self.ui.nightMode_Button.setText("Dark Mode")
             self.night_mode_enabled = False
+
+    def open_settings_and_apply_font(self):
+        """Open the settings dialog then reapply font settings to terminal widgets."""
+        try:
+            # Call settings UI (may be modal or non-modal)
+            action_ui.show_settings_dialog()
+        except Exception:
+            # If the settings dialog needs a parent or fails, ignore and continue
+            try:
+                action_ui.show_settings_dialog(self)
+            except Exception:
+                pass
+
+        # Reapply the font after a short delay to allow dialog to save/update UI widgets
+        def _apply():
+            try:
+                settings = action_ui.load_settings()
+                font_family = settings.get('font_family', 'Segoe UI')
+                font_size = settings.get('font_size', 10)
+                self.on_font_changed_with_size(font_family, font_size)
+            except Exception:
+                pass
+
+        QTimer.singleShot(200, _apply)
+
+    def on_font_changed_with_size(self, font_name, size):
+        """Apply selected font with specific size to data_textEdit only (main terminal output)."""
+        if not font_name:
+            return
+
+        try:
+            f = QFont(font_name, size)
+
+            # Apply to data_textEdit (HTML-aware): set document default font and stylesheet
+            if hasattr(self.ui, 'data_textEdit'):
+                try:
+                    doc = self.ui.data_textEdit.document()
+                    doc.setDefaultFont(f)
+                    doc.setDefaultStyleSheet(f"body {{ font-family: '{font_name}'; font-size: {size}pt; }}")
+                except Exception:
+                    pass
+                try:
+                    self.ui.data_textEdit.setFont(f)
+                    self.ui.data_textEdit.setStyleSheet(f"font-family: '{font_name}'; font-size: {size}pt;")
+                except Exception:
+                    pass
+                # Refresh display
+                try:
+                    current_html = self.ui.data_textEdit.toHtml()
+                    self.ui.data_textEdit.setHtml(current_html)
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
+    def on_font_changed(self, font_input):
+        """Apply selected font to terminal widgets (data_textEdit, send_data_text).
+        This is a fallback method that uses default size."""
+        if not font_input:
+            return
+
+        # Determine font family from either QFont or string input
+        try:
+            if isinstance(font_input, QFont):
+                font_name = font_input.family()
+                size = font_input.pointSize() if font_input.pointSize() > 0 else 10
+            else:
+                font_name = str(font_input)
+                size = 10
+        except Exception:
+            return
+
+        self.on_font_changed_with_size(font_name, size)
 
     def closeEvent(self, event):
         # Properly stop the worker and thread before closing

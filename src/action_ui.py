@@ -15,10 +15,13 @@ try:
     from PySide6.QtCore import QUrl
     from ui.settings import Ui_Dialog
     from ui.help import Ui_HelpDialog
+    from PySide6.QtWidgets import QWidget
 except ImportError:
         print("PySide6 is not installed. Please install it to use this module.")
 
 import json
+from os import path
+SETTINGS_FILE = path.join(path.dirname(__file__), 'settings.json')
 try:
     import requests
 except ImportError:
@@ -103,6 +106,13 @@ def basic_view_enabled(ui):
             ui._basic_view_saved['widgets_maxheight'][str(id(widget))] = widget.maximumHeight()
             widget.setMaximumHeight(0)
             widget.setVisible(False)
+    
+    # Hide donate button in basic view
+    if hasattr(ui, 'donateButton'):
+        try:
+            ui.donateButton.setVisible(False)
+        except Exception:
+            pass
 
 def advanced_view_enabled(ui):
     """ Show specific layouts in the UI for advanced view and restore the
@@ -170,6 +180,13 @@ def advanced_view_enabled(ui):
             if widget:
                 widget.setVisible(True)
                 widget.setMaximumHeight(16777215)
+    
+    # Show donate button in advanced view
+    if hasattr(ui, 'donateButton'):
+        try:
+            ui.donateButton.setVisible(True)
+        except Exception:
+            pass
 
 def clear_buffer(ui):
     """ Clear the buffer """
@@ -218,34 +235,150 @@ def show_help_dialog(ui):
         except Exception as e:
             print(f"Error in show_help_dialog: {e}")
 
-def show_settings_dialog(ui):
-    """ Show the settings dialog """
-    if PROGRAM_TYPE_DEBUG:
-        file_path = "ui/settings.ui"  # Adjust the path if necessary
-        ui_file = QFile(file_path)
-        if not ui_file.exists():
-            QMessageBox.critical(None, "Error", f"Settings UI file not found: {file_path}")
-            return
-        
-        ui_file.open(QFile.ReadOnly)
-        loader = QUiLoader()
-        settings_dialog = loader.load(ui_file)
-        ui_file.close()
-        if settings_dialog:
+def load_settings():
+    """Load settings from settings.json if available."""
+    try:
+        if path.exists(SETTINGS_FILE):
+            with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+    except Exception:
+        pass
+    # defaults
+    return {'font_family': 'Segoe UI', 'font_size': 10}
+
+def save_settings(settings):
+    """Save settings dict to settings.json (best-effort)."""
+    try:
+        with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(settings, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+def show_settings_dialog(ui=None):
+    """ Show the settings dialog (debug/release). Persist chosen font settings on close.
+        `ui` parameter is optional (kept for compatibility)."""
+    widget_container = None
+    settings_ui_obj = None
+    try:
+        if PROGRAM_TYPE_DEBUG:
+            file_path = "ui/settings.ui"
+            ui_file = QFile(file_path)
+            if not ui_file.exists():
+                QMessageBox.critical(None, "Error", f"Settings UI file not found: {file_path}")
+                return
+            ui_file.open(QFile.ReadOnly)
+            loader = QUiLoader()
+            settings_dialog = loader.load(ui_file)
+            ui_file.close()
+            if not settings_dialog:
+                QMessageBox.critical(None, "Error", "Failed to load the settings UI.")
+                return
+            
+            # Load existing settings and populate the UI
+            settings = load_settings()
+            font_w = settings_dialog.findChild(QWidget, 'fontComboBox')
+            size_w = settings_dialog.findChild(QWidget, 'fontSize_spinBox')
+            
+            if font_w is not None and settings.get('font_family'):
+                try:
+                    from PySide6.QtGui import QFont as _QF
+                    if hasattr(font_w, 'setCurrentFont'):
+                        font_w.setCurrentFont(_QF(settings['font_family']))
+                    else:
+                        font_w.setCurrentText(settings['font_family'])
+                except Exception:
+                    pass
+            
+            if size_w is not None and settings.get('font_size'):
+                try:
+                    size_w.setValue(int(settings['font_size']))
+                except Exception:
+                    pass
+            
             settings_dialog.setWindowTitle("Settings")
             settings_dialog.setModal(True)
             settings_dialog.exec()
+            widget_container = settings_dialog
         else:
-            QMessageBox.critical(None, "Error", "Failed to load the settings UI.")
-    else:
+            dialog = QDialog()
+            settings_ui = Ui_Dialog()
+            settings_ui.setupUi(dialog)
+            settings_ui_obj = settings_ui
+            
+            # Load existing settings and populate the UI
+            settings = load_settings()
+            if hasattr(settings_ui, 'fontComboBox') and settings.get('font_family'):
+                try:
+                    from PySide6.QtGui import QFont as _QF
+                    if hasattr(settings_ui.fontComboBox, 'setCurrentFont'):
+                        settings_ui.fontComboBox.setCurrentFont(_QF(settings['font_family']))
+                    else:
+                        settings_ui.fontComboBox.setCurrentText(settings['font_family'])
+                except Exception:
+                    pass
+            
+            if hasattr(settings_ui, 'fontSize_spinBox') and settings.get('font_size'):
+                try:
+                    settings_ui.fontSize_spinBox.setValue(int(settings['font_size']))
+                except Exception:
+                    pass
+            
+            dialog.setWindowTitle("Settings")
+            dialog.exec()
+            widget_container = dialog
+    except Exception as e:
+        print(f"Error showing settings dialog: {e}")
+        return
+
+    # After dialog closes, try to read font selection widgets and persist them.
+    try:
+        if widget_container is None:
+            return
+        # find font family widget (fontComboBox) and font size widget (fontSize_spinBox)
+        font_w = None
+        size_w = None
+        
         try:
-            dialog = QDialog()  # Create a QDialog instance
-            settings_dialog = Ui_Dialog()  # Initialize the UI class
-            settings_dialog.setupUi(dialog)  # Set up the UI on the dialog
-            dialog.setWindowTitle("Settings")  # Set the dialog title
-            dialog.exec()  # Show the dialog modally
-        except Exception as e:
-            print(f"Error in show_settings_dialog: {e}")
+            font_w = widget_container.findChild(QWidget, 'fontComboBox')
+            size_w = widget_container.findChild(QWidget, 'fontSize_spinBox')
+        except Exception:
+            # Release mode fallback
+            if settings_ui_obj is not None:
+                if hasattr(settings_ui_obj, 'fontComboBox'):
+                    font_w = settings_ui_obj.fontComboBox
+                if hasattr(settings_ui_obj, 'fontSize_spinBox'):
+                    size_w = settings_ui_obj.fontSize_spinBox
+        
+        font_family = None
+        font_size = None
+        
+        if font_w is not None:
+            try:
+                if hasattr(font_w, 'currentFont'):
+                    font_family = font_w.currentFont().family()
+                else:
+                    font_family = font_w.currentText()
+            except Exception:
+                try:
+                    font_family = font_w.currentText()
+                except Exception:
+                    font_family = None
+        
+        if size_w is not None:
+            try:
+                font_size = size_w.value()
+            except Exception:
+                font_size = None
+
+        # load existing settings then update and save
+        settings = load_settings()
+        if font_family:
+            settings['font_family'] = font_family
+        if font_size:
+            settings['font_size'] = font_size
+        save_settings(settings)
+    except Exception as e:
+        print(f"Error saving settings: {e}")
 
 def check_for_updates(ui):
     """Check for updates by comparing the latest GitHub tag with the current version."""

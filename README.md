@@ -44,7 +44,14 @@ The COM port tool is compatible with:
 4. Send or receive data as needed.
 5. Save received data or clear buffers using the respective buttons.
 
-![Project SS](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/Screenshot_v2025_04.jpg)
+### Main UI
+![Project SS](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/ui.jpg)
+
+### UI - Settings
+![Project SS](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/ui_settings.jpg)
+
+### UI - Simple view
+![Project SS](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/ui_simple.jpg)
 
 If you encounter any problems while using the COM port tool, try these solutions:
 
