@@ -78,23 +78,6 @@ The following command have been used to create AFCOM.exe
 pyinstaller --noconfirm --onefile --windowed --icon "ui/icon.ico"  "src/main.py"
 
 ```
-
-## Changes
-
-### V1.4.0 - 2025 Update
-
-Feature: Added basic_view_enabled and advanced_view_enabled methods to toggle UI layouts visibility.
-Implemented start_loop and stop_loop for managing serial communication with threading.
-Added on_save_txt_button_clicked to save received data to a .txt file.
-
-Improvement: Enhanced error handling for serial communication and worker threads.
-Added visual feedback for serial port selection and connection status.
-
-Bug Fix: Fixed UI responsiveness during active serial communication.
-
-Refactor: Organized serial communication logic into reusable methods.
-
-</div>
 <h2>License</h2>
 Released under <a href="/LICENSE">GNU General Public License v3.0</a> by <a href="https://github.com/mcagriaksoy">@mcagriaksoy</a>.
 
