@@ -7,8 +7,9 @@
 # Runtime Type Checking
 PROGRAM_TYPE_DEBUG = True
 PROGRAM_TYPE_RELEASE = False
+QUiLoader = None
+
 try:
-    from PySide6.QtUiTools import QUiLoader
     from PySide6.QtWidgets import QDialog, QFileDialog, QMessageBox
     from PySide6.QtCore import QFile
     from PySide6.QtGui import QDesktopServices
@@ -16,6 +17,10 @@ try:
     from ui.settings import Ui_Dialog
     from ui.help import Ui_HelpDialog
     from PySide6.QtWidgets import QWidget
+    try:
+        from PySide6.QtUiTools import QUiLoader
+    except ImportError:
+        QUiLoader = None
 except ImportError:
         print("PySide6 is not installed. Please install it to use this module.")
 
@@ -27,7 +32,7 @@ try:
 except ImportError:
     requests = None
 
-CURRENT_VERSION = "v1.7.0"
+CURRENT_VERSION = "v1.8.0"
 
 def action_save_as(ui):
     """
@@ -89,23 +94,25 @@ def basic_view_enabled(ui):
     except Exception:
         pass
 
-    # Hide and shrink widgets inside the layouts
-    for i in range(v_layout.count()):
-        item = v_layout.itemAt(i)
-        widget = item.widget() if item else None
-        if widget:
-            # store previous maximum height to restore later
-            ui._basic_view_saved['widgets_maxheight'][str(id(widget))] = widget.maximumHeight()
-            widget.setMaximumHeight(0)
-            widget.setVisible(False)
+    def collapse_layout(layout):
+        for i in range(layout.count()):
+            item = layout.itemAt(i)
+            if item is None:
+                continue
 
-    for i in range(f_layout.count()):
-        item = f_layout.itemAt(i)
-        widget = item.widget() if item else None
-        if widget:
-            ui._basic_view_saved['widgets_maxheight'][str(id(widget))] = widget.maximumHeight()
-            widget.setMaximumHeight(0)
-            widget.setVisible(False)
+            widget = item.widget()
+            child_layout = item.layout()
+
+            if widget is not None:
+                ui._basic_view_saved['widgets_maxheight'][str(id(widget))] = widget.maximumHeight()
+                widget.setMaximumHeight(0)
+                widget.setVisible(False)
+            elif child_layout is not None:
+                collapse_layout(child_layout)
+
+    # Hide and shrink widgets inside the layouts, including nested layouts
+    collapse_layout(v_layout)
+    collapse_layout(f_layout)
     
     # Hide donate button in basic view
     if hasattr(ui, 'donateButton'):
@@ -139,47 +146,50 @@ def advanced_view_enabled(ui):
         except Exception:
             pass
 
-        # Restore widgets' maximum heights and visibility
-        for i in range(v_layout.count()):
-            item = v_layout.itemAt(i)
-            widget = item.widget() if item else None
-            if widget:
-                key = str(id(widget))
-                prev_h = saved['widgets_maxheight'].get(key)
-                if prev_h is not None:
-                    widget.setMaximumHeight(prev_h)
-                else:
-                    widget.setMaximumHeight(16777215)
-                widget.setVisible(True)
+        def restore_layout(layout):
+            for i in range(layout.count()):
+                item = layout.itemAt(i)
+                if item is None:
+                    continue
 
-        for i in range(f_layout.count()):
-            item = f_layout.itemAt(i)
-            widget = item.widget() if item else None
-            if widget:
-                key = str(id(widget))
-                prev_h = saved['widgets_maxheight'].get(key)
-                if prev_h is not None:
-                    widget.setMaximumHeight(prev_h)
-                else:
-                    widget.setMaximumHeight(16777215)
-                widget.setVisible(True)
+                widget = item.widget()
+                child_layout = item.layout()
+
+                if widget is not None:
+                    key = str(id(widget))
+                    prev_h = saved['widgets_maxheight'].get(key)
+                    if prev_h is not None:
+                        widget.setMaximumHeight(prev_h)
+                    else:
+                        widget.setMaximumHeight(16777215)
+                    widget.setVisible(True)
+                elif child_layout is not None:
+                    restore_layout(child_layout)
+
+        # Restore widgets' maximum heights and visibility, including nested layouts
+        restore_layout(v_layout)
+        restore_layout(f_layout)
         # clear saved state
         delattr(ui, '_basic_view_saved') if hasattr(ui, '_basic_view_saved') else None
     else:
-        # Fallback: simply show widgets
-        for i in range(v_layout.count()):
-            item = v_layout.itemAt(i)
-            widget = item.widget() if item else None
-            if widget:
-                widget.setVisible(True)
-                widget.setMaximumHeight(16777215)
+        def show_layout(layout):
+            for i in range(layout.count()):
+                item = layout.itemAt(i)
+                if item is None:
+                    continue
 
-        for i in range(f_layout.count()):
-            item = f_layout.itemAt(i)
-            widget = item.widget() if item else None
-            if widget:
-                widget.setVisible(True)
-                widget.setMaximumHeight(16777215)
+                widget = item.widget()
+                child_layout = item.layout()
+
+                if widget is not None:
+                    widget.setVisible(True)
+                    widget.setMaximumHeight(16777215)
+                elif child_layout is not None:
+                    show_layout(child_layout)
+
+        # Fallback: simply show widgets, including nested layouts
+        show_layout(v_layout)
+        show_layout(f_layout)
     
     # Show donate button in advanced view
     if hasattr(ui, 'donateButton'):
@@ -199,7 +209,7 @@ def show_about_dialog(ui):
     msg_box = QMessageBox()
     msg_box.setWindowTitle("About")
     # Use CURRENT_VERSION for the version number
-    msg_box.setText(f"AFCOM Client {CURRENT_VERSION} (C) 2020 - 2025 \r\n\r\nAuthor: Mehmet Cagri Aksoy \r\ngithub.com/mcagriaksoy")
+    msg_box.setText(f"AFCOM Client {CURRENT_VERSION} (C) 2020 - 2026 \r\n\r\nAuthor: Mehmet Cagri Aksoy \r\ngithub.com/mcagriaksoy")
     msg_box.setIcon(QMessageBox.Information)
     msg_box.setStandardButtons(QMessageBox.Ok)
     msg_box.setDefaultButton(QMessageBox.Ok)
@@ -208,7 +218,7 @@ def show_about_dialog(ui):
 
 def show_help_dialog(ui):
     """ Show the help dialog """
-    if PROGRAM_TYPE_DEBUG:
+    if PROGRAM_TYPE_DEBUG and QUiLoader is not None:
         file_path = "ui/help.ui"  # Adjust the path if necessary
         ui_file = QFile(file_path)
         if not ui_file.exists():
@@ -260,7 +270,7 @@ def show_settings_dialog(ui=None):
     widget_container = None
     settings_ui_obj = None
     try:
-        if PROGRAM_TYPE_DEBUG:
+        if PROGRAM_TYPE_DEBUG and QUiLoader is not None:
             file_path = "ui/settings.ui"
             ui_file = QFile(file_path)
             if not ui_file.exists():

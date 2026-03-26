@@ -100,7 +100,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </rect>
    </property>
    <property name="text">
-    <string>AFCOM Client v1.7.0 (C) 2020 - 2025 Author: Mehmet Cagri Aksoy github.com/mcagriaksoy</string>
+    <string>AFCOM Client v1.8.0 (C) 2020 - 2026 Author: Mehmet Cagri Aksoy github.com/mcagriaksoy</string>
    </property>
   </widget>
  </widget>

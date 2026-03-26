@@ -11,7 +11,9 @@ __license__ = 'JGPLv3'
 __status__ = 'Development'
 
 # IMPORTS
+from importlib import util as importlib_util
 from os import path, system
+import sys
 from sys import platform, exit, argv
 from glob import glob
 from src import action_ui
@@ -21,6 +23,46 @@ import webbrowser
 PROGRAM_TYPE_DEBUG = True
 PROGRAM_TYPE_RELEASE = False
 
+
+def load_generated_ui_class():
+    """Load Ui_main_window directly from the repo's ui folder."""
+    ui_dir = path.normpath(path.join(path.dirname(__file__), "..", "ui"))
+    candidate_paths = (
+        path.join(ui_dir, "ui_main_window.py"),
+        path.join(ui_dir, "main_window.py"),
+    )
+
+    last_error = None
+    for module_path in candidate_paths:
+        if not path.exists(module_path):
+            continue
+
+        try:
+            added_ui_dir = False
+            if ui_dir not in sys.path:
+                sys.path.insert(0, ui_dir)
+                added_ui_dir = True
+            spec = importlib_util.spec_from_file_location("afcom_ui_main_window", module_path)
+            if spec is None or spec.loader is None:
+                continue
+            module = importlib_util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            ui_class = getattr(module, "Ui_main_window", None)
+            if ui_class is not None:
+                return ui_class
+        except Exception as exc:
+            last_error = exc
+        finally:
+            if added_ui_dir:
+                try:
+                    sys.path.remove(ui_dir)
+                except ValueError:
+                    pass
+
+    if last_error is not None:
+        raise ImportError(f"Unable to load Ui_main_window: {last_error}") from last_error
+    raise ImportError("Unable to locate generated Ui_main_window module.")
+
 try:
     import serial.tools.list_ports
     from serial import SerialException, Serial
@@ -28,14 +70,19 @@ except ImportError as e:
     print("Import Error! I am installing the PySerial library.")
     #system("python -m pip install pyserial")
 
+QUiLoader = None
+
 try:
     from PySide6.QtCore import QObject, QThread, Signal, QFile, Qt, QEvent, QTimer
     from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QInputDialog
-    from ui.main_window import Ui_main_window
-    if (PROGRAM_TYPE_DEBUG):
-        from PySide6.QtUiTools import QUiLoader
+    Ui_main_window = load_generated_ui_class()
     # Add QFont import for setting terminal fonts
     from PySide6.QtGui import QFont
+    if PROGRAM_TYPE_DEBUG:
+        try:
+            from PySide6.QtUiTools import QUiLoader
+        except ImportError:
+            QUiLoader = None
 except ImportError as e:
     print("Import Error! I am installing the required libraries: " + str(e))
     #system("pip install {0}".format(str(e).split(" ")[-1]))
@@ -152,8 +199,7 @@ class MainWindow(QMainWindow):
         """ Initialize Main Window """
         super(MainWindow, self).__init__()
 
-        if PROGRAM_TYPE_DEBUG:
-            
+        if PROGRAM_TYPE_DEBUG and QUiLoader is not None:
             file_path = path.join("ui/main_window.ui")
             if not path.exists(file_path):
                 print("UI File Not Found!")
@@ -182,10 +228,14 @@ class MainWindow(QMainWindow):
                     mb.updateGeometry()
             except Exception:
                 pass
-        else:  # PROGRAM_TYPE_RELEASE
-            print("UI File Found!")
+        else:  # PROGRAM_TYPE_RELEASE or debug fallback when QUiLoader is unavailable
+            if PROGRAM_TYPE_DEBUG and QUiLoader is None:
+                print("QtUiTools/QUiLoader is unavailable. Falling back to generated UI classes.")
+            else:
+                print("UI File Found!")
             self.ui = Ui_main_window()
             self.ui.setupUi(self)
+            self.show()
             # Apply the same compact menubar style in release mode (setupUi created the menubar
             # on the QMainWindow instance `self`). Use safe checks so this doesn't fail.
             try:
@@ -265,11 +315,6 @@ class MainWindow(QMainWindow):
         self.ui.actionCheck_for_updates.triggered.connect(action_ui.check_for_updates)
         self.ui.actionHelp_2.triggered.connect(action_ui.show_help_dialog)
         self.ui.actionPreferences.triggered.connect(self.open_settings_and_apply_font)
-
-        # Dark mode button event
-        self.night_mode_enabled = False
-        if hasattr(self.ui, 'nightMode_Button'):
-            self.ui.nightMode_Button.clicked.connect(self.enable_night_mode)
 
         # Donate button: open buymeacoffee page in default browser
         if hasattr(self.ui, 'donateButton'):
@@ -521,13 +566,6 @@ class MainWindow(QMainWindow):
             self.on_stop_button_clicked()
         else:
             html_data = ansi_to_html(serial_data.replace('\r\n', '<br>').replace('\n', '<br>'))
-            # Adjust text color for day/Dark mode
-            if hasattr(self, 'night_mode_enabled') and self.night_mode_enabled:
-                # Night mode: convert black text to white
-                html_data = html_data.replace('color:black;', 'color:white;')
-            else:
-                # Day mode: convert white text to black
-                html_data = html_data.replace('color:white;', 'color:black;')
             self.ui.data_textEdit.insertHtml(html_data)
             self.ui.data_textEdit.verticalScrollBar().setValue(
                 self.ui.data_textEdit.verticalScrollBar().maximum())
@@ -556,21 +594,6 @@ class MainWindow(QMainWindow):
         else:
             self.print_message_on_screen(
                 "Serial Port is not established yet! Please establish the serial port first!")
-
-    def enable_night_mode(self):
-        """Toggle night/day mode for data_textEdit"""
-        if not hasattr(self, 'night_mode_enabled'):
-            self.night_mode_enabled = False
-        if not self.night_mode_enabled:
-            self.ui.data_textEdit.setStyleSheet("background-color: black;")
-            if hasattr(self.ui.nightMode_Button, 'setText'):
-                self.ui.nightMode_Button.setText("Day Mode")
-            self.night_mode_enabled = True
-        else:
-            self.ui.data_textEdit.setStyleSheet("")
-            if hasattr(self.ui.nightMode_Button, 'setText'):
-                self.ui.nightMode_Button.setText("Dark Mode")
-            self.night_mode_enabled = False
 
     def open_settings_and_apply_font(self):
         """Open the settings dialog then reapply font settings to terminal widgets."""

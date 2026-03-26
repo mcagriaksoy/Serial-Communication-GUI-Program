@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>1015</width>
-    <height>621</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -46,6 +46,207 @@
   <property name="whatsThis">
    <string>Serial Communication Program Mehmet Cagri Aksoy</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+    background-color: #0c1420;
+    color: #e6edf7;
+    font-family: &quot;Segoe UI&quot;;
+    font-size: 10pt;
+}
+
+QWidget#centralwidget {
+    background-color: #0c1420;
+    border-top: 1px solid #172536;
+}
+
+QWidget {
+    color: #d8e1ec;
+}
+
+QMenuBar {
+    background-color: #111b29;
+    color: #dfe7f2;
+    border-bottom: 1px solid #223247;
+    padding: 4px 8px;
+}
+
+QMenuBar::item {
+    background: transparent;
+    border-radius: 8px;
+    padding: 6px 12px;
+    margin: 2px 4px;
+}
+
+QMenuBar::item:selected {
+    background-color: #1d3147;
+    color: #ffffff;
+}
+
+QMenu {
+    background-color: #132033;
+    color: #e6edf7;
+    border: 1px solid #24374d;
+    padding: 8px;
+}
+
+QMenu::item {
+    padding: 8px 18px;
+    border-radius: 8px;
+}
+
+QMenu::item:selected {
+    background-color: #1e7f78;
+    color: #ffffff;
+}
+
+QLabel {
+    color: #9fb2c7;
+    font-weight: 600;
+}
+
+QTextEdit, QComboBox {
+    background-color: #162334;
+    color: #eff5fb;
+    border: 1px solid #284058;
+    border-radius: 10px;
+    padding: 6px 10px;
+    selection-background-color: #1e7f78;
+    selection-color: #ffffff;
+}
+
+QTextEdit:focus, QComboBox:focus {
+    border: 1px solid #35b8ae;
+}
+
+QComboBox {
+    min-height: 26px;
+    max-height: 26px;
+    padding-right: 18px;
+    padding-left: 8px;
+    font-size: 9pt;
+}
+
+QComboBox::drop-down {
+    border: none;
+    width: 18px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #162334;
+    color: #eff5fb;
+    border: 1px solid #284058;
+    selection-background-color: #1e7f78;
+    selection-color: #ffffff;
+    outline: 0;
+}
+
+QPushButton {
+    background-color: #1a2a3d;
+    color: #f4f8fc;
+    border: 1px solid #2b4158;
+    border-radius: 10px;
+    padding: 7px 14px;
+    font-weight: 700;
+    min-height: 28px;
+}
+
+QPushButton:hover {
+    background-color: #22374e;
+    border-color: #3d5974;
+}
+
+QPushButton:pressed {
+    background-color: #162637;
+}
+
+QPushButton#start_button {
+    background-color: #1e7f78;
+    border: 1px solid #2fd0c5;
+    color: #ffffff;
+    min-height: 36px;
+    font-size: 11pt;
+    letter-spacing: 0.5px;
+}
+
+QPushButton#start_button:hover {
+    background-color: #24958d;
+}
+
+QPushButton#send_button {
+    background-color: #244fb5;
+    border: 1px solid #4f7be8;
+}
+
+QPushButton#send_button:hover {
+    background-color: #2c5fd6;
+}
+
+QPushButton#refresh_button {
+    min-height: 26px;
+    max-height: 26px;
+}
+
+QPushButton#donateButton {
+    background-color: #f5b942;
+    border: 1px solid #ffd36f;
+    color: #392300;
+    min-height: 30px;
+}
+
+QPushButton#donateButton:hover {
+    background-color: #ffca5c;
+}
+
+QTextEdit#data_textEdit {
+    background-color: #09131e;
+    border: 1px solid #1b3349;
+    border-radius: 18px;
+    padding: 14px;
+    font-family: &quot;Consolas&quot;;
+    font-size: 10pt;
+}
+
+QTextEdit#send_data_text {
+    background-color: #142131;
+    border: 1px solid #2b4560;
+    border-radius: 12px;
+    padding: 6px 12px;
+}
+
+QTextEdit#options_textEdit {
+    background-color: #111c2a;
+    color: #c8d5e4;
+    border-radius: 12px;
+}
+
+QLabel#status_label {
+    color: #f8b84e;
+    font-weight: 700;
+}
+
+QLabel#label_9, QLabel#label_12 {
+    color: #e6edf7;
+    font-size: 10pt;
+    font-weight: 700;
+}
+
+QRadioButton {
+    spacing: 0px;
+}
+
+QRadioButton::indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    border: 2px solid #36516b;
+    background-color: #132033;
+}
+
+QRadioButton::indicator:checked {
+    background-color: #35b8ae;
+    border: 2px solid #7ce0d8;
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
@@ -53,30 +254,23 @@
       <item row="2" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="nightMode_Button">
-          <property name="maximumSize">
-           <size>
-            <width>80</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Dark Mode</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QTextEdit" name="send_data_text">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>38</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>5000</width>
-            <height>28</height>
+            <height>32</height>
            </size>
           </property>
           <property name="inputMethodHints">
@@ -94,52 +288,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="status_label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>9</pointsize>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="text">
-           <string>Not Connected</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="send_button">
-          <property name="maximumSize">
-           <size>
-            <width>120</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Push Data</string>
-          </property>
-          <property name="icon">
-           <iconset theme="mail-send"/>
-          </property>
-         </widget>
         </item>
         <item>
          <widget class="QRadioButton" name="indicate_button">
@@ -177,6 +326,28 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="send_button">
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>38</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>132</width>
+            <height>38</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Push Data</string>
+          </property>
+          <property name="icon">
+           <iconset theme="mail-send"/>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item row="0" column="0">
@@ -199,7 +370,7 @@
        </widget>
       </item>
       <item row="0" column="2">
-       <layout class="QVBoxLayout" name="verticalLayout_config" stretch="2,0,0,0,0,0">
+       <layout class="QVBoxLayout" name="verticalLayout_config" stretch="2,0,0,0">
         <property name="spacing">
          <number>6</number>
         </property>
@@ -232,7 +403,7 @@
             <property name="maximumSize">
              <size>
               <width>120</width>
-              <height>16777215</height>
+              <height>42</height>
              </size>
             </property>
             <property name="text">
@@ -255,7 +426,7 @@
             <property name="maximumSize">
              <size>
               <width>120</width>
-              <height>16777215</height>
+              <height>40</height>
              </size>
             </property>
            </widget>
@@ -272,7 +443,7 @@
             <property name="maximumSize">
              <size>
               <width>120</width>
-              <height>16777215</height>
+              <height>40</height>
              </size>
             </property>
             <item>
@@ -339,7 +510,7 @@
             <property name="maximumSize">
              <size>
               <width>120</width>
-              <height>16777215</height>
+              <height>40</height>
              </size>
             </property>
             <item>
@@ -376,7 +547,7 @@
             <property name="maximumSize">
              <size>
               <width>120</width>
-              <height>16777215</height>
+              <height>40</height>
              </size>
             </property>
             <item>
@@ -433,7 +604,7 @@
             <property name="maximumSize">
              <size>
               <width>120</width>
-              <height>16777215</height>
+              <height>40</height>
              </size>
             </property>
             <item>
@@ -475,7 +646,7 @@
             <property name="maximumSize">
              <size>
               <width>120</width>
-              <height>16777215</height>
+              <height>40</height>
              </size>
             </property>
             <item>
@@ -507,7 +678,7 @@
             <property name="maximumSize">
              <size>
               <width>120</width>
-              <height>16777215</height>
+              <height>40</height>
              </size>
             </property>
             <item>
@@ -537,7 +708,7 @@
             <property name="maximumSize">
              <size>
               <width>120</width>
-              <height>16777215</height>
+              <height>40</height>
              </size>
             </property>
             <item>
@@ -572,20 +743,6 @@
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="label_9">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>9</pointsize>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Status :</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="start_button">
           <property name="maximumSize">
            <size>
@@ -595,7 +752,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>9</pointsize>
+            <pointsize>11</pointsize>
             <bold>true</bold>
            </font>
           </property>
@@ -611,11 +768,44 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_12">
-          <property name="text">
-           <string>Connection Options:</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>Status:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="status_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>90</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>9</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Not Connected</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <widget class="QTextEdit" name="options_textEdit">
@@ -636,25 +826,24 @@
           </property>
          </widget>
         </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <property name="spacing">
-           <number>4</number>
-          </property>
-         </layout>
-        </item>
        </layout>
       </item>
       <item row="2" column="2">
        <widget class="QPushButton" name="donateButton">
+        <property name="minimumSize">
+         <size>
+          <width>82</width>
+          <height>38</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
-          <width>120</width>
-          <height>16777215</height>
+          <width>205</width>
+          <height>38</height>
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">p url(:/res/coffee.jpg);</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>☕ Buy me a coffee</string>
@@ -671,7 +860,7 @@
      <x>0</x>
      <y>0</y>
      <width>1015</width>
-     <height>21</height>
+     <height>40</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

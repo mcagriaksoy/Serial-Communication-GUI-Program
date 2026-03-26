@@ -7,7 +7,7 @@ __author__ = "Mehmet Cagri Aksoy - github.com/mcagriaksoy"
 __copyright__ = "Copyright 2023, The AFCOM Project"
 __credits__ = ["Mehmet Cagri Aksoy"]
 __license__ = "JGPLv3"
-__version__ = "1.7.0"
+__version__ = "1.8.0"
 __maintainer__ = "Mehmet Cagri Aksoy"
 __status__ = "Production"
 

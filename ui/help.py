@@ -15,17 +15,31 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDialog, QLabel, QSizePolicy,
-    QTextEdit, QWidget)
+from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QLabel,
+    QSizePolicy, QTextEdit, QWidget)
 
 class Ui_HelpDialog(object):
     def setupUi(self, HelpDialog):
         if not HelpDialog.objectName():
             HelpDialog.setObjectName(u"HelpDialog")
-        HelpDialog.resize(765, 397)
+        HelpDialog.resize(768, 378)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(HelpDialog.sizePolicy().hasHeightForWidth())
+        HelpDialog.setSizePolicy(sizePolicy)
+        HelpDialog.setMinimumSize(QSize(768, 378))
+        HelpDialog.setMaximumSize(QSize(768, 378))
+        icon = QIcon(QIcon.fromTheme(u"help-about"))
+        HelpDialog.setWindowIcon(icon)
         self.textEdit_3 = QTextEdit(HelpDialog)
         self.textEdit_3.setObjectName(u"textEdit_3")
         self.textEdit_3.setGeometry(QRect(10, 10, 751, 341))
+        sizePolicy.setHeightForWidth(self.textEdit_3.sizePolicy().hasHeightForWidth())
+        self.textEdit_3.setSizePolicy(sizePolicy)
+        self.textEdit_3.setMinimumSize(QSize(751, 341))
+        self.textEdit_3.setMaximumSize(QSize(751, 341))
+        self.textEdit_3.setFrameShape(QFrame.Shape.NoFrame)
         self.textEdit_3.setUndoRedoEnabled(False)
         self.textEdit_3.setReadOnly(True)
         self.textEdit_3.setAcceptRichText(False)
@@ -56,6 +70,6 @@ class Ui_HelpDialog(object):
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:696;\">Legal Information</span></p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">This application incorporates Qt for Python (PySide), which is licensed under the GNU Lesser General Public License version 3 (LGPLv3). By using this software, you agree to comply with the terms of the LGPLv3 license. For more information about Qt for Python, visit https://www.qt.io/qt-for-python. A copy of the LGPLv3 license is included with this application.</span></p>\n"
 "<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
-        self.label.setText(QCoreApplication.translate("HelpDialog", u"AFCOM Client v1.4.0.0 (C) 2020 - 2025 Author: Mehmet Cagri Aksoy github.com/mcagriaksoy", None))
+        self.label.setText(QCoreApplication.translate("HelpDialog", u"AFCOM Client v1.8.0 (C) 2020 - 2026 Author: Mehmet Cagri Aksoy github.com/mcagriaksoy", None))
     # retranslateUi
 

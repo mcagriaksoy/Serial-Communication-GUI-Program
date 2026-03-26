@@ -18,44 +18,100 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QComboBox, QDialog,
     QDialogButtonBox, QFontComboBox, QFormLayout, QGridLayout,
     QGroupBox, QLabel, QPushButton, QSizePolicy,
-    QSpacerItem, QWidget)
+    QSpinBox, QWidget)
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(251, 386)
+        Dialog.resize(250, 400)
+        Dialog.setMinimumSize(QSize(250, 400))
+        Dialog.setMaximumSize(QSize(250, 400))
+        icon = QIcon(QIcon.fromTheme(u"applications-development"))
+        Dialog.setWindowIcon(icon)
         self.gridLayout = QGridLayout(Dialog)
         self.gridLayout.setObjectName(u"gridLayout")
         self.buttonBox = QDialogButtonBox(Dialog)
         self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setOrientation(Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.Close|QDialogButtonBox.SaveAll)
+        self.buttonBox.setOrientation(Qt.Orientation.Horizontal)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Close|QDialogButtonBox.StandardButton.SaveAll)
 
-        self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.buttonBox, 2, 0, 1, 1)
 
         self.groupBox = QGroupBox(Dialog)
         self.groupBox.setObjectName(u"groupBox")
         self.layoutWidget = QWidget(self.groupBox)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(10, 20, 221, 311))
+        self.layoutWidget.setGeometry(QRect(10, 20, 221, 321))
         self.formLayout_config = QFormLayout(self.layoutWidget)
         self.formLayout_config.setObjectName(u"formLayout_config")
-        self.formLayout_config.setLabelAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.formLayout_config.setFormAlignment(Qt.AlignJustify|Qt.AlignVCenter)
+        self.formLayout_config.setLabelAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.formLayout_config.setFormAlignment(Qt.AlignmentFlag.AlignJustify|Qt.AlignmentFlag.AlignVCenter)
         self.formLayout_config.setHorizontalSpacing(4)
         self.formLayout_config.setVerticalSpacing(2)
         self.formLayout_config.setContentsMargins(0, 0, 0, 0)
-        self.label_46 = QLabel(self.layoutWidget)
-        self.label_46.setObjectName(u"label_46")
+        self.label_3 = QLabel(self.layoutWidget)
+        self.label_3.setObjectName(u"label_3")
 
-        self.formLayout_config.setWidget(4, QFormLayout.ItemRole.LabelRole, self.label_46)
+        self.formLayout_config.setWidget(0, QFormLayout.ItemRole.LabelRole, self.label_3)
+
+        self.comboBox = QComboBox(self.layoutWidget)
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setMaximumSize(QSize(120, 16777215))
+
+        self.formLayout_config.setWidget(0, QFormLayout.ItemRole.FieldRole, self.comboBox)
+
+        self.label = QLabel(self.layoutWidget)
+        self.label.setObjectName(u"label")
+
+        self.formLayout_config.setWidget(1, QFormLayout.ItemRole.LabelRole, self.label)
+
+        self.comboBox_2 = QComboBox(self.layoutWidget)
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.setObjectName(u"comboBox_2")
+        self.comboBox_2.setMaximumSize(QSize(120, 16777215))
+
+        self.formLayout_config.setWidget(1, QFormLayout.ItemRole.FieldRole, self.comboBox_2)
+
+        self.label_2 = QLabel(self.layoutWidget)
+        self.label_2.setObjectName(u"label_2")
+
+        self.formLayout_config.setWidget(2, QFormLayout.ItemRole.LabelRole, self.label_2)
+
+        self.fontComboBox = QFontComboBox(self.layoutWidget)
+        self.fontComboBox.setObjectName(u"fontComboBox")
+        self.fontComboBox.setMaximumSize(QSize(120, 16777215))
+
+        self.formLayout_config.setWidget(2, QFormLayout.ItemRole.FieldRole, self.fontComboBox)
+
+        self.label_fontSize = QLabel(self.layoutWidget)
+        self.label_fontSize.setObjectName(u"label_fontSize")
+
+        self.formLayout_config.setWidget(3, QFormLayout.ItemRole.LabelRole, self.label_fontSize)
+
+        self.fontSize_spinBox = QSpinBox(self.layoutWidget)
+        self.fontSize_spinBox.setObjectName(u"fontSize_spinBox")
+        self.fontSize_spinBox.setMaximumSize(QSize(120, 16777215))
+        self.fontSize_spinBox.setMinimum(6)
+        self.fontSize_spinBox.setMaximum(36)
+        self.fontSize_spinBox.setValue(10)
+
+        self.formLayout_config.setWidget(3, QFormLayout.ItemRole.FieldRole, self.fontSize_spinBox)
 
         self.refresh_button = QPushButton(self.layoutWidget)
         self.refresh_button.setObjectName(u"refresh_button")
         self.refresh_button.setMaximumSize(QSize(120, 16777215))
 
         self.formLayout_config.setWidget(4, QFormLayout.ItemRole.FieldRole, self.refresh_button)
+
+        self.label_46 = QLabel(self.layoutWidget)
+        self.label_46.setObjectName(u"label_46")
+
+        self.formLayout_config.setWidget(4, QFormLayout.ItemRole.LabelRole, self.label_46)
 
         self.label_22 = QLabel(self.layoutWidget)
         self.label_22.setObjectName(u"label_22")
@@ -89,11 +145,6 @@ class Ui_Dialog(object):
 
         self.formLayout_config.setWidget(6, QFormLayout.ItemRole.FieldRole, self.baudrate_comboBox)
 
-        self.label_26 = QLabel(self.layoutWidget)
-        self.label_26.setObjectName(u"label_26")
-
-        self.formLayout_config.setWidget(7, QFormLayout.ItemRole.LabelRole, self.label_26)
-
         self.len_comboBox = QComboBox(self.layoutWidget)
         self.len_comboBox.addItem("")
         self.len_comboBox.addItem("")
@@ -102,12 +153,7 @@ class Ui_Dialog(object):
         self.len_comboBox.setObjectName(u"len_comboBox")
         self.len_comboBox.setMaximumSize(QSize(120, 16777215))
 
-        self.formLayout_config.setWidget(7, QFormLayout.ItemRole.FieldRole, self.len_comboBox)
-
-        self.label_27 = QLabel(self.layoutWidget)
-        self.label_27.setObjectName(u"label_27")
-
-        self.formLayout_config.setWidget(8, QFormLayout.ItemRole.LabelRole, self.label_27)
+        self.formLayout_config.setWidget(8, QFormLayout.ItemRole.FieldRole, self.len_comboBox)
 
         self.timeout_comboBox = QComboBox(self.layoutWidget)
         self.timeout_comboBox.addItem("")
@@ -121,12 +167,27 @@ class Ui_Dialog(object):
         self.timeout_comboBox.setObjectName(u"timeout_comboBox")
         self.timeout_comboBox.setMaximumSize(QSize(120, 16777215))
 
-        self.formLayout_config.setWidget(8, QFormLayout.ItemRole.FieldRole, self.timeout_comboBox)
+        self.formLayout_config.setWidget(7, QFormLayout.ItemRole.FieldRole, self.timeout_comboBox)
+
+        self.label_27 = QLabel(self.layoutWidget)
+        self.label_27.setObjectName(u"label_27")
+
+        self.formLayout_config.setWidget(7, QFormLayout.ItemRole.LabelRole, self.label_27)
+
+        self.label_26 = QLabel(self.layoutWidget)
+        self.label_26.setObjectName(u"label_26")
+
+        self.formLayout_config.setWidget(8, QFormLayout.ItemRole.LabelRole, self.label_26)
 
         self.label_28 = QLabel(self.layoutWidget)
         self.label_28.setObjectName(u"label_28")
 
         self.formLayout_config.setWidget(9, QFormLayout.ItemRole.LabelRole, self.label_28)
+
+        self.label_29 = QLabel(self.layoutWidget)
+        self.label_29.setObjectName(u"label_29")
+
+        self.formLayout_config.setWidget(10, QFormLayout.ItemRole.LabelRole, self.label_29)
 
         self.parity_comboBox = QComboBox(self.layoutWidget)
         self.parity_comboBox.addItem("")
@@ -138,11 +199,6 @@ class Ui_Dialog(object):
         self.parity_comboBox.setMaximumSize(QSize(120, 16777215))
 
         self.formLayout_config.setWidget(9, QFormLayout.ItemRole.FieldRole, self.parity_comboBox)
-
-        self.label_29 = QLabel(self.layoutWidget)
-        self.label_29.setObjectName(u"label_29")
-
-        self.formLayout_config.setWidget(10, QFormLayout.ItemRole.LabelRole, self.label_29)
 
         self.bit_comboBox = QComboBox(self.layoutWidget)
         self.bit_comboBox.addItem("")
@@ -168,50 +224,8 @@ class Ui_Dialog(object):
 
         self.formLayout_config.setWidget(11, QFormLayout.ItemRole.FieldRole, self.flow_comboBox)
 
-        self.label = QLabel(self.layoutWidget)
-        self.label.setObjectName(u"label")
 
-        self.formLayout_config.setWidget(0, QFormLayout.ItemRole.LabelRole, self.label)
-
-        self.comboBox_2 = QComboBox(self.layoutWidget)
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.setObjectName(u"comboBox_2")
-        self.comboBox_2.setMaximumSize(QSize(120, 16777215))
-
-        self.formLayout_config.setWidget(0, QFormLayout.ItemRole.FieldRole, self.comboBox_2)
-
-        self.fontComboBox = QFontComboBox(self.layoutWidget)
-        self.fontComboBox.setObjectName(u"fontComboBox")
-        self.fontComboBox.setMaximumSize(QSize(120, 16777215))
-
-        self.formLayout_config.setWidget(1, QFormLayout.ItemRole.FieldRole, self.fontComboBox)
-
-        self.label_2 = QLabel(self.layoutWidget)
-        self.label_2.setObjectName(u"label_2")
-
-        self.formLayout_config.setWidget(1, QFormLayout.ItemRole.LabelRole, self.label_2)
-
-        self.verticalSpacer = QSpacerItem(10, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
-
-        self.formLayout_config.setItem(3, QFormLayout.ItemRole.SpanningRole, self.verticalSpacer)
-
-        self.comboBox = QComboBox(self.layoutWidget)
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.setObjectName(u"comboBox")
-        self.comboBox.setMaximumSize(QSize(120, 16777215))
-
-        self.formLayout_config.setWidget(2, QFormLayout.ItemRole.FieldRole, self.comboBox)
-
-        self.label_3 = QLabel(self.layoutWidget)
-        self.label_3.setObjectName(u"label_3")
-
-        self.formLayout_config.setWidget(2, QFormLayout.ItemRole.LabelRole, self.label_3)
-
-
-        self.gridLayout.addWidget(self.groupBox, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.groupBox, 1, 0, 1, 1)
 
 
         self.retranslateUi(Dialog)
@@ -224,8 +238,19 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
         self.groupBox.setTitle(QCoreApplication.translate("Dialog", u"Settings", None))
-        self.label_46.setText(QCoreApplication.translate("Dialog", u"Refresh Port(s):", None))
+        self.label_3.setText(QCoreApplication.translate("Dialog", u"Theme:", None))
+        self.comboBox.setItemText(0, QCoreApplication.translate("Dialog", u"Defult (System)", None))
+        self.comboBox.setItemText(1, QCoreApplication.translate("Dialog", u"Dark", None))
+        self.comboBox.setItemText(2, QCoreApplication.translate("Dialog", u"Light", None))
+
+        self.label.setText(QCoreApplication.translate("Dialog", u"UI Language:", None))
+        self.comboBox_2.setItemText(0, QCoreApplication.translate("Dialog", u"English", None))
+        self.comboBox_2.setItemText(1, QCoreApplication.translate("Dialog", u"T\u00fcrk\u00e7e", None))
+
+        self.label_2.setText(QCoreApplication.translate("Dialog", u"Terminal Font:", None))
+        self.label_fontSize.setText(QCoreApplication.translate("Dialog", u"Font Size:", None))
         self.refresh_button.setText(QCoreApplication.translate("Dialog", u"\u21bb", None))
+        self.label_46.setText(QCoreApplication.translate("Dialog", u"Refresh Port(s):", None))
         self.label_22.setText(QCoreApplication.translate("Dialog", u"Selected Port:", None))
         self.label_25.setText(QCoreApplication.translate("Dialog", u"Baud Rate:", None))
         self.baudrate_comboBox.setItemText(0, QCoreApplication.translate("Dialog", u"9600", None))
@@ -239,13 +264,11 @@ class Ui_Dialog(object):
         self.baudrate_comboBox.setItemText(8, QCoreApplication.translate("Dialog", u"19200", None))
         self.baudrate_comboBox.setItemText(9, QCoreApplication.translate("Dialog", u"38400", None))
 
-        self.label_26.setText(QCoreApplication.translate("Dialog", u"Length (B):", None))
         self.len_comboBox.setItemText(0, QCoreApplication.translate("Dialog", u"8", None))
         self.len_comboBox.setItemText(1, QCoreApplication.translate("Dialog", u"7", None))
         self.len_comboBox.setItemText(2, QCoreApplication.translate("Dialog", u"6", None))
         self.len_comboBox.setItemText(3, QCoreApplication.translate("Dialog", u"5", None))
 
-        self.label_27.setText(QCoreApplication.translate("Dialog", u"Timeout:", None))
         self.timeout_comboBox.setItemText(0, QCoreApplication.translate("Dialog", u"2", None))
         self.timeout_comboBox.setItemText(1, QCoreApplication.translate("Dialog", u"3", None))
         self.timeout_comboBox.setItemText(2, QCoreApplication.translate("Dialog", u"4", None))
@@ -255,14 +278,16 @@ class Ui_Dialog(object):
         self.timeout_comboBox.setItemText(6, QCoreApplication.translate("Dialog", u"50", None))
         self.timeout_comboBox.setItemText(7, QCoreApplication.translate("Dialog", u"100", None))
 
+        self.label_27.setText(QCoreApplication.translate("Dialog", u"Timeout:", None))
+        self.label_26.setText(QCoreApplication.translate("Dialog", u"Length (B):", None))
         self.label_28.setText(QCoreApplication.translate("Dialog", u"Parity:", None))
+        self.label_29.setText(QCoreApplication.translate("Dialog", u"StopBits:", None))
         self.parity_comboBox.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
         self.parity_comboBox.setItemText(1, QCoreApplication.translate("Dialog", u"Even", None))
         self.parity_comboBox.setItemText(2, QCoreApplication.translate("Dialog", u"Odd", None))
         self.parity_comboBox.setItemText(3, QCoreApplication.translate("Dialog", u"Mark", None))
         self.parity_comboBox.setItemText(4, QCoreApplication.translate("Dialog", u"Space", None))
 
-        self.label_29.setText(QCoreApplication.translate("Dialog", u"StopBits:", None))
         self.bit_comboBox.setItemText(0, QCoreApplication.translate("Dialog", u"1", None))
         self.bit_comboBox.setItemText(1, QCoreApplication.translate("Dialog", u"1.5", None))
         self.bit_comboBox.setItemText(2, QCoreApplication.translate("Dialog", u"2", None))
@@ -273,15 +298,5 @@ class Ui_Dialog(object):
         self.flow_comboBox.setItemText(2, QCoreApplication.translate("Dialog", u"RTS/CTS", None))
         self.flow_comboBox.setItemText(3, QCoreApplication.translate("Dialog", u"DSR/DTR", None))
 
-        self.label.setText(QCoreApplication.translate("Dialog", u"UI Language:", None))
-        self.comboBox_2.setItemText(0, QCoreApplication.translate("Dialog", u"English", None))
-        self.comboBox_2.setItemText(1, QCoreApplication.translate("Dialog", u"T\u00fcrk\u00e7e", None))
-
-        self.label_2.setText(QCoreApplication.translate("Dialog", u"Terminal Font:", None))
-        self.comboBox.setItemText(0, QCoreApplication.translate("Dialog", u"Defult (System)", None))
-        self.comboBox.setItemText(1, QCoreApplication.translate("Dialog", u"Dark", None))
-        self.comboBox.setItemText(2, QCoreApplication.translate("Dialog", u"Light", None))
-
-        self.label_3.setText(QCoreApplication.translate("Dialog", u"Theme:", None))
     # retranslateUi
 

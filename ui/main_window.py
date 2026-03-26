@@ -19,13 +19,15 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
 from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QFrame,
     QGridLayout, QHBoxLayout, QLabel, QLayout,
     QMainWindow, QMenu, QMenuBar, QPushButton,
-    QSizePolicy, QTextEdit, QVBoxLayout, QWidget)
+    QRadioButton, QSizePolicy, QTextEdit, QVBoxLayout,
+    QWidget)
+import resources_rc
 
 class Ui_main_window(object):
     def setupUi(self, main_window):
         if not main_window.objectName():
             main_window.setObjectName(u"main_window")
-        main_window.resize(1127, 633)
+        main_window.resize(1015, 621)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -37,6 +39,7 @@ class Ui_main_window(object):
         icon = QIcon(QIcon.fromTheme(u"applications-development"))
         main_window.setWindowIcon(icon)
         main_window.setWindowOpacity(1.000000000000000)
+        main_window.setStyleSheet(u"")
         self.actionAna_Ekran = QAction(main_window)
         self.actionAna_Ekran.setObjectName(u"actionAna_Ekran")
         self.actionHelp = QAction(main_window)
@@ -69,24 +72,102 @@ class Ui_main_window(object):
         self.actionSave_As.setObjectName(u"actionSave_As")
         self.actionSave = QAction(main_window)
         self.actionSave.setObjectName(u"actionSave")
+        self.actionCopy = QAction(main_window)
+        self.actionCopy.setObjectName(u"actionCopy")
+        self.actionClear_Screen = QAction(main_window)
+        self.actionClear_Screen.setObjectName(u"actionClear_Screen")
+        self.actionClear_Buffer = QAction(main_window)
+        self.actionClear_Buffer.setObjectName(u"actionClear_Buffer")
+        self.actionSelect_All = QAction(main_window)
+        self.actionSelect_All.setObjectName(u"actionSelect_All")
+        self.actionMinimize_All = QAction(main_window)
+        self.actionMinimize_All.setObjectName(u"actionMinimize_All")
+        self.actionCascade = QAction(main_window)
+        self.actionCascade.setObjectName(u"actionCascade")
+        self.actionSide_by_Side = QAction(main_window)
+        self.actionSide_by_Side.setObjectName(u"actionSide_by_Side")
         self.centralwidget = QWidget(main_window)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout_2 = QGridLayout()
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.horizontalLayout_4 = QHBoxLayout()
-        self.horizontalLayout_4.setSpacing(1)
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalLayout_4.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.send_data_text = QTextEdit(self.centralwidget)
+        self.send_data_text.setObjectName(u"send_data_text")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.send_data_text.sizePolicy().hasHeightForWidth())
+        self.send_data_text.setSizePolicy(sizePolicy1)
+        self.send_data_text.setMinimumSize(QSize(0, 32))
+        self.send_data_text.setMaximumSize(QSize(5000, 32))
+        self.send_data_text.setInputMethodHints(Qt.InputMethodHint.ImhNone)
+        self.send_data_text.setFrameShape(QFrame.Shape.NoFrame)
+        self.send_data_text.setAcceptRichText(False)
+
+        self.horizontalLayout.addWidget(self.send_data_text)
+
+        self.status_label = QLabel(self.centralwidget)
+        self.status_label.setObjectName(u"status_label")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.status_label.sizePolicy().hasHeightForWidth())
+        self.status_label.setSizePolicy(sizePolicy2)
+        self.status_label.setMaximumSize(QSize(90, 20))
+        font = QFont()
+        font.setFamilies([u"Arial"])
+        font.setPointSize(9)
+        font.setBold(False)
+        self.status_label.setFont(font)
+        self.status_label.setStyleSheet(u"")
+
+        self.horizontalLayout.addWidget(self.status_label)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+
+        self.horizontalLayout.addLayout(self.horizontalLayout_2)
+
         self.send_button = QPushButton(self.centralwidget)
         self.send_button.setObjectName(u"send_button")
-        self.send_button.setMaximumSize(QSize(250, 16777215))
+        self.send_button.setMaximumSize(QSize(120, 16777215))
+        icon1 = QIcon(QIcon.fromTheme(u"mail-send"))
+        self.send_button.setIcon(icon1)
 
-        self.horizontalLayout_4.addWidget(self.send_button)
+        self.horizontalLayout.addWidget(self.send_button)
+
+        self.indicate_button = QRadioButton(self.centralwidget)
+        self.indicate_button.setObjectName(u"indicate_button")
+        self.indicate_button.setEnabled(True)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy3.setHorizontalStretch(5)
+        sizePolicy3.setVerticalStretch(5)
+        sizePolicy3.setHeightForWidth(self.indicate_button.sizePolicy().hasHeightForWidth())
+        self.indicate_button.setSizePolicy(sizePolicy3)
+        self.indicate_button.setMinimumSize(QSize(20, 20))
+        self.indicate_button.setMaximumSize(QSize(20, 20))
+        font1 = QFont()
+        font1.setKerning(False)
+        self.indicate_button.setFont(font1)
+        self.indicate_button.setCheckable(True)
+
+        self.horizontalLayout.addWidget(self.indicate_button)
 
 
-        self.gridLayout_2.addLayout(self.horizontalLayout_4, 2, 1, 1, 1)
+        self.gridLayout_2.addLayout(self.horizontalLayout, 2, 0, 1, 1)
+
+        self.data_textEdit = QTextEdit(self.centralwidget)
+        self.data_textEdit.setObjectName(u"data_textEdit")
+        self.data_textEdit.setAutoFillBackground(False)
+        self.data_textEdit.setFrameShape(QFrame.Shape.NoFrame)
+        self.data_textEdit.setFrameShadow(QFrame.Shadow.Plain)
+        self.data_textEdit.setAutoFormatting(QTextEdit.AutoFormattingFlag.AutoNone)
+        self.data_textEdit.setReadOnly(True)
+
+        self.gridLayout_2.addWidget(self.data_textEdit, 0, 0, 1, 1)
 
         self.verticalLayout_config = QVBoxLayout()
         self.verticalLayout_config.setSpacing(6)
@@ -94,8 +175,8 @@ class Ui_main_window(object):
         self.verticalLayout_config.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
         self.formLayout_config = QFormLayout()
         self.formLayout_config.setObjectName(u"formLayout_config")
-        self.formLayout_config.setLabelAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
-        self.formLayout_config.setFormAlignment(Qt.AlignmentFlag.AlignJustify|Qt.AlignmentFlag.AlignVCenter)
+        self.formLayout_config.setLabelAlignment(Qt.AlignmentFlag.AlignLeading)
+        self.formLayout_config.setFormAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignTop)
         self.formLayout_config.setHorizontalSpacing(4)
         self.formLayout_config.setVerticalSpacing(2)
         self.label_46 = QLabel(self.centralwidget)
@@ -106,6 +187,8 @@ class Ui_main_window(object):
         self.refresh_button = QPushButton(self.centralwidget)
         self.refresh_button.setObjectName(u"refresh_button")
         self.refresh_button.setMaximumSize(QSize(120, 16777215))
+        icon2 = QIcon(QIcon.fromTheme(u"sync-synchronizing"))
+        self.refresh_button.setIcon(icon2)
 
         self.formLayout_config.setWidget(0, QFormLayout.ItemRole.FieldRole, self.refresh_button)
 
@@ -220,8 +303,41 @@ class Ui_main_window(object):
 
         self.formLayout_config.setWidget(7, QFormLayout.ItemRole.FieldRole, self.flow_comboBox)
 
+        self.lineEnd_comboBox = QComboBox(self.centralwidget)
+        self.lineEnd_comboBox.addItem("")
+        self.lineEnd_comboBox.addItem("")
+        self.lineEnd_comboBox.addItem("")
+        self.lineEnd_comboBox.addItem("")
+        self.lineEnd_comboBox.setObjectName(u"lineEnd_comboBox")
+        self.lineEnd_comboBox.setMaximumSize(QSize(120, 16777215))
+
+        self.formLayout_config.setWidget(8, QFormLayout.ItemRole.FieldRole, self.lineEnd_comboBox)
+
+        self.label = QLabel(self.centralwidget)
+        self.label.setObjectName(u"label")
+
+        self.formLayout_config.setWidget(8, QFormLayout.ItemRole.LabelRole, self.label)
+
 
         self.verticalLayout_config.addLayout(self.formLayout_config)
+
+        self.label_9 = QLabel(self.centralwidget)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setFont(font)
+
+        self.verticalLayout_config.addWidget(self.label_9)
+
+        self.start_button = QPushButton(self.centralwidget)
+        self.start_button.setObjectName(u"start_button")
+        self.start_button.setMaximumSize(QSize(200, 16777215))
+        font2 = QFont()
+        font2.setPointSize(9)
+        font2.setBold(True)
+        self.start_button.setFont(font2)
+        self.start_button.setAutoFillBackground(False)
+        self.start_button.setStyleSheet(u"")
+
+        self.verticalLayout_config.addWidget(self.start_button)
 
         self.label_12 = QLabel(self.centralwidget)
         self.label_12.setObjectName(u"label_12")
@@ -231,78 +347,28 @@ class Ui_main_window(object):
         self.options_textEdit = QTextEdit(self.centralwidget)
         self.options_textEdit.setObjectName(u"options_textEdit")
         self.options_textEdit.setMaximumSize(QSize(205, 16777215))
+        self.options_textEdit.setMouseTracking(True)
         self.options_textEdit.setFrameShape(QFrame.Shape.NoFrame)
+        self.options_textEdit.setReadOnly(True)
 
         self.verticalLayout_config.addWidget(self.options_textEdit)
-
-        self.formLayout_6 = QFormLayout()
-        self.formLayout_6.setObjectName(u"formLayout_6")
-        self.label_9 = QLabel(self.centralwidget)
-        self.label_9.setObjectName(u"label_9")
-        font = QFont()
-        font.setFamilies([u"Arial"])
-        font.setPointSize(9)
-        font.setBold(False)
-        self.label_9.setFont(font)
-
-        self.formLayout_6.setWidget(0, QFormLayout.ItemRole.LabelRole, self.label_9)
-
-        self.status_label = QLabel(self.centralwidget)
-        self.status_label.setObjectName(u"status_label")
-        self.status_label.setFont(font)
-        self.status_label.setStyleSheet(u"")
-
-        self.formLayout_6.setWidget(0, QFormLayout.ItemRole.FieldRole, self.status_label)
-
-
-        self.verticalLayout_config.addLayout(self.formLayout_6)
 
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setSpacing(4)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.start_button = QPushButton(self.centralwidget)
-        self.start_button.setObjectName(u"start_button")
-        self.start_button.setMaximumSize(QSize(250, 16777215))
-        font1 = QFont()
-        font1.setPointSize(9)
-        font1.setBold(True)
-        self.start_button.setFont(font1)
-        self.start_button.setAutoFillBackground(False)
-        self.start_button.setStyleSheet(u"")
-
-        self.horizontalLayout_5.addWidget(self.start_button)
-
 
         self.verticalLayout_config.addLayout(self.horizontalLayout_5)
 
         self.verticalLayout_config.setStretch(0, 2)
 
-        self.gridLayout_2.addLayout(self.verticalLayout_config, 0, 1, 1, 1)
+        self.gridLayout_2.addLayout(self.verticalLayout_config, 0, 2, 1, 1)
 
-        self.data_textEdit = QTextEdit(self.centralwidget)
-        self.data_textEdit.setObjectName(u"data_textEdit")
-        self.data_textEdit.setAutoFillBackground(False)
-        self.data_textEdit.setFrameShape(QFrame.Shape.Box)
-        self.data_textEdit.setFrameShadow(QFrame.Shadow.Sunken)
-        self.data_textEdit.setAutoFormatting(QTextEdit.AutoFormattingFlag.AutoNone)
-        self.data_textEdit.setReadOnly(True)
+        self.donateButton = QPushButton(self.centralwidget)
+        self.donateButton.setObjectName(u"donateButton")
+        self.donateButton.setMaximumSize(QSize(120, 16777215))
+        self.donateButton.setStyleSheet(u"p url(:/res/coffee.jpg);")
 
-        self.gridLayout_2.addWidget(self.data_textEdit, 0, 0, 1, 1)
-
-        self.send_data_text = QTextEdit(self.centralwidget)
-        self.send_data_text.setObjectName(u"send_data_text")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-        sizePolicy1.setHorizontalStretch(5)
-        sizePolicy1.setVerticalStretch(5)
-        sizePolicy1.setHeightForWidth(self.send_data_text.sizePolicy().hasHeightForWidth())
-        self.send_data_text.setSizePolicy(sizePolicy1)
-        self.send_data_text.setMaximumSize(QSize(5000, 28))
-        self.send_data_text.setInputMethodHints(Qt.InputMethodHint.ImhNone)
-        self.send_data_text.setFrameShape(QFrame.Shape.Box)
-        self.send_data_text.setFrameShadow(QFrame.Shadow.Sunken)
-        self.send_data_text.setAcceptRichText(False)
-
-        self.gridLayout_2.addWidget(self.send_data_text, 2, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.donateButton, 2, 2, 1, 1)
 
 
         self.gridLayout.addLayout(self.gridLayout_2, 0, 0, 1, 1)
@@ -310,7 +376,7 @@ class Ui_main_window(object):
         main_window.setCentralWidget(self.centralwidget)
         self.menuBar = QMenuBar(main_window)
         self.menuBar.setObjectName(u"menuBar")
-        self.menuBar.setGeometry(QRect(0, 0, 1127, 33))
+        self.menuBar.setGeometry(QRect(0, 0, 1015, 21))
         self.menuFile = QMenu(self.menuBar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuEdit = QMenu(self.menuBar)
@@ -337,6 +403,10 @@ class Ui_main_window(object):
         self.menuFile.addAction(self.actionSave_As)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionExit)
+        self.menuEdit.addAction(self.actionCopy)
+        self.menuEdit.addAction(self.actionClear_Screen)
+        self.menuEdit.addSeparator()
+        self.menuEdit.addAction(self.actionSelect_All)
         self.menuSetup.addAction(self.actionPreferences)
         self.menuControl.addAction(self.actionReset_terminal)
         self.menuControl.addAction(self.actionClear_Cache)
@@ -377,9 +447,19 @@ class Ui_main_window(object):
         self.actionHelp_2.setText(QCoreApplication.translate("main_window", u"Help", None))
         self.actionSave_As.setText(QCoreApplication.translate("main_window", u"Save As..", None))
         self.actionSave.setText(QCoreApplication.translate("main_window", u"Save", None))
+        self.actionCopy.setText(QCoreApplication.translate("main_window", u"Copy", None))
+        self.actionClear_Screen.setText(QCoreApplication.translate("main_window", u"Clear Screen", None))
+        self.actionClear_Buffer.setText(QCoreApplication.translate("main_window", u"Clear Buffer", None))
+        self.actionSelect_All.setText(QCoreApplication.translate("main_window", u"Select All", None))
+        self.actionMinimize_All.setText(QCoreApplication.translate("main_window", u"Minimize All", None))
+        self.actionCascade.setText(QCoreApplication.translate("main_window", u"Cascade", None))
+        self.actionSide_by_Side.setText(QCoreApplication.translate("main_window", u"Side by Side", None))
+        self.send_data_text.setPlaceholderText(QCoreApplication.translate("main_window", u"Please enter the data want to sent...", None))
+        self.status_label.setText(QCoreApplication.translate("main_window", u"Not Connected", None))
         self.send_button.setText(QCoreApplication.translate("main_window", u"Push Data", None))
+        self.indicate_button.setText("")
         self.label_46.setText(QCoreApplication.translate("main_window", u"Refresh Port(s):", None))
-        self.refresh_button.setText(QCoreApplication.translate("main_window", u"\u21bb", None))
+        self.refresh_button.setText("")
         self.label_22.setText(QCoreApplication.translate("main_window", u"Selected Port:", None))
         self.label_25.setText(QCoreApplication.translate("main_window", u"Baud Rate:", None))
         self.baudrate_comboBox.setItemText(0, QCoreApplication.translate("main_window", u"9600", None))
@@ -427,11 +507,16 @@ class Ui_main_window(object):
         self.flow_comboBox.setItemText(2, QCoreApplication.translate("main_window", u"RTS/CTS", None))
         self.flow_comboBox.setItemText(3, QCoreApplication.translate("main_window", u"DSR/DTR", None))
 
-        self.label_12.setText(QCoreApplication.translate("main_window", u"Connection Options:", None))
+        self.lineEnd_comboBox.setItemText(0, QCoreApplication.translate("main_window", u"CRLF", None))
+        self.lineEnd_comboBox.setItemText(1, QCoreApplication.translate("main_window", u"LF", None))
+        self.lineEnd_comboBox.setItemText(2, QCoreApplication.translate("main_window", u"CR", None))
+        self.lineEnd_comboBox.setItemText(3, QCoreApplication.translate("main_window", u"None", None))
+
+        self.label.setText(QCoreApplication.translate("main_window", u"Line Ending:", None))
         self.label_9.setText(QCoreApplication.translate("main_window", u"Status :", None))
-        self.status_label.setText(QCoreApplication.translate("main_window", u"Not Connected", None))
         self.start_button.setText(QCoreApplication.translate("main_window", u"CONNECT", None))
-        self.send_data_text.setPlaceholderText(QCoreApplication.translate("main_window", u"Please enter the data want to sent...", None))
+        self.label_12.setText(QCoreApplication.translate("main_window", u"Connection Options:", None))
+        self.donateButton.setText(QCoreApplication.translate("main_window", u"\u2615 Buy me a coffee", None))
         self.menuFile.setTitle(QCoreApplication.translate("main_window", u"File", None))
         self.menuEdit.setTitle(QCoreApplication.translate("main_window", u"Edit", None))
         self.menuSetup.setTitle(QCoreApplication.translate("main_window", u"Settings", None))
