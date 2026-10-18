@@ -1,80 +1,117 @@
+# -*- coding: utf-8 -*-
+"""Unit tests for the AFCOM Client core modules.
+
+These tests deliberately avoid creating a ``QApplication`` or opening real
+serial ports so they can run in any headless CI environment.
+"""
+
+from __future__ import annotations
+
 import sys
-import os
+from pathlib import Path
+
 import pytest
-from PyQt6.QtWidgets import QApplication
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
-from ui_main import MainWindow, get_serial_port
 
-# Mock functions to avoid actual serial communication during testing
-@pytest.fixture
-def mock_serial_communication(mocker):
-    mocker.patch('your_app_module.serial.Serial')
-    return mocker.patch.object(MainWindow, 'establish_serial_communication')
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
-def test_alp():
-    alp = True
-    assert alp
+from src.ansi import ansi_to_html, strip_ansi_codes
+from src.constants import DEFAULT_SETTINGS
+from src.serial_ports import display_name, port_names
+from src.settings_store import SettingsStore
+from src.theme import load_stylesheet, resolve_theme
+from src.translations import Translator
 
-# def app_and_window():
-#   """Fixture to create a QApplication and MainWindow instance"""
-#   app = QApplication([])  # Create a temporary application instance
-#   window = MainWindow()
-#   yield app, window
-#   app.quit()  # Close the application after tests
 
-# def test_get_serial_ports_windows(mocker, app_and_window):
-#   """Test get_serial_port function on Windows platform"""
-#   mocker.patch('platform.system', return_value='Windows')
-#   expected_ports = ['COM1', 'COM2']  # Example ports
-#   ports = get_serial_port()
-#   assert ports == expected_ports
+# --------------------------------------------------------------------------
+# ansi
+# --------------------------------------------------------------------------
+def test_strip_ansi_codes_removes_sequences():
+    assert strip_ansi_codes("\x1b[31mred\x1b[0m") == "red"
 
-# def test_get_serial_ports_linux(mocker, app_and_window):
-#   """Test get_serial_port function on Linux platform"""
-#   mocker.patch('platform.system', return_value='linux')
-#   expected_ports = ['/dev/ttyUSB0', '/dev/ttyS0']  # Example ports
-#   ports = get_serial_port()
-#   assert ports == expected_ports
 
-# def test_get_serial_ports_unsupported_platform(mocker, app_and_window):
-#   """Test get_serial_port function on unsupported platform"""
-#   mocker.patch('platform.system', return_value='unsupported_os')
-#   with pytest.raises(EnvironmentError):
-#     get_serial_port()
+def test_ansi_to_html_escapes_markup():
+    html = ansi_to_html("a < b & c > d")
+    assert "&lt;" in html and "&amp;" in html and "&gt;" in html
 
-# def test_refresh_port(qtbot, app_and_window):
-#   """Test refresh_port button functionality"""
-#   app, window = app_and_window
-#   # Mock get_serial_port to return a list of ports
-#   window.ports = ["COM1", "COM2"]
-#   qtbot.click(window.refresh_button)
-#   assert window.port_comboBox.count() == 2  # Check if ports are added
 
-# def test_start_loop_no_port_selected(qtbot, app_and_window, mock_serial_communication):
-#   """Test start_loop button with no port selected"""
-#   app, window = app_and_window
-#   # Mock serial communication to avoid errors
-#   mock_serial_communication.return_value = None
-#   qtbot.click(window.start_button)
-#   assert window.port_comboBox.styleSheet() == 'background-color: red'
-#   # Check if error message is displayed (implementation specific)
+def test_ansi_to_html_adds_colour_span():
+    html = ansi_to_html("\x1b[32mok\x1b[0m")
+    assert "color:" in html
+    assert "ok" in html
 
-# def test_start_loop_success(qtbot, app_and_window, mock_serial_communication):
-#   """Test start_loop button with successful connection"""
-#   app, window = app_and_window
-#   # Mock get_serial_port to return a list of ports
-#   mock_serial_communication.patch.object(serial.Serial, 'open').return_value = None
-#   window.port_comboBox.setCurrentIndex(0)  # Select the first port
-#   qtbot.click(window.start_button)
-#   assert window.status_label.text() == "CONNECTED!"
-#   assert window.status_label.styleSheet() == 'color: green'
-#   # Simulate receiving data (implementation specific)
 
-# def test_stop_loop(qtbot, app_and_window):
-#   """Test stop_loop button functionality"""
-#   app, window = app_and_window
-#   # Simulate starting the loop (implementation specific)
-#   qtbot.click(window.end_button)
-#   assert window.options_textEdit.toPlainText() == ''
-#   assert window.status_label.text() == "DISCONNECTED!"
-#   assert window.status_label.styleSheet() == 'color: red'
+def test_ansi_to_html_converts_newlines():
+    assert "<br>" in ansi_to_html("line1\nline2")
+
+
+# --------------------------------------------------------------------------
+# settings store
+# --------------------------------------------------------------------------
+def test_settings_defaults_when_file_missing(tmp_path):
+    store = SettingsStore(tmp_path / "missing.json")
+    assert store.get("theme") == DEFAULT_SETTINGS["theme"]
+
+
+def test_settings_roundtrip(tmp_path):
+    path = tmp_path / "settings.json"
+    store = SettingsStore(path)
+    store.set("font_size", 17)
+    store.save()
+
+    reloaded = SettingsStore(path)
+    assert reloaded.get("font_size") == 17
+
+
+def test_settings_ignores_corrupt_file(tmp_path):
+    path = tmp_path / "settings.json"
+    path.write_text("{ not valid json", encoding="utf-8")
+    store = SettingsStore(path)
+    assert store.get("theme") == DEFAULT_SETTINGS["theme"]
+
+
+# --------------------------------------------------------------------------
+# translations
+# --------------------------------------------------------------------------
+def test_translator_falls_back_to_english():
+    translator = Translator("fr")  # unsupported -> english
+    assert translator.tr("menu.file") == "File"
+
+
+def test_translator_switches_language():
+    translator = Translator("en")
+    translator.set_language("tr")
+    assert translator.tr("menu.file") == "Dosya"
+
+
+# --------------------------------------------------------------------------
+# theme
+# --------------------------------------------------------------------------
+def test_resolve_theme_system_returns_known_palette():
+    assert resolve_theme("system") in {"dark", "light"}
+
+
+@pytest.mark.parametrize("theme", ["dark", "light"])
+def test_stylesheet_has_no_unresolved_tokens(theme):
+    import re
+
+    qss = load_stylesheet(theme=theme)
+    # Only real @token placeholders matter; the header comment may mention "@".
+    assert not re.search(r"@[a-z_]+", qss)
+
+
+# --------------------------------------------------------------------------
+# serial ports
+# --------------------------------------------------------------------------
+def test_port_names_returns_list():
+    names = port_names()
+    assert isinstance(names, list)
+
+
+def test_display_name_hides_dev_prefix():
+    assert display_name("/dev/ttyUSB0") == "ttyUSB0"
+    assert display_name("/dev/ttyS0") == "ttyS0"
+    # Windows ports and unrelated strings are left untouched.
+    assert display_name("COM3") == "COM3"
+    assert display_name("tty") == "tty"

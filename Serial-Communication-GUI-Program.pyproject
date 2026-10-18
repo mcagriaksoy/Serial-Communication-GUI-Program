@@ -1,10 +1,20 @@
 {
     "files": [
         "main.py",
-        "src/ui_main.py",
-        "ui/icon.ico",
+        "src/app.py",
+        "src/main_window.py",
+        "src/actions.py",
+        "src/constants.py",
+        "src/serial_ports.py",
+        "src/serial_worker.py",
+        "src/settings_dialog.py",
+        "src/settings_store.py",
+        "src/theme.py",
+        "src/translations.py",
+        "src/ui_loader.py",
         "ui/main_window.ui",
-        "ui/resources.qrc",
-        "ui/ui_main_window.py"
+        "ui/settings.ui",
+        "ui/help.ui",
+        "ui/resources.qrc"
     ]
 }

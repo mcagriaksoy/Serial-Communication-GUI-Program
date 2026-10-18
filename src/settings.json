@@ -1,4 +1,7 @@
 {
-  "font_family": "Caladea",
-  "font_size": 11
+  "theme": "dark",
+  "font_family": "C059 [urw]",
+  "font_size": 11,
+  "language": "en",
+  "timestamps": false
 }

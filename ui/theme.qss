@@ -1,0 +1,488 @@
+/* ==========================================================================
+   AFCOM Client - GNOME / Adwaita inspired theme
+   --------------------------------------------------------------------------
+   Tokens prefixed with "@" are substituted by src/theme.py using the active
+   Adwaita palette (light / dark).  Design goals, following the GNOME HIG:
+
+     * one accent colour only (GNOME blue)
+     * neutral surfaces, very subtle borders
+     * modest corner radii (8px controls, 12px cards)
+     * flat buttons, suggested-action filled with the accent colour
+     * thin overlay scrollbars
+
+   ========================================================================== */
+
+* {
+    outline: none;
+}
+
+QWidget {
+    background-color: @window_bg;
+    color: @fg;
+    font-family: @font_family;
+    font-size: @font_size;
+}
+
+QMainWindow,
+QDialog {
+    background-color: @window_bg;
+}
+
+/* ------------------------------------------------------------- menu bar */
+QMenuBar {
+    background: transparent;
+    color: @fg;
+    border: none;
+    padding: 2px 4px;
+}
+
+QMenuBar::item {
+    background: transparent;
+    border-radius: 6px;
+    padding: 5px 10px;
+    margin: 1px 1px;
+}
+
+QMenuBar::item:selected,
+QMenuBar::item:pressed {
+    background-color: @hover;
+}
+
+QMenu {
+    background-color: @card_bg;
+    color: @fg;
+    border: 1px solid @border;
+    border-radius: 12px;
+    padding: 6px;
+}
+
+QMenu::item {
+    padding: 7px 24px 7px 12px;
+    border-radius: 6px;
+}
+
+QMenu::item:selected {
+    background-color: @accent;
+    color: @accent_fg;
+}
+
+QMenu::separator {
+    height: 1px;
+    background: @border;
+    margin: 6px 10px;
+}
+
+/* --------------------------------------------------------------- cards */
+QFrame#sendFrame {
+    background-color: @view_bg;
+    border: 1px solid @border;
+    border-radius: 12px;
+}
+
+/* --------------------------------------------------------------- labels */
+QLabel {
+    color: @dim;
+    background: transparent;
+    font-weight: 400;
+}
+
+QLabel#terminalTitleLabel {
+    color: @fg;
+    font-weight: 700;
+}
+
+QLabel#status_label {
+    color: @dim;
+    font-weight: 700;
+}
+
+QLabel#status_label[state="connected"] {
+    color: @success;
+}
+
+QLabel#status_label[state="disconnected"] {
+    color: @danger;
+}
+
+QLabel#statusDot {
+    background-color: @dim;
+    border-radius: 6px;
+    min-width: 12px;
+    max-width: 12px;
+    min-height: 12px;
+    max-height: 12px;
+}
+
+QLabel#statusDot[state="connected"] {
+    background-color: @success;
+}
+
+QLabel#statusDot[state="disconnected"] {
+    background-color: @danger;
+}
+
+QLabel#statusDot[state="idle"] {
+    background-color: @dim;
+}
+
+QLabel#rxCountLabel,
+QLabel#txCountLabel {
+    color: @dim;
+}
+
+/* -------------------------------------------------------------- groupbox */
+QGroupBox {
+    background-color: @card_bg;
+    border: 1px solid @border;
+    border-radius: 12px;
+    margin-top: 12px;
+    padding: 14px 12px 12px 12px;
+    font-weight: 700;
+    color: @fg;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 12px;
+    padding: 0 4px;
+    color: @fg;
+    font-size: 10.5pt;
+    font-weight: 700;
+}
+
+/* --------------------------------------------------------------- buttons */
+QPushButton {
+    background-color: @btn_bg;
+    color: @fg;
+    border: 1px solid @btn_border;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-weight: 500;
+    min-height: 20px;
+}
+
+QPushButton:hover {
+    background-color: @btn_hover;
+}
+
+QPushButton:pressed,
+QPushButton:checked {
+    background-color: @btn_active;
+}
+
+QPushButton:disabled {
+    background-color: @btn_disabled;
+    color: @dim_disabled;
+    border-color: transparent;
+}
+
+/* Suggested action: the single accent-coloured button. */
+QPushButton#start_button,
+QPushButton#send_button {
+    background-color: @accent;
+    color: @accent_fg;
+    border: 1px solid transparent;
+    font-weight: 700;
+}
+
+QPushButton#start_button {
+    font-size: 11pt;
+    min-height: 32px;
+    padding: 8px 16px;
+}
+
+QPushButton#start_button:hover,
+QPushButton#send_button:hover {
+    background-color: @accent_hover;
+}
+
+QPushButton#start_button:pressed,
+QPushButton#send_button:pressed {
+    background-color: @accent_active;
+}
+
+/* Disconnect uses the destructive colour. */
+QPushButton#start_button[state="connected"] {
+    background-color: @danger;
+    color: #ffffff;
+}
+
+QPushButton#start_button[state="connected"]:hover {
+    background-color: @danger_hover;
+}
+
+QPushButton#refresh_button {
+    padding: 5px 10px;
+}
+
+/* Donate: keep it quiet, like a flat outlined action. */
+QPushButton#donateButton {
+    background-color: transparent;
+    color: @accent;
+    border: 1px solid @border;
+    font-weight: 600;
+}
+
+QPushButton#donateButton:hover {
+    background-color: @hover;
+}
+
+/* ---------------------------------------------------------------- inputs */
+QTextEdit,
+QPlainTextEdit,
+QLineEdit {
+    background-color: @view_bg;
+    color: @fg;
+    border: 1px solid @border;
+    border-radius: 8px;
+    padding: 6px 10px;
+    selection-background-color: @accent;
+    selection-color: @accent_fg;
+}
+
+QTextEdit:focus,
+QPlainTextEdit:focus,
+QLineEdit:focus {
+    border: 1px solid @accent;
+}
+
+QTextEdit:disabled,
+QLineEdit:disabled {
+    color: @dim_disabled;
+}
+
+QTextEdit#data_textEdit {
+    background-color: @terminal_bg;
+    color: @terminal_fg;
+    border: 1px solid @border;
+    border-radius: 12px;
+    padding: 12px;
+    font-family: @terminal_font;
+    font-size: @terminal_size;
+}
+
+QTextEdit#send_data_text {
+    background-color: @view_bg;
+    border-radius: 10px;
+    padding: 8px 12px;
+}
+
+QTextEdit#options_textEdit {
+    background-color: @view_bg;
+    color: @dim;
+    border: 1px solid @border;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 9.5pt;
+}
+
+/* -------------------------------------------------------------- combobox */
+QComboBox {
+    background-color: @field_bg;
+    color: @fg;
+    border: 1px solid @border;
+    border-radius: 8px;
+    padding: 5px 10px;
+    min-height: 20px;
+}
+
+QComboBox:hover {
+    border-color: @border_strong;
+}
+
+QComboBox:focus,
+QComboBox:on {
+    border-color: @accent;
+}
+
+QComboBox:disabled {
+    color: @dim_disabled;
+    background-color: @btn_disabled;
+}
+
+QComboBox::drop-down {
+    border: none;
+    width: 24px;
+}
+
+QComboBox::down-arrow {
+    image: url(:/res/resource/chevron-down.svg);
+    width: 12px;
+    height: 8px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: @card_bg;
+    color: @fg;
+    border: 1px solid @border;
+    border-radius: 10px;
+    selection-background-color: @accent;
+    selection-color: @accent_fg;
+    outline: 0;
+    padding: 4px;
+}
+
+/* ------------------------------------------------------- spin / checkbox */
+QSpinBox,
+QDoubleSpinBox {
+    background-color: @field_bg;
+    color: @fg;
+    border: 1px solid @border;
+    border-radius: 8px;
+    padding: 5px 26px 5px 10px;
+    min-height: 20px;
+}
+
+QSpinBox:focus,
+QDoubleSpinBox:focus {
+    border-color: @accent;
+}
+
+QSpinBox::up-button,
+QDoubleSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 22px;
+    border: none;
+    border-left: 1px solid @border;
+    border-top-right-radius: 8px;
+    background-color: @btn_bg;
+}
+
+QSpinBox::down-button,
+QDoubleSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 22px;
+    border: none;
+    border-left: 1px solid @border;
+    border-bottom-right-radius: 8px;
+    background-color: @btn_bg;
+}
+
+QSpinBox::up-button:hover,
+QSpinBox::down-button:hover,
+QDoubleSpinBox::up-button:hover,
+QDoubleSpinBox::down-button:hover {
+    background-color: @btn_hover;
+}
+
+QSpinBox::up-arrow,
+QDoubleSpinBox::up-arrow {
+    image: url(:/res/resource/chevron-up.svg);
+    width: 12px;
+    height: 8px;
+}
+
+QSpinBox::down-arrow,
+QDoubleSpinBox::down-arrow {
+    image: url(:/res/resource/chevron-down.svg);
+    width: 12px;
+    height: 8px;
+}
+
+QCheckBox,
+QRadioButton {
+    color: @fg;
+    spacing: 7px;
+}
+
+QCheckBox::indicator,
+QRadioButton::indicator {
+    width: 16px;
+    height: 16px;
+    border: 2px solid @border_strong;
+    background-color: @view_bg;
+}
+
+QCheckBox::indicator {
+    border-radius: 5px;
+}
+
+QRadioButton::indicator {
+    border-radius: 9px;
+}
+
+QCheckBox::indicator:checked,
+QRadioButton::indicator:checked {
+    background-color: @accent;
+    border-color: @accent;
+}
+
+QRadioButton#indicate_button::indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+}
+
+QRadioButton#indicate_button::indicator:checked {
+    background-color: @success;
+    border-color: @success;
+}
+
+/* -------------------------------------------------------------- scrollbar */
+QScrollBar:vertical {
+    background: transparent;
+    width: 11px;
+    margin: 3px 2px 3px 2px;
+}
+
+QScrollBar::handle:vertical {
+    background: @scroll;
+    border-radius: 4px;
+    min-height: 32px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: @scroll_hover;
+}
+
+QScrollBar:horizontal {
+    background: transparent;
+    height: 11px;
+    margin: 2px 3px 2px 3px;
+}
+
+QScrollBar::handle:horizontal {
+    background: @scroll;
+    border-radius: 4px;
+    min-width: 32px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background: @scroll_hover;
+}
+
+QScrollBar::add-line,
+QScrollBar::sub-line,
+QScrollBar::add-page,
+QScrollBar::sub-page {
+    background: none;
+    border: none;
+    height: 0;
+    width: 0;
+}
+
+/* ---------------------------------------------------------------- misc.  */
+QSplitter::handle {
+    background-color: @border;
+}
+
+QToolTip {
+    background-color: @card_bg;
+    color: @fg;
+    border: 1px solid @border;
+    border-radius: 8px;
+    padding: 6px 8px;
+}
+
+QStatusBar {
+    background-color: @headerbar_bg;
+    color: @dim;
+    border-top: 1px solid @border;
+}
+
+QDialogButtonBox QPushButton {
+    min-width: 84px;
+}

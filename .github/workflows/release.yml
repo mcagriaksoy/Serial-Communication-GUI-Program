@@ -1,0 +1,130 @@
+name: Release
+
+# Triggered by pushing a version tag (e.g. v1.9.0).  The tag must match
+# APP_VERSION in src/constants.py.  Builds a Windows portable executable and an
+# Inno Setup installer, then publishes them as GitHub Release assets.
+
+on:
+  push:
+    tags:
+      - "v[0-9]*"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check tag matches APP_VERSION
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME#v}"
+          version=$(python3 - <<'PY'
+          import re
+          from pathlib import Path
+
+          text = Path("src/constants.py").read_text(encoding="utf-8")
+          match = re.search(r'APP_VERSION\s*=\s*["\']([^"\']+)["\']', text)
+          if not match:
+              raise SystemExit("Could not determine version from src/constants.py")
+          print(match.group(1))
+          PY
+          )
+          echo "Tag version:    $tag"
+          echo "Source version: $version"
+          if [ "$tag" != "$version" ]; then
+            echo "::error::Tag 'v$tag' does not match src/constants.py APP_VERSION '$version'."
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+  windows:
+    name: Windows installer
+    needs: verify
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pyinstaller
+
+      - name: Build portable executable
+        env:
+          AFCOM_VERSION: ${{ needs.verify.outputs.version }}
+        run: python scripts/build_windows.py --version "$env:AFCOM_VERSION"
+
+      - name: Install Inno Setup
+        run: choco install innosetup -y --no-progress
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          $version = "${{ needs.verify.outputs.version }}"
+          $portable = (Resolve-Path "dist/AFCOM_v${version}_portable_win64.exe").Path
+          $out = Join-Path $PWD "release-artifacts"
+          New-Item -ItemType Directory -Force -Path $out | Out-Null
+
+          $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { $iscc = "iscc" }
+          & $iscc "/DVersion=$version" "/DSourceExe=$portable" "/DOutputDir=$out" "installer/afcom.iss"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+          Copy-Item $portable $out
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: release-artifacts/*.exe
+          if-no-files-found: error
+
+  release:
+    name: Publish GitHub Release
+    needs: [verify, windows]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # create the release and upload assets
+      id-token: write       # OIDC token for build provenance
+      attestations: write   # store the build provenance attestation
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-installer
+          path: release-artifacts
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: release-artifacts/*.exe
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: AFCOM Client v${{ needs.verify.outputs.version }}
+          generate_release_notes: true
+          files: release-artifacts/*.exe
+          fail_on_unmatched_files: true

@@ -1,0 +1,116 @@
+name: Publish to PyPI
+
+# Publishing is triggered by pushing a version tag (e.g. v1.9.0).  The tag must
+# match APP_VERSION in src/constants.py.  Authentication uses PyPI Trusted
+# Publishing (OIDC), so no API token secret is required.
+#
+# PyPI "pending publisher" settings for this workflow:
+#   PyPI Project Name : AFCOM
+#   Owner             : mcagriaksoy
+#   Repository name   : Serial-Communication-GUI-Program
+#   Workflow name     : publish-pypi.yml
+#   Environment name  : (leave empty)
+
+on:
+  push:
+    tags:
+      - "v[0-9]*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Verify tag matches APP_VERSION
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME#v}"
+          version=$(python3 - <<'PY'
+          import re
+          from pathlib import Path
+
+          text = Path("src/constants.py").read_text(encoding="utf-8")
+          match = re.search(r'APP_VERSION\s*=\s*["\']([^"\']+)["\']', text)
+          if not match:
+              raise SystemExit("Could not determine version from src/constants.py")
+          print(match.group(1))
+          PY
+          )
+          echo "Tag version:    $tag"
+          echo "Source version: $version"
+          if [ "$tag" != "$version" ]; then
+            echo "::error::Tag 'v$tag' does not match src/constants.py APP_VERSION '$version'."
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tools
+        run: python -m pip install --upgrade pip build
+
+      - name: Build package
+        run: python -m build
+
+      - name: Detect package version
+        id: package_version
+        shell: bash
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import re
+          from pathlib import Path
+
+          content = Path("src/constants.py").read_text(encoding="utf-8")
+          match = re.search(r'APP_VERSION\s*=\s*["\']([^"\']+)["\']', content)
+          if not match:
+              raise SystemExit("Could not determine package version from src/constants.py")
+          print(f"version={match.group(1)}")
+          PY
+
+      - name: Check whether version already exists on PyPI
+        id: pypi_check
+        shell: bash
+        env:
+          PACKAGE_NAME: AFCOM
+          PACKAGE_VERSION: ${{ steps.package_version.outputs.version }}
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          import os
+          import urllib.error
+          import urllib.request
+
+          package_name = os.environ["PACKAGE_NAME"]
+          package_version = os.environ["PACKAGE_VERSION"]
+          url = f"https://pypi.org/pypi/{package_name}/json"
+
+          try:
+              with urllib.request.urlopen(url) as response:
+                  payload = json.load(response)
+          except urllib.error.HTTPError as exc:
+              if exc.code == 404:
+                  print("exists=false")
+                  raise SystemExit(0)
+              raise
+
+          releases = payload.get("releases", {})
+          print(f"exists={'true' if package_version in releases else 'false'}")
+          PY
+
+      - name: Publish to PyPI
+        if: steps.pypi_check.outputs.exists != 'true'
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+      - name: Skip duplicate version
+        if: steps.pypi_check.outputs.exists == 'true'
+        run: echo "Version ${{ steps.package_version.outputs.version }} already exists on PyPI. Skipping publish."
