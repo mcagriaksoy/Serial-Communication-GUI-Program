@@ -15,6 +15,7 @@ on:
   push:
     tags:
       - "v[0-9]*"
+  workflow_dispatch:  # allows a manual run from the Actions tab
 
 permissions:
   contents: read
@@ -32,7 +33,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          tag="${GITHUB_REF_NAME#v}"
           version=$(python3 - <<'PY'
           import re
           from pathlib import Path
@@ -44,11 +44,16 @@ jobs:
           print(match.group(1))
           PY
           )
-          echo "Tag version:    $tag"
           echo "Source version: $version"
-          if [ "$tag" != "$version" ]; then
-            echo "::error::Tag 'v$tag' does not match src/constants.py APP_VERSION '$version'."
-            exit 1
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            tag="${GITHUB_REF_NAME#v}"
+            echo "Tag version:    $tag"
+            if [ "$tag" != "$version" ]; then
+              echo "::error::Tag 'v$tag' does not match src/constants.py APP_VERSION '$version'."
+              exit 1
+            fi
+          else
+            echo "Manual run (${GITHUB_REF_NAME}); skipping tag check."
           fi
 
       - name: Set up Python
