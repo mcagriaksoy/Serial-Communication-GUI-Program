@@ -1,6 +1,6 @@
 name: Publish to PyPI
 
-# Publishing is triggered by pushing a version tag (e.g. v1.9.0).  The tag must
+# Publishing is triggered by pushing a version tag (e.g. v1.9.1).  The tag must
 # match APP_VERSION in src/constants.py.  Authentication uses PyPI Trusted
 # Publishing (OIDC), so no API token secret is required.
 #

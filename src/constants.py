@@ -23,7 +23,7 @@ APP_RELEASES_URL = f"{APP_URL}/releases"
 APP_TAGS_API = f"https://api.github.com/repos/{APP_REPO}/tags"
 APP_DONATE_URL = "https://buymeacoffee.com/mcagriaksoy"
 
-APP_VERSION = "1.9.0"
+APP_VERSION = "1.9.1"
 # Kept for backwards compatibility with code importing ``__version__``.
 __version__ = APP_VERSION
 

@@ -9,7 +9,7 @@ The resulting executable is what the Inno Setup script
 (``installer/afcom.iss``) packages into the Windows installer.  Run it locally
 on any platform to validate the PyInstaller configuration.
 
-    python scripts/build_windows.py [--version 1.9.0] [--dist-dir dist]
+    python scripts/build_windows.py [--version 1.9.1] [--dist-dir dist]
 """
 from __future__ import annotations
 

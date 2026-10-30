@@ -1,6 +1,6 @@
 name: Release
 
-# Triggered by pushing a version tag (e.g. v1.9.0).  The tag must match
+# Triggered by pushing a version tag (e.g. v1.9.1).  The tag must match
 # APP_VERSION in src/constants.py.  Builds a Windows portable executable and an
 # Inno Setup installer, then publishes them as GitHub Release assets.
 

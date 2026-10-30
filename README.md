@@ -1,128 +1,218 @@
-```
+# AFCOM Client
 
- .----------------.  .----------------.  .----------------.  .----------------.  .----------------. 
-| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
-| |      __      | || |  _________   | || |     ______   | || |     ____     | || | ____    ____ | |
-| |     /  \     | || | |_   ___  |  | || |   .' ___  |  | || |   .'    `.   | || ||_   \  /   _|| |
-| |    / /\ \    | || |   | |_  \_|  | || |  / .'   \_|  | || |  /  .--.  \  | || |  |   \/   |  | |
-| |   / ____ \   | || |   |  _|      | || |  | |         | || |  | |    | |  | || |  | |\  /| |  | |
-| | _/ /    \ \_ | || |  _| |_       | || |  \ `.___.'\  | || |  \  `--'  /  | || | _| |_\/_| |_ | |
-| ||____|  |____|| || | |_____|      | || |   `._____.'  | || |   `.____.'   | || ||_____||_____|| |
-| |              | || |              | || |              | || |              | || |              | |
-| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
- '----------------'  '----------------'  '----------------'  '----------------'  '----------------' 
-```
+<p align="center">
+  <img src="img/icon.png" width="120" alt="AFCOM Client logo">
+</p>
 
-The AFCOM (aka Serial communication GUI program) tool is a software application that allows users to send and receive data via the serial port (COM port) of their computer.
-The tool can be used for various purposes, such as testing, debugging, or communicating with other devices that use the serial protocol.
+<h3 align="center">A fast, cross-platform serial (COM port) terminal for Windows, Linux and macOS.</h3>
 
-<a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program" title="Go to GitHub repo"><img src="https://img.shields.io/static/v1?label=mcagriaksoy&message=Serial-Communication-GUI-Program&color=blue&logo=github" alt="mcagriaksoy - Serial-Communication-GUI-Program"></a>
-<a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/releases/"><img src="https://img.shields.io/github/tag/mcagriaksoy/Serial-Communication-GUI-Program?include_prereleases=&sort=semver&color=blue" alt="GitHub tag"></a>
-<a href="#license"><img src="https://img.shields.io/badge/License-GPL_V3-red" alt="License"></a>
-<a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/issues"><img src="https://img.shields.io/github/issues/mcagriaksoy/Serial-Communication-GUI-Program" alt="issues - Serial-Communication-GUI-Program"></a>
+<p align="center">
+  <a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/releases/latest">
+    <img src="https://img.shields.io/github/v/release/mcagriaksoy/Serial-Communication-GUI-Program?sort=semver&color=2f81f7&label=release" alt="Latest release">
+  </a>
+  <a href="https://pypi.org/project/AFCOM/">
+    <img src="https://img.shields.io/pypi/v/AFCOM?color=2f81f7&label=PyPI" alt="PyPI version">
+  </a>
+  <a href="#license">
+    <img src="https://img.shields.io/badge/license-GPL--3.0-2f81f7" alt="GPL-3.0 license">
+  </a>
+  <a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/actions/workflows/release.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/mcagriaksoy/Serial-Communication-GUI-Program/release.yml?label=build" alt="Build status">
+  </a>
+  <a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/issues">
+    <img src="https://img.shields.io/github/issues/mcagriaksoy/Serial-Communication-GUI-Program" alt="Issues">
+  </a>
+</p>
 
-[![Hosted with GH Pages](https://img.shields.io/badge/Hosted_with-GitHub_Pages-blue?logo=github&logoColor=white)](https://pages.github.com/ "Go to GitHub Pages homepage")
+<p align="center">
+  <a href="https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/releases/latest">
+    <img src="https://img.shields.io/badge/Download-Windows_installer-2f81f7?style=for-the-badge&logo=windows" alt="Download for Windows">
+  </a>
+  <a href="https://pypi.org/project/AFCOM/">
+    <img src="https://img.shields.io/badge/Install_from-PyPI-2f81f7?style=for-the-badge&logo=pypi&logoColor=white" alt="Install from PyPI">
+  </a>
+</p>
 
-## Features
+![AFCOM Client main window](img/screenshot-dark.png)
 
-The AFCOM client has the following features:
+**AFCOM** is a desktop serial communication client for talking to
+microcontrollers, sensors, modems, development boards and any other device that
+exposes a serial interface. Scan ports, configure every common line setting,
+watch incoming data with ANSI colours, and send commands — all from a clean
+native Qt interface.
 
-- Automatically detects the available serial ports (Linux, Windows, macOS).
-- Configures every common serial parameter: baud rate, data bits, parity,
-  stop bits, flow control, timeout and line ending.
-- Displays received data in a scrollable terminal with ANSI colour support and
-  optional per-line timestamps.
-- Sends data with a configurable CR / LF / CRLF line ending (press Enter to
-  send).
-- Shows live RX / TX byte counters and the connected device's details.
-- Saves the terminal output to a text file.
-- Ships with **dark and light themes** and an **English / Turkish** interface.
-- Lets you choose the terminal font and size.
+> Formerly known as **Serial Communication GUI Program**.
 
-## Usage
+## Highlights
 
-The COM port tool is compatible with:
-[![OS - Linux](https://img.shields.io/badge/OS-Linux-blue?logo=linux&logoColor=white)](https://www.linux.org/ "Go to Linux homepage")
-[![OS - Windows](https://img.shields.io/badge/OS-Windows-blue?logo=windows&logoColor=white)](https://www.microsoft.com/ "Go to Microsoft homepage")
+- **Cross-platform** — Windows, Linux and macOS; automatic COM/tty port discovery.
+- **Complete serial configuration** — baud rate, data bits, parity, stop bits, flow control, timeout and line ending.
+- **Real terminal** — scrollable output with ANSI colour support and optional timestamps.
+- **Live statistics** — RX/TX byte counters and connected-device details.
+- **Comfortable sending** — multi-line input, Enter to send, configurable CR/LF handling.
+- **Save your logs** — write terminal output to a text file at any time.
+- **Make it yours** — dark/light themes, English/Turkish UI, terminal font and size.
+- **Distraction-free mode** — Basic View hides the configuration panel.
+- **No telemetry, no account, no cloud** — everything runs locally.
 
-1. Run the program.
-2. Press **Scan ports** and select a serial port.
-3. Match the parameters (baud rate, data bits, parity, stop bits, flow control)
-   to your device.
-4. Press **CONNECT** to start communication.
-5. Send data from the input box (press **Enter** or click **Send**).
-6. Save received data or clear the buffers using the menus or the **Clear**
-   button.
+## Screenshots
 
-### Main UI
-![Project SS](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/ui.jpg)
+| Dark theme | Light theme |
+| --- | --- |
+| ![AFCOM dark theme](img/screenshot-dark.png) | ![AFCOM light theme](img/screenshot-light.png) |
 
-### UI - Settings
-![Project SS](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/ui_settings.jpg)
+| Preferences | Basic View |
+| --- | --- |
+| ![AFCOM preferences](img/screenshot-preferences.png) | ![AFCOM basic view](img/screenshot-basic-view.png) |
 
-### UI - Simple view
-![Project SS](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/ui_simple.jpg)
+<p align="center">
+  <img src="img/screenshot-turkish.png" alt="AFCOM Turkish interface" width="820">
+  <br>
+  <em>English and Turkish interfaces are included.</em>
+</p>
 
-If you encounter any problems while using the COM port tool, try these solutions:
+## Install
 
-Make sure that the COM port is not used by another application or device.
-Make sure that the parameters of the serial communication match with those of the device you are communicating with.
-Make sure that you have sufficient permissions to access the COM port.
-If you have any questions or feedback, please contact me.
+### Windows (recommended)
 
-## Dependencies
+Download the latest build from
+[**GitHub Releases**](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/releases/latest):
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-2ea44f)](https://www.python.org/)
-[![PySide6](https://img.shields.io/badge/PySide6-%3E%3D6.6-2ea44f)](https://pypi.org/project/PySide6/)
-[![pyserial](https://img.shields.io/badge/pyserial-%3E%3D3.5-2ea44f)](https://pypi.org/project/pyserial/)
+| File | Description |
+| --- | --- |
+| `AFCOM_Client_v1.9.1_win64_setup.exe` | Per-user installer — Start Menu shortcut, optional desktop shortcut, clean uninstall |
+| `AFCOM_v1.9.1_portable_win64.exe` | Portable single-file executable — no installation required |
 
-```bash
-pip install -r requirements.txt
-```
+The installer does **not** require administrator rights. Windows 10 or newer is
+recommended; Windows 11 is fully supported.
 
-<h2>Documentation</h2>
-<div align="center">
-<a href="/docs/" title="Go to project documentation"><img src="https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge" alt="view - Documentation"></a>
-
-</div>
-
-## Installation
-
-Install the released package from PyPI:
+### PyPI (Windows, Linux and macOS)
 
 ```bash
-pip install AFCOM
+pip install afcom
 afcom
 ```
 
-## Running from source
+`AFCOM` is a pure-Python package. On Linux you may need the system Qt/Tk
+libraries that ship with your distribution; PySide6 wheels bundle Qt itself.
+
+### Run from source
+
+Requirements: **Python 3.10+**, `pip`, and a virtual environment.
 
 ```bash
+git clone https://github.com/mcagriaksoy/Serial-Communication-GUI-Program.git
+cd Serial-Communication-GUI-Program
+
+python3 -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+
 python main.py
 ```
 
-## Project structure
+On Linux, if the application cannot create a window, install the usual Qt/X11
+runtime packages for your distribution (for example `libxcb-cursor0` on recent
+Debian/Ubuntu releases).
 
+## Quick start
+
+1. Connect your device and click **⟳ Scan ports**.
+2. Select the port and match the serial settings to your device.
+3. Click **CONNECT**. The status dot turns green when the port is open.
+4. Type a command in the send box and press **Enter** (or click **Send**).
+5. Incoming data appears in the terminal. Use **File → Save As…** to keep a log.
+
+### Serial settings
+
+| Setting | Options / notes |
+| --- | --- |
+| Baud rate | 110 … 921600 (115200 is selected by default) |
+| Data bits | 5, 6, 7, 8 |
+| Parity | None, Even, Odd, Mark, Space |
+| Stop bits | 1, 1.5, 2 |
+| Flow control | None, XON/XOFF, RTS/CTS, DSR/DTR |
+| Timeout | 0.1 – 5 seconds |
+| Line ending | None, LF, CR, CRLF (appended when sending) |
+
+If you are unsure about your device's settings, start with **115200 8-N-1, no
+flow control** — the most common configuration for development boards.
+
+### Keyboard shortcuts
+
+| Shortcut | Action |
+| --- | --- |
+| `Enter` in the send box | Send the current data |
+| `Ctrl+Enter` | Send (from the Send button shortcut) |
+| `Ctrl+A` | Select all terminal text |
+| `Ctrl+C` | Copy selected terminal text |
+
+## Using the terminal
+
+- **ANSI colours** are rendered, so coloured firmware logs remain readable.
+- **Timestamps** can be enabled in **Settings → Preferences** to prefix received lines.
+- **Clear** empties the on-screen terminal; **Edit → Clear Buffers** also clears the send box.
+- **Connection → Reset Terminal** clears both buffers and resets the RX/TX counters.
+- **View → Basic View** hides the side panel for a wider terminal.
+- **Help → Check for Updates** compares your version with the latest GitHub tag.
+- Preferences are stored per user:
+  - Windows: `%APPDATA%\AFCOM\settings.json`
+  - macOS: `~/Library/Application Support/AFCOM/settings.json`
+  - Linux: `~/.config/afcom/settings.json`
+
+## Troubleshooting
+
+**No ports are listed.** Reconnect the device, install its USB-serial driver
+(CH340, CP210x, FTDI, etc.) and click **Scan ports** again. On Linux, make sure
+your user is in the `dialout` group:
+
+```bash
+sudo usermod -aG dialout "$USER"
+# log out and back in, then reconnect the device
 ```
-main.py                 # entry point
+
+**The port is busy.** Close any other terminal application using the device.
+Only one program can own a serial port at a time.
+
+**Garbled or missing output.** The baud rate, data bits, parity or stop bits do
+not match the device. Check the device documentation and reconnect.
+
+**Connection drops unexpectedly.** Some adapters are sensitive to flow control.
+Try **Flow: None**, a longer timeout, or a different USB cable/port.
+
+**`pip install afcom` installs an old version.** Upgrade explicitly:
+
+```bash
+python -m pip install --upgrade afcom
+```
+
+## Development
+
+### Project structure
+
+```text
+main.py                 Application entry point
 src/
-  app.py                # QApplication bootstrap
-  main_window.py        # main window controller
-  serial_worker.py      # background serial reader (QThread)
-  serial_ports.py       # cross-platform port discovery
-  settings_store.py     # JSON preferences
-  settings_dialog.py    # Preferences dialog
-  theme.py              # dark / light palettes
-  translations.py       # English / Turkish strings
-  actions.py            # menu actions (save, about, help, updates)
-  ansi.py               # ANSI colour -> HTML
-  ui_loader.py          # loads / regenerates the Qt Designer UI
-  constants.py          # metadata, paths, defaults
+  app.py                QApplication bootstrap
+  main_window.py        Main window controller
+  serial_worker.py      Background serial reader (QThread)
+  serial_ports.py       Cross-platform port discovery
+  settings_store.py     JSON preferences
+  settings_dialog.py    Preferences dialog
+  theme.py              Adwaita-inspired light/dark palettes
+  translations.py       English / Turkish strings
+  actions.py            Menu actions (save, about, help, updates)
+  ansi.py               ANSI colour → HTML
+  ui_loader.py          Loads / regenerates Qt Designer UI modules
+  constants.py          Metadata, paths and defaults
 ui/
-  *.ui                  # Qt Designer layouts (source of truth)
-  theme.qss             # central stylesheet template
-  build_ui.py           # regenerate the .py modules from the .ui files
-test/                   # pytest unit tests
+  *.ui                  Qt Designer layouts (source of truth)
+  theme.qss             Central stylesheet template
+  build_ui.py           Regenerate the Python UI modules
+test/                   pytest unit tests
+installer/afcom.iss     Inno Setup installer script
+scripts/build_windows.py PyInstaller release build helper
 ```
 
 The `ui/*.ui` files are the single source of truth. Edit them in Qt Designer
@@ -135,50 +225,100 @@ python ui/build_ui.py
 At startup the application also regenerates any `.ui` file that is newer than
 its generated `.py` equivalent, so you normally do not need to run this by hand.
 
-## Tests
+### Tests
 
 ```bash
+pip install -r requirements.txt pytest
 pytest test/
 ```
 
-<h2>Executable Command</h2>
-The following command builds a standalone executable:
+### Build a standalone executable
 
-```
+```bash
+pip install -r requirements.txt pyinstaller
 pyinstaller main.spec
 ```
 
-For the CI/release build (versioned name) use:
+For the versioned Windows release build:
 
 ```bash
 python scripts/build_windows.py
+# -> dist/AFCOM_v<version>_portable_win64.exe
+```
+
+On Windows, compile the installer with Inno Setup after the portable build:
+
+```powershell
+ISCC.exe /DVersion=1.9.1 `
+  /DSourceExe=dist\AFCOM_v1.9.1_portable_win64.exe `
+  /DOutputDir=release-artifacts installer\afcom.iss
 ```
 
 ## Releasing
 
-Pushing a version tag publishes everything automatically. The tag must match
-`APP_VERSION` in `src/constants.py`. The workflows must be present in the
-repository (committed to `master`) before the tag is pushed:
+Releases are driven by version tags. The single source of truth is
+`APP_VERSION` in [`src/constants.py`](src/constants.py), and it must match the
+tag without the leading `v`.
 
 ```bash
-# bump APP_VERSION first, commit and push the branch:
+# 1. Bump APP_VERSION, commit and push master
 git add -A
-git commit -m "Release v1.9.0"
+git commit -m "Release v1.9.1"
 git push origin master
 
-# then tag the same commit and push the tag:
-git tag v1.9.0
-git push origin v1.9.0
+# 2. Tag the same commit and push the tag
+git tag v1.9.1
+git push origin v1.9.1
 ```
 
-Two GitHub Actions workflows run on the tag:
+Pushing a `v*` tag runs two GitHub Actions workflows:
 
-- `.github/workflows/release.yml` — builds the Windows portable executable and
-  the Inno Setup installer, then attaches them to the GitHub Release.
-- `.github/workflows/publish-pypi.yml` — builds the sdist/wheel and publishes
-  `AFCOM` to PyPI (via Trusted Publishing / OIDC, no token needed).
+- **[`release.yml`](.github/workflows/release.yml)** — verifies the tag, builds
+  the Windows portable executable with PyInstaller and the per-user installer
+  with Inno Setup, then publishes both to a GitHub Release.
+- **[`publish-pypi.yml`](.github/workflows/publish-pypi.yml)** — builds the
+  sdist/wheel and publishes **AFCOM** to PyPI with Trusted Publishing (OIDC).
+  If the version already exists on PyPI, publishing is skipped safely.
 
-<h2>License</h2>
-Released under <a href="/LICENSE">GNU General Public License v3.0</a> by <a href="https://github.com/mcagriaksoy">@mcagriaksoy</a>.
+Every released executable receives a signed **build-provenance attestation**:
 
-![AFCOM Icon](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/blob/master/img/icon.png)
+```bash
+gh attestation verify AFCOM_v1.9.1_portable_win64.exe \
+  --repo mcagriaksoy/Serial-Communication-GUI-Program
+```
+
+## Compatibility
+
+| Platform | Installer / executable | PyPI package | Source |
+| --- | --- | --- | --- |
+| Windows 10/11 (x64) | ✅ portable + installer | ✅ | ✅ |
+| Linux (x64) | — | ✅ `pip install afcom` | ✅ |
+| macOS (Intel/Apple Silicon) | — | ✅ `pip install afcom` | ✅ |
+
+Serial hardware support depends on the operating system drivers. Common USB
+adapters (CH340, CP210x, FTDI, PL2303) work through their standard drivers.
+
+## Contributing
+
+Contributions, bug reports and feature requests are welcome.
+
+- Report bugs via [GitHub Issues](https://github.com/mcagriaksoy/Serial-Communication-GUI-Program/issues)
+- Open a pull request with a clear description and keep the existing code style
+- Run `pytest test/` before submitting
+
+## License
+
+Released under the [GNU General Public License v3.0](LICENSE) by
+[@mcagriaksoy](https://github.com/mcagriaksoy).
+
+AFCOM uses Qt for Python (PySide6), licensed under LGPLv3.
+
+## Support the project
+
+<a href="https://www.buymeacoffee.com/mcagriaksoy">
+  <img src="https://img.shields.io/badge/-buy_me_a_coffee-gray?logo=buy-me-a-coffee" alt="Buy Me A Coffee">
+</a>
+
+---
+
+<p align="center">Made for engineers, makers and anyone who still loves a good serial port.</p>

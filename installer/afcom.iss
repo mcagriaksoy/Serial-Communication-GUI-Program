@@ -7,7 +7,7 @@
 ; The CI workflow builds the portable executable first, then compiles this
 ; script, passing the version, source executable and output directory:
 ;
-;   ISCC.exe /DVersion=1.9.0 /DSourceExe=<abs path> /DOutputDir=<abs path> afcom.iss
+;   ISCC.exe /DVersion=1.9.1 /DSourceExe=<abs path> /DOutputDir=<abs path> afcom.iss
 ;
 ; The defaults below allow compiling locally from the repository as well.
 
